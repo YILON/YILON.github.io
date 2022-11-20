@@ -1,21 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>通信基础概念（三）——数据传输 | YILON</title><meta name="keywords" content="串行,并行,同步,异步,单/双工"><meta name="author" content="YILON"><meta name="copyright" content="YILON"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="网络通信的数据传输问题。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="通信基础概念（三）——数据传输">
-<meta property="og:url" content="https://yilon.github.io/2022/11/16/%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93/index.html">
-<meta property="og:site_name" content="YILON">
-<meta property="og:description" content="网络通信的数据传输问题。">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://yilon.github.io/private_img/Top_img.jpg">
-<meta property="article:published_time" content="2022-11-16T06:24:29.000Z">
-<meta property="article:modified_time" content="2022-11-16T06:35:20.814Z">
-<meta property="article:author" content="YILON">
-<meta property="article:tag" content="串行">
-<meta property="article:tag" content="并行">
-<meta property="article:tag" content="同步">
-<meta property="article:tag" content="异步">
-<meta property="article:tag" content="单&#x2F;双工">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://yilon.github.io/private_img/Top_img.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yilon.github.io/2022/11/16/%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>通信基础概念（三）——数据传输 | YILON</title><meta name="author" content="YILON"><meta name="copyright" content="YILON"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="网络通信的数据传输问题。"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yilon.github.io/2022/11/16/%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
   root: '/',
   algolia: undefined,
   localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
@@ -50,7 +33,7 @@
   },
   isPhotoFigcaption: false,
   islazyload: false,
-  isAnchor: true
+  isAnchor: false
 }</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
   title: '通信基础概念（三）——数据传输',
   isPost: true,
