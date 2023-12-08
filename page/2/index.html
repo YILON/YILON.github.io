@@ -55,7 +55,7 @@
   isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2023-11-30 11:06:43'
+  postUpdate: '2023-12-08 13:46:50'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -159,292 +159,292 @@
       }
     }
     detectApple()
-    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/private_img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">69</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/private_img/Top.svg')"><nav id="nav"><span id="blog-info"><a href="/" title="YILON"><span class="site-name">YILON</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">YILON</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2023/10/28/TI_DSP_TMS320F2812_%E5%AE%9A%E6%97%B6%E5%99%A8/" title="TI_DSP_TMS320F2812_定时器"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_定时器"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/28/TI_DSP_TMS320F2812_%E5%AE%9A%E6%97%B6%E5%99%A8/" title="TI_DSP_TMS320F2812_定时器">TI_DSP_TMS320F2812_定时器</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-28T00:00:10.000Z" title="发表于 2023-10-28 08:00:10">2023-10-28</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">概述
-F2810/F2812有3个32位CPU定时器(TIMER 0/1/2)
-TIMER 1/2预留给RTOS使用，
-因此只有TIMER 0可以在程序中使用。
-
-若系统时钟位150MHz，
-则采用SYSCLKOUT为时钟的定时器频率也是150MHz。
-注意定时器计数方式是递减计数。
-定时器寄存器
-
-定时器控制寄存器TIMERxTCR
-
-定时器预定标寄存器
-
-定时器计数寄存器
-
-定时器周期寄存器
-
-定时器0中断应用举例
-这里参考的是Ti给的定时器例程，源码在这里下载
-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960//main.c//声明中断interrupt void cpu_timer0_isr();void mian()&#123;    //系统初始化    //该函数在DSP28_SysCrtl.c中    InitSysCtrl();    //禁止所有CPU中断    DINT;    //初始化PI ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/10/22/TI_DSP_TMS320F2812_%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F/" title="TI_DSP_TMS320F2812_中断系统"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_中断系统"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/22/TI_DSP_TMS320F2812_%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F/" title="TI_DSP_TMS320F2812_中断系统">TI_DSP_TMS320F2812_中断系统</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-22T09:02:10.000Z" title="发表于 2023-10-22 17:02:10">2023-10-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">概述
-C28x DSP内核有16个中断线，
-2个不可屏蔽中断RESET与NMI
-14个可屏蔽中断INTx。
-在F2810与F2812处理器中，
-定时器1、2留给实时操作系统使用，并分配中断INT13、14；
-(NMI中断可选择定时器1，复用INT13)
-其余12个屏蔽中断通过PIE管理：
-
-所有中断线都连接到中断向量表中，
-每个中断对应一个32位的中断入口地址。
-外设中断扩展PIE
-PIE基本结构如下：
-
-由此可得12*8共96个中断。
-片上外设与部分引脚已经占用了一些中断号：
-
-中断层级与响应过程
-
-CPU级中断
-无论是可复用中断还是不可复用中断，
-向CPU申请中断时会将CPU级中断标志位(IFR)置位。
-此时只有
-
-CPU中断使能寄存器(IER)
-
-或
-
-中断调试使能寄存器(DEGIER)
-
-对应位被使能，
-(使用IER时还要求全局中断屏蔽位(INTM)被使能)
-CPU才会响应中断申请。
-中断被响应后，对应的中断标志位IFR将自动清零。
-
-CPU一般有两种模式：
-
-标准处理模式
-
-不使用DBGIER
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/private_img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">59</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">71</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/private_img/Top.svg')"><nav id="nav"><span id="blog-info"><a href="/" title="YILON"><span class="site-name">YILON</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">YILON</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/25/verilog_%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="verilog_基本概念"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="verilog_基本概念"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/25/verilog_%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="verilog_基本概念">verilog_基本概念</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-25T01:00:11.000Z" title="发表于 2023-11-25 09:00:11">2023-11-25</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/FPGA/">FPGA</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/FPGA/verilog/">verilog</a></span></div><div class="content">HDL的设计流程：Top-Dowm
 
 
-实时调试模式(Real-time Debug)
+Verilog HDL基本概念
+可以将电路设计抽象为5个层次：
 
-且只有当CPU被暂停(Hal ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/10/22/TI_DSP_TMS320F2812_GPIO/" title="TI_DSP_TMS320F2812_GPIO"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_GPIO"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/22/TI_DSP_TMS320F2812_GPIO/" title="TI_DSP_TMS320F2812_GPIO">TI_DSP_TMS320F2812_GPIO</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-22T02:30:10.000Z" title="发表于 2023-10-22 10:30:10">2023-10-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">概述
-TMS320F2812有56个GPIO，
-绝大部分是功能复用引脚。
+系统级（System-level）：
+用Verilog提供的高级结构能够实现所设计模块外部性能的模型；
+算法级（algorithm-level）：
+用Verilog提供的高级结构能实现算法的模型；
+寄存器传输级（RTL）：
+描述数据在寄存器之间的流动和如何处理、控制这些数据流动的模型；
+门级（gate-level）：
+描述逻辑门以及逻辑门之间连接的模型；
+开关级（switch-level）：
+描述器件中三极管和存储节点以及它们之间连接的模型。
 
-数字量端口结构
-IO功能寄存器
-TMS320F2812将数字量IO分组为A、B、D、E、F、G:
+Verilog HDL非常适合于算法级和RTL级的模型设计。
+其具有：
+
+可描述顺序执行或并行执行的程序结构；
+用延迟表达式或时间来触发其他过程里的激活行为或停止行为；
+通过命名的时间来触发其它过程里的激活行为或停止行为；
+提供了各种循环程序结构；
+提供了可带参数且非零延续时间的task程序结构；
+提供了可定义新的操作符的函数结构；
+提供了用于建立表达式的各种运算符；
+
+当然其也适用于门级和开关级的模型设计，因为其具有：
+
+提供了一套完整的 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/11/TI_DSP_TMS320F2812_CCS%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="TI_DSP_TMS320F2812_CCS工作流"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_CCS工作流"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/11/TI_DSP_TMS320F2812_CCS%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="TI_DSP_TMS320F2812_CCS工作流">TI_DSP_TMS320F2812_CCS工作流</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-11T02:00:10.000Z" title="发表于 2023-11-11 10:00:10">2023-11-11</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">官方例程
+下载官方例程sprc097.zip：链接
+默认会将文件放在C\tidcs\c28\DSP281x\v120中。
+主要关注这几个文件夹：
+
+DSP281x_common：主要放置例程要使用的源文件
+DSP281x_examples：主要放置例程
+DSP281x_headers：主要放置DSP281x_common对应的头文件
+
+建立工程模板
+参考链接1
+参考链接2
+在CCS中新建工程
+对于非BIOS项目，
+通常选择&quot;Empty Project&quot;的“Empty Project(with main.c)”
+新建完成后，配置一下，使得目录结构为：
+
+TargetConfigs（放置cmd文件）
+Debug（创建工程时自动生成，放置Debug版本的编译相关文件）
+Lib
+
+include
+source
 
 
-通过GPxMux寄存器可配置GPIO的复用模式，
+User
 
-当引脚对应控制位=0时，作为通用数字量IO；
-当引脚对应控制位=1时，作为对应功能引脚。
+header
+src
 
 
 
-
-要注意，由于引脚的输出缓冲直接连到输入缓冲，
-即当前GPIO引脚上任何信号都会同时传送到对应复用功能的外设上。
-因此配置引脚为通用GPIO时，一定要将复用寄存器的对应位置零。
-
-
-当设置为通用数字量IO时，
-
-通过方向控制寄存器GPxDIR还可以设置IO的方向：
-
-控制位为0表示数字量输入，
-为1表示数字量输出。
+添加必要的头文件与配置工程
+将&quot;\DSP281x_headers\include&quot;中的所有头文件复制到&quot;\Lib\include&quot;目录；
+将&quot;\DSP281x_common\ ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/11/TI_DSP_TMS320F2812_%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%8E%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" title="TI_DSP_TMS320F2812_存储空间与启动过程"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_存储空间与启动过程"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/11/TI_DSP_TMS320F2812_%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%8E%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" title="TI_DSP_TMS320F2812_存储空间与启动过程">TI_DSP_TMS320F2812_存储空间与启动过程</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-11T01:00:10.000Z" title="发表于 2023-11-11 09:00:10">2023-11-11</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">F28xx映射空间概述
+F28xx采用增强的哈佛总线结构，能并行访问程序和数据，
+32位数据地址，22位程序地址，最大可寻址4G字（每字16位）的数据空间和4M的程序空间。
+采用统一寻址方式（程序、数据、IO统一寻址），地址映射如下：
 
 
-通过量化输入寄存器GPxQUAL可配置A、B、D、E端口的引脚的量化功能。
+片上SRAM
+（1）M0和M1；每块大小为1Kx16bit，其中M0映射到0x000000-0x0003FF，M1映射到0x000400-0x0007FF。
+（2）L0和L1；每块大小为4Kx16bit，其中L0映射到0x008000-0x008FFF，L1映射到0x009000-0x009FFF。
+（3）H0；大小为8Kx16bit，映射到0x3F8000-0x3F9FFF。
+片上Flash
+F2812芯片内部包含一片128Kx16bit的Flash存储器（代码可直接在上面运行），映射到0x3D8000-0x3F8000。
+片上OTP
+F2812芯片内部有一块1Kx16bit的一次性可编程存储器（One-Time-Programmable），映射到0x3D7800-0x3D7BFF。
+片上BootROM
+F2812芯片内部有一块4Kx16bit的B ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/04/TI_DSP_TMS320F2812_AD%E8%BD%AC%E6%8D%A2%E5%8D%95%E5%85%83/" title="TI_DSP_TMS320F2812_AD转换单元"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_AD转换单元"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/04/TI_DSP_TMS320F2812_AD%E8%BD%AC%E6%8D%A2%E5%8D%95%E5%85%83/" title="TI_DSP_TMS320F2812_AD转换单元">TI_DSP_TMS320F2812_AD转换单元</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-04T07:00:10.000Z" title="发表于 2023-11-04 15:00:10">2023-11-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">概述
+
+ADC模块有以下特点：
+
+12bit精度；(由于结果寄存器是16bit，因此需要将结果左移4位才能得到正确结果)
+2个采样和保持器；（采样保持采集时间窗口有独立的预定标控制）
+同时或顺序采样模式；
+模拟输入电压范围0~3V；
+ADC时钟最高可配置为25MHz，即最高采样带宽为12.5MSPS；
+16通道模拟输入；
+自动排序功能支持16通道独立循环“自动转换”，每次转换的通道可以软件选择；
+排序器可以工作在2个独立的8通道排序器模式，也可以工作在16通道级联模式；
+排序器可工作在启动/停止模式，允许“多个排序触发”同步转换；
+F2810/F2811/F2812的B版本有增强的重叠排序器功能
+AD转换公式为D=Vin−ADCLO3×(212−1)\rm{D = \frac{V_{in}-ADCLO}{3} \times (2^12 - 1)}D=3Vin​−ADCLO​×(212−1)
+多个触发源：
+
+S/W 软件立即启动
+EVA、EVB 事件管理器启动
+外部引脚
 
 
+运行每个或每隔一个序列转换结束后产生中断请求
 
+注意，为减小数字信号转换引起的噪声对ADC产生耦合干扰，
+需要将A ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/04/C%E8%AF%AD%E8%A8%80%E5%BF%AB%E9%80%9F%E9%A2%84%E8%A7%88/" title="C语言快速预览"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="C语言快速预览"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/04/C%E8%AF%AD%E8%A8%80%E5%BF%AB%E9%80%9F%E9%A2%84%E8%A7%88/" title="C语言快速预览">C语言快速预览</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-04T04:00:10.000Z" title="发表于 2023-11-04 12:00:10">2023-11-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></span></div><div class="content">预览
 
-更一般地，TMS320F2812的外设寄存器可分为外设帧PF0、PF1、PF2。
-这些帧映射到处理器的数据地址空间中:
+</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/04/TI_DSP_TMS320F2812_SCI%E6%8E%A5%E5%8F%A3/" title="TI_DSP_TMS320F2812_SCI接口"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_SCI接口"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/04/TI_DSP_TMS320F2812_SCI%E6%8E%A5%E5%8F%A3/" title="TI_DSP_TMS320F2812_SCI接口">TI_DSP_TMS320F2812_SCI接口</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-04T03:00:10.000Z" title="发表于 2023-11-04 11:00:10">2023-11-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">概述
+SCI即采用双线制通信的异步串行通信接口UART。
+
+F2812处理器提供两个SCI接口（SCIA、SCIB），
+采用标准非归零(NRZ)数据格式，
+使用发送与接收都有缓冲寄存器，
+还支持支持16级接收/发送FIFO。
+由于接受器和发送器有独立的中断和使能位，
+因此可分别独立实现半双工通信，
+或共同实现全双工通信。
+为保证数据完整，
+SCI模块通过硬件实现对接收到的数据进行间断、极性、超限、帧错误的检测。
+SCI接口的特点：
+
+SCI数据帧格式
+SCI以帧为单位传输数据：
 
 其中，
-PF0包括控制访问内部Flash和SARAM速度的控制寄存器；
-PF1包括绝大部分外设控制寄存器；
-PF2主要用于CAN模块的控制寄存器。 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/10/21/TI_DSP_TMS320F2812%E7%9A%84%E7%9C%8B%E9%97%A8%E7%8B%97/" title="TI_DSP_TMS320F2812的看门狗"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812的看门狗"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/21/TI_DSP_TMS320F2812%E7%9A%84%E7%9C%8B%E9%97%A8%E7%8B%97/" title="TI_DSP_TMS320F2812的看门狗">TI_DSP_TMS320F2812的看门狗</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-21T11:51:10.000Z" title="发表于 2023-10-21 19:51:10">2023-10-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">看门狗
-F2812/F2810 DSP上的看门狗与240x的基本相同。
-正常运行时，
-8位的看门狗计数器(WDCNTR)被激活后开始计数，
-当数到最大值时，
-看门狗模块产生一个输出脉冲(512个振荡器时钟宽度) ，使DSP复位。
-通过对看门狗复位寄存器(WDKEY)写0x55+0xAA，可以使看门狗计数器清零。
+奇偶校验位Parity可选，
+停止位可选1或2位，
+区分数据和地址的附加位ADD DATA仅在地址位模式存在。
+通过起始位和停止位实现帧同步，
+实现异步通信。
+数据帧每个数据位占用8个SCICLK周期：
+
+数据线空闲时为高电平。
+数据帧起始位为低电平，
+当SCI模块检测到连续4个SCICLK周期的低电平则表示该帧开始，准备采样起始位后面的数据。
+如果没有连续4个SCICLK周期的低电平，则重新寻找另一个起始位。
+对于起始位后面的数据，
+SCI模块在每位的中间(第4~6个SCICLK周期)采样3次，有两 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/04/TI_DSP_TMS320F2812_SPI%E6%8E%A5%E5%8F%A3/" title="TI_DSP_TMS320F2812_SPI接口"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_SPI接口"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/04/TI_DSP_TMS320F2812_SPI%E6%8E%A5%E5%8F%A3/" title="TI_DSP_TMS320F2812_SPI接口">TI_DSP_TMS320F2812_SPI接口</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-04T02:00:10.000Z" title="发表于 2023-11-04 10:00:10">2023-11-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">概述
+
+SPI总线上只能有一个主机(Master)，
+其它都是从机(Slave)。
+一般地，可有几种工作情况：
+
+
+Master发送数据，Slave发送伪数据；
+Master发送数据，其中一个Slave发送数据；（全双工）
+Master发送伪数据，其中一个Slave发送数据。
+
+
+C28x的SPI模块概述
+C28x有以下特点：
+
+
+4个外部引脚
+
+SPISOMI\rm{SPISOMI}SPISOMI：从输出/主输入引脚
+SPISIMO\rm{SPISIMO}SPISIMO：从输入/主输出引脚
+SPISTE‾\rm{\overline{SPISTE}}SPISTE：从发送使能引脚
+SPICLK\rm{SPICLK}SPICLK：时钟引脚
+
+
+波特率：125种可编程波特率
+数据字长：可编程1~16个数据长度
+4种时钟模式（这里说明SPI通讯方式中的另一种解释形式，和上面说的奇\偶数边沿采样本质一样）
+
+
+无相位延时的下降沿；SPICLK 为高电平有效。在 SPICLK 信号的下降沿发 送数据，在 SPICLK 信号的上升沿接收数据。
+有相位延时的下降沿：SPICLK 为高电平有效。在 SP ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/04/Q%E6%A0%BC%E5%BC%8F/" title="Q格式"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Q格式"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/04/Q%E6%A0%BC%E5%BC%8F/" title="Q格式">Q格式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-04T01:00:10.000Z" title="发表于 2023-11-04 09:00:10">2023-11-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></span></div><div class="content">引用链接
+概述
+Q格式是二进制的定点数格式。
+相对于浮点数，Q格式指定了相应的小数位数和整数位数。
+在没有浮点运算的平台上，可以更快地对浮点数据进行处理，
+以及应用在需要恒定分辨率的程序中（浮点数的精度是会变化的）。
+Q数据的表示
+记定点数格式为Qm,nQ_{m,n}Qm,n​，
+mmm为整数位数，nnn为小数位数，
+对于有符号数，最高位为符号位并用补码形式存储。
+假设某16位定点数XXX在Q9,7Q_{9,7}Q9,7​格式下为：
+X=1011011000011101X = 1011 \quad 0110 \quad 0001 \quad 1101
+X=1011011000011101
+如果X是无符号数
+即整数部分为：
+101101101101101101
+101101101
+小数部分为：
+00111010011101
+0011101
+则整数部分：
+X1=1×28+0×27+1×26+1×25+0×24+1×23+1×22+0×21+1×20=365X_1 = 1 \times 2^{8} + 0 \times 2^{7} +  1 \times 2^{6} + 1 \times 2 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/04/TI_DSP_TMS320F2812_%E4%BA%8B%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88%E4%B8%89%EF%BC%89__%E4%BA%8B%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%E4%B8%AD%E6%96%AD/" title="TI_DSP_TMS320F2812_事件管理器（三）__事件管理器中断"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_事件管理器（三）__事件管理器中断"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/04/TI_DSP_TMS320F2812_%E4%BA%8B%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88%E4%B8%89%EF%BC%89__%E4%BA%8B%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%E4%B8%AD%E6%96%AD/" title="TI_DSP_TMS320F2812_事件管理器（三）__事件管理器中断">TI_DSP_TMS320F2812_事件管理器（三）__事件管理器中断</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-04T00:00:10.000Z" title="发表于 2023-11-04 08:00:10">2023-11-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">概述
+这里回顾下中断号：
+
+图上中断优先级从低到高为从左下到右上。
+（注意默认情况下不支持中断嵌套）
+由上，
+可将事件管理器的中断分3组：A、B、C，
+
+相关中断
+通用定时器中断
+每个事件管理器的通用寄存器GP可产生4种类型的中断：
 
 
 
-通过设定预定标器改变看门狗的时钟频率，进而调节看门狗计数器的溢出时间；
-
-
-逻辑校验位(WDCHK)是对写入WDKEY的值的检验要求：
-如果写入WDKEY的值校验位不是101，
-则WDKEY将拒绝访问并立即触发复位。
-
-
-看门狗具体工作过程
-在看门狗计数器(WDCNTR)溢出之前，
-只有向WDKEY写入正确的值就可以使计数器复位。更具体的：
-
-内核低功耗模式的唤醒
-除了正常运行模式，TI DSP的低功耗模式有三种：
-空闲(IDLE)、待机(STANDBY)、暂停(HALT)：
-
-
-当处于STANDBY模式时，所有外设都被关闭，只有看门狗在内部RC时钟信号下运行。
-WDINT‾\overline{WDINT}WDINT信号反馈到LPM模块后，
-能够将DSP从STANDBY模 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E5%88%9B%E5%BB%BAC%E8%AF%AD%E8%A8%80_%E5%87%BD%E6%95%B0%E5%8E%9F%E5%9E%8B%E4%B8%8E%E4%BC%A0%E5%8F%82%E6%8E%A7%E5%88%B6/" title="Simulink模型创建C语言_函数原型与传参控制"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Simulink模型创建C语言_函数原型与传参控制"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E5%88%9B%E5%BB%BAC%E8%AF%AD%E8%A8%80_%E5%87%BD%E6%95%B0%E5%8E%9F%E5%9E%8B%E4%B8%8E%E4%BC%A0%E5%8F%82%E6%8E%A7%E5%88%B6/" title="Simulink模型创建C语言_函数原型与传参控制">Simulink模型创建C语言_函数原型与传参控制</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-21T11:15:10.000Z" title="发表于 2023-10-21 19:15:10">2023-10-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/">MATLAB</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/MATLAB/Simulink/">Simulink</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/MATLAB/Simulink/Embedded-Code/">Embedded Code</a></span></div><div class="content">函数原型
-由Simulink模型默认创建的C代码函数原型为：
-1234/* 算法相关函数原型，“model”表示模型名 */void model_initialize(void);void model_step(void);void model_terminate(void);
-可以发现没有参数输入与返回值，算法实现是通过调用全局变量实现的。
-在实际工程中，可能会带来冲突与不必要的静态存储区空间浪费。
-Code Mappings
-打开Embedded Coder工具，在界面左下方点击“Code Mappings - C”按钮。
-修改函数名
-在Code Mappings窗口点击Functions标签页，
-在“Function Name”中可修改算法函数名：
-
-修改函数传参
-
-同上一节界面，点击_step函数的“Function Preview”，
-勾选&quot;Configure arguments for Step function prototype&quot;
-点击&quot;Get default&quot;，得到函数传参的配置信息：
-
-
-“C Identifier Name” ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/10/21/TI_DSP_TMS320F2812%E7%9A%84%E6%97%B6%E9%92%9F/" title="TI_DSP_TMS320F2812的时钟"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812的时钟"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/21/TI_DSP_TMS320F2812%E7%9A%84%E6%97%B6%E9%92%9F/" title="TI_DSP_TMS320F2812的时钟">TI_DSP_TMS320F2812的时钟</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-21T07:51:10.000Z" title="发表于 2023-10-21 15:51:10">2023-10-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">TI_DSP_TMS320F2812的时钟单元
-F2810和F2812内部的各种时钟和复位电路结构如下：
-
-系统时钟电路
-TMS320F2812的片上晶振和锁相环模块为内核与外设提供时钟信号。
-可以通过两种方式为片上晶振提供时钟：
-
-内部振荡器：
-
-在X1/XCLKIN和X2两引脚连接一个30MHz的石英晶体
-
-
-外部时钟源：
-
-输入的时钟信号直接引到X1/XCLKIN引脚，X2悬空
+中断类型
+产生条件
 
 
 
-而DSP引脚XPLLDIS‾\overline{XPLLDIS}XPLLDIS可以控制锁相环：
 
-当为低电平时，PLL被禁止，系统直接采用XCLKIN作为系统时钟；
-当为高电平时，XCLKIN经过PLL倍频后作为系统时钟。  通过配置锁相环寄存器（软件方式）即可控制系统时钟的工作频率。
-
-
-要注意，软件方式改变系统工作频率时，必须等待系统时钟稳定后才可以继续其它操作。
-
-更具体的，锁相环配置模式：
-
-锁相环除了为内核提供时钟，
-还通过系统时钟输出提供快速和慢速两种外设时钟：
+下溢
+计数值为0x0000
 
 
-一般为了降低系统损耗，不使用的外设时钟是禁止的。
-
-系统时钟相关寄存器:
-
-初始化锁相环：
-123456789101112 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/10/21/TI_DSP_TMS320X28xx%E7%B3%BB%E5%88%97/" title="TI_DSP_TMS320X28xx系列"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320X28xx系列"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/21/TI_DSP_TMS320X28xx%E7%B3%BB%E5%88%97/" title="TI_DSP_TMS320X28xx系列">TI_DSP_TMS320X28xx系列</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-21T07:00:10.000Z" title="发表于 2023-10-21 15:00:10">2023-10-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">TI_DSP_TMS320X28xx系列DSP内核
-片上整合了：
-
-Flash存储器
-快速的A/D转换器
-增强的CAN模块
-事件管理器
-正交编码电路接口
-多通道缓冲串口
-
-特点：
-
-32位宽，能完成64位数据处理
-能1周期完成32×32位乘法累加运算，或两个16×16位乘法累加运算
-8级带有流水线存储器访问的流水线保护机制（因此不需要大容量的快速存储器）
-专门的分支跳转(Branch look ahead)，减少了条件指令运行的反应时间
-一个闪存节点可以提供150MIPS的性能
-
-C281x/C280x的CPU架构如下：
-
-工作频率与供电的区别
-对281x系列：
-工作在150MHz时，内核电压为1.9V；
-工作在135MHz以下时，内核电压为1.8V；
-对280x(280x/2801x/2804x)系列：
-所有工作频率(≤100MHz)下，内核电压为1.8V。
-（也有60MHz的280x处理器）
-281x与280x系列的IO电压都为3.3V。
-应注意，
-DSP的内核与IO上电顺序是有一定要求的。
-存储器
-280x与281x系列的存储器主要区别在：
-SARAM
-各系列SARAM存储空间支 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/10/21/DSP%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="DSP基本概念"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="DSP基本概念"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/21/DSP%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="DSP基本概念">DSP基本概念</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-21T04:00:10.000Z" title="发表于 2023-10-21 12:00:10">2023-10-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">流水线操作与系统架构
-CPU的执行指令可分为四步： （实际可能有更多步）
-
-取指（从存储器中读取指令）
-译码（根据指令中的操作码确定要执行的操作）
-取数（如果操作需要数据，则从存储器中读取数据）
-执行
+上溢
+计数值为0xFFFF
 
 
-对于冯·诺伊曼架构而言，执行指令时，便是按顺序执行这些操作（串行）。
-由于冯·诺伊曼架构的特点是程序与数据在同一存储空间中，使用同一段总线，
-因此读取指令时不能读入数据，读入数据时也不能读取指令，
-必须要等待前一步完成后才能进行下一步。
-而哈佛架构则不一样：
+比较
+计数值=比较寄存器的值
 
-哈佛架构把程序与数据分开存储，两部分使用单独的总线，
-因此，可以进行流水线操作：(以三级流水线为例)：
 
-一个时钟周期内，
-在对第M-2个指令进行执行时，
-可以同时对第M-1的指令进行译码，
-对第M个指令进行读取，（取值同时也可以读入操作数）
-那么三个时钟周期便可以执行三个指令（并行），
-而对于冯·诺依曼架构，则需要四个时钟周期才能执行一条指令。
-现代CPU运行程序时仍然将程序与数据都放进内存(Memory)中，但实际上在Cache层二者分开放置，因此同样能进行流水线执行。
-但是哈佛架构也并不是十全十美的。其结构复杂，对外围设 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E5%88%9B%E5%BB%BAC%E8%AF%AD%E8%A8%80_%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Simulink模型创建C语言_数据类型"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Simulink模型创建C语言_数据类型"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E5%88%9B%E5%BB%BAC%E8%AF%AD%E8%A8%80_%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Simulink模型创建C语言_数据类型">Simulink模型创建C语言_数据类型</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-21T03:11:10.000Z" title="发表于 2023-10-21 11:11:10">2023-10-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/">MATLAB</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/MATLAB/Simulink/">Simulink</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/MATLAB/Simulink/Embedded-Code/">Embedded Code</a></span></div><div class="content">参考链接
-Simulink数据类型
+下溢
+计数值=周期寄存器的值
 
-  flowchart LR
-Root[Simulink数据] --- L1_1[基本类型] &amp; L1_2[存储类型] &amp; L1_3[数据组织]
-L1_1 --- L2_1_1[浮点型] &amp; L2_1_2[整型] &amp; L2_1_3[定点型]
-L1_2 --- L2_2_1[外部] &amp; L2_2_2[内部]
-L1_3 --- L2_3_1[标量] &amp; L2_3_2[矢量] &amp; L2_3_3[Bus总线]
-L2_1_1 --- L3_1_1_1[double（64bits）、single（32bits）]
-L2_1_2 --- L3_1_2_1[无符号整型数 \n uint64_T，uint32_T，uint16_T，uint8_T，boolean_T，char_T] &amp; L3_1_2_2[有符号整型数 \n int64_T，int32_T，int16_T，int8_T]
-L2_1_3 --- L3_1_3_1[用户自定义]
-L2_2_2 ---L3_2_2_1[局部] &amp; L3_ ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90C%E8%AF%AD%E8%A8%80_%E6%8E%A5%E5%8F%A3%E5%87%BD%E6%95%B0%E4%B8%8E%E4%BB%A3%E7%A0%81%E9%9B%86%E6%88%90/" title="Simulink模型生成C语言_接口函数与代码集成"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Simulink模型生成C语言_接口函数与代码集成"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90C%E8%AF%AD%E8%A8%80_%E6%8E%A5%E5%8F%A3%E5%87%BD%E6%95%B0%E4%B8%8E%E4%BB%A3%E7%A0%81%E9%9B%86%E6%88%90/" title="Simulink模型生成C语言_接口函数与代码集成">Simulink模型生成C语言_接口函数与代码集成</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-21T02:15:10.000Z" title="发表于 2023-10-21 10:15:10">2023-10-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/">MATLAB</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/MATLAB/Simulink/">Simulink</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/MATLAB/Simulink/Embedded-Code/">Embedded Code</a></span></div><div class="content">参考链接
-前述
-默认设置下，模型的输入与输出端口在C代码中表现为全局变量，
-当存在大量输入/输出端口时，一个个为此赋值或取值会很麻烦。
-当然可以自己定义get() set()函数，
-但这样很难与step函数中对应上。
-而Embedded Coder也提供了get/set函数与算法实现对应的设置。
-设置接口函数的头文件
-打开Embarrassing Coder，点击上方工具栏的Coder Interface的Individual Element Code Mappings选项：
 
-会出现Code Mapping -C窗口。
-将输入端口的存储类（Storage Class）设置为“GetSet”，  点击最右边铅笔按钮，
-配置Headerfile为构建的接口函数的头文件名，比如：
 
-注意每个端口都要配置一遍。
-输出端口也同样设置，注意输出端口的Identifier不能为空，需要设置一个合适的名字（可以与输出端口同名）。
-这样构建出来的step函数会自动使用get/set函数实现算法，
-而在模型名_private.h中include了上面设定的接口函数的头文件名。
-但是注意，接口函数的头文件 ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#content-inner">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/#content-inner">5</a><a class="extend next" rel="next" href="/page/3/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/private_img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">YILON</div><div class="author-info__description">YILON的技术小窝</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">69</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YILON"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客！</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/11/TI_DSP_TMS320F2812_%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%8E%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" title="TI_DSP_TMS320F2812_存储空间与启动过程"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_存储空间与启动过程"/></a><div class="content"><a class="title" href="/2023/11/11/TI_DSP_TMS320F2812_%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%8E%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" title="TI_DSP_TMS320F2812_存储空间与启动过程">TI_DSP_TMS320F2812_存储空间与启动过程</a><time datetime="2023-11-23T01:35:20.743Z" title="更新于 2023-11-23 09:35:20">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/04/TI_DSP_TMS320F2812_SPI%E6%8E%A5%E5%8F%A3/" title="TI_DSP_TMS320F2812_SPI接口"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_SPI接口"/></a><div class="content"><a class="title" href="/2023/11/04/TI_DSP_TMS320F2812_SPI%E6%8E%A5%E5%8F%A3/" title="TI_DSP_TMS320F2812_SPI接口">TI_DSP_TMS320F2812_SPI接口</a><time datetime="2023-11-23T01:35:09.792Z" title="更新于 2023-11-23 09:35:09">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/04/TI_DSP_TMS320F2812_SCI%E6%8E%A5%E5%8F%A3/" title="TI_DSP_TMS320F2812_SCI接口"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_SCI接口"/></a><div class="content"><a class="title" href="/2023/11/04/TI_DSP_TMS320F2812_SCI%E6%8E%A5%E5%8F%A3/" title="TI_DSP_TMS320F2812_SCI接口">TI_DSP_TMS320F2812_SCI接口</a><time datetime="2023-11-23T01:34:56.839Z" title="更新于 2023-11-23 09:34:56">2023-11-23</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+捕获单元中断
+当捕获单元完成一个捕获时，
+在FIFO中至少有1个有效的值，
+此时如果中断未被屏蔽，
+则中断标志位置位，产生一个外设中断请求。
+通常可据此来通过中断服务程序读取捕获到的值。
+相关中断寄存器
+
+这里以EVA为例介绍各寄存器的作用。
+中断标志寄存器
+中断标志寄存器A（EVAIFRA）
+
+中断标志寄存器B（EVAIFRB）
+
+中断标志寄存器C（EVAIFRC）
+
+中断屏蔽寄存器
+中断屏蔽寄存器A（EVAIMRA）
+
+中断屏蔽寄存器B（EVAIMRB）
+
+中断屏蔽寄存器C（EVAIMRC）
+
+事件管理器应用举例
+采用事件管理器产生50KHz的载波信号模拟正弦输出。
+为此需要根据正弦信号 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/10/28/TI_DSP_TMS320F2812_%E4%BA%8B%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88%E4%BA%8C%EF%BC%89__%E6%8D%95%E8%8E%B7%E5%8D%95%E5%85%83%E4%B8%8EQEP%E5%8D%95%E5%85%83/" title="TI_DSP_TMS320F2812_事件管理器（二）__捕获单元与QEP单元"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_事件管理器（二）__捕获单元与QEP单元"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/28/TI_DSP_TMS320F2812_%E4%BA%8B%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88%E4%BA%8C%EF%BC%89__%E6%8D%95%E8%8E%B7%E5%8D%95%E5%85%83%E4%B8%8EQEP%E5%8D%95%E5%85%83/" title="TI_DSP_TMS320F2812_事件管理器（二）__捕获单元与QEP单元">TI_DSP_TMS320F2812_事件管理器（二）__捕获单元与QEP单元</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-28T01:00:10.000Z" title="发表于 2023-10-28 09:00:10">2023-10-28</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">捕获单元概述
+捕获单元能捕获外部输入引脚的逻辑状态，
+并利用内部定时器对外部时间或引脚状态变化进行处理。
+每个事件管理器有3个捕获单元，
+每个单元有一个输入信号引脚。
+捕获单元以通用定时器GPx为时间基准进行计数处理。
+当外部引脚检测到特定状态变化时，
+所选用的定时器的值将被捕获并锁存到2级FIFO(先进先出)堆栈中。
+如果有1个或多个有效捕获值存到FIFO堆栈中，将使相应的中断标志位置位，
+如果该标志位没被屏蔽，将产生一个外设中断申请。
+从捕获单元输入引脚发生跳变，
+到所选用的GP的计数值被锁存，
+会有2个CPU时钟周期的延时。
+复位时，所有捕获单元的寄存器都被清零。
+此外，捕获单元3可以用作A/D变换，从而使外部捕获事件同A/D转换同步。
+一般而言，应用场景有：
+
+测量脉冲或数字信号的宽度
+自动启动A/D转换(捕获单元3)
+电机转轴速度估计
+
+
+关于速度估计：
+当捕获单元利用定时器为时钟基准操作时可进行低速下的速度估计，
+但一般位置编码器的计数精度较低，
+如果根据固定时间内的位置变化计算速度结果误差会比较大。
+因此一般采用一定位置变化所需的时间来进行速度估计:
+vk=Δxtk−tk ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#content-inner">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/#content-inner">6</a><a class="extend next" rel="next" href="/page/3/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/private_img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">YILON</div><div class="author-info__description">YILON的技术小窝</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">59</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">71</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YILON"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客！</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/12/02/verilog_%E9%98%BB%E5%A1%9E%E4%B8%8E%E9%9D%9E%E9%98%BB%E5%A1%9E%E8%B5%8B%E5%80%BC/" title="verilog_阻塞与非阻塞赋值"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="verilog_阻塞与非阻塞赋值"/></a><div class="content"><a class="title" href="/2023/12/02/verilog_%E9%98%BB%E5%A1%9E%E4%B8%8E%E9%9D%9E%E9%98%BB%E5%A1%9E%E8%B5%8B%E5%80%BC/" title="verilog_阻塞与非阻塞赋值">verilog_阻塞与非阻塞赋值</a><time datetime="2023-12-08T05:45:42.480Z" title="更新于 2023-12-08 13:45:42">2023-12-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/26/verilog_%E5%90%8C%E6%AD%A5%E7%8A%B6%E6%80%81%E6%9C%BA/" title="verilog_同步状态机"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="verilog_同步状态机"/></a><div class="content"><a class="title" href="/2023/11/26/verilog_%E5%90%8C%E6%AD%A5%E7%8A%B6%E6%80%81%E6%9C%BA/" title="verilog_同步状态机">verilog_同步状态机</a><time datetime="2023-12-08T05:45:16.085Z" title="更新于 2023-12-08 13:45:16">2023-12-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/26/verilog_%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%B8%8D%E5%90%8C%E6%8A%BD%E8%B1%A1%E7%BA%A7%E5%88%AB/" title="verilog_模型的不同抽象级别"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="verilog_模型的不同抽象级别"/></a><div class="content"><a class="title" href="/2023/11/26/verilog_%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%B8%8D%E5%90%8C%E6%8A%BD%E8%B1%A1%E7%BA%A7%E5%88%AB/" title="verilog_模型的不同抽象级别">verilog_模型的不同抽象级别</a><time datetime="2023-12-08T05:44:43.971Z" title="更新于 2023-12-08 13:44:43">2023-12-08</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
             <i class="fas fa-folder-open"></i>
             <span>分类</span>
             <a class="card-more-btn" href="/categories/" title="查看更多">
     <i class="fas fa-angle-right"></i></a>
             </div>
             <ul class="card-category-list" id="aside-cat-list">
-            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="card-category-list-name">C语言</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/"><span class="card-category-list-name">MATLAB</span><span class="card-category-list-count">6</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/App-Designer/"><span class="card-category-list-name">App Designer</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/Simulink/"><span class="card-category-list-name">Simulink</span><span class="card-category-list-count">5</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/Simulink/Embedded-Code/"><span class="card-category-list-name">Embedded Code</span><span class="card-category-list-count">5</span></a></li></ul></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/PCB%E8%AE%BE%E8%AE%A1/"><span class="card-category-list-name">PCB设计</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/"><span class="card-category-list-name">信号处理</span><span class="card-category-list-count">3</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/%E5%B0%8F%E6%B3%A2%E7%90%86%E8%AE%BA/"><span class="card-category-list-name">小波理论</span><span class="card-category-list-count">3</span></a></li></ul></li>
-            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/GUI/" style="font-size: 1.1em; color: #999">GUI</a> <a href="/tags/%E7%9B%B4%E5%92%8C/" style="font-size: 1.1em; color: #999">直和</a> <a href="/tags/github-page/" style="font-size: 1.1em; color: #999">github page</a> <a href="/tags/VS-Code/" style="font-size: 1.1em; color: #999">VS_Code</a> <a href="/tags/Raspberry-Pi-OS/" style="font-size: 1.1em; color: #999">Raspberry Pi OS</a> <a href="/tags/%E6%AF%94%E7%89%B9%E7%8E%87/" style="font-size: 1.1em; color: #999">比特率</a> <a href="/tags/Embedded-Code/" style="font-size: 1.3em; color: #99a1ac">Embedded Code</a> <a href="/tags/hexo/" style="font-size: 1.25em; color: #999fa7">hexo</a> <a href="/tags/%E9%BA%A6%E5%85%8B%E6%96%AF%E9%9F%A6%E6%96%B9%E7%A8%8B%E7%BB%84/" style="font-size: 1.1em; color: #999">麦克斯韦方程组</a> <a href="/tags/%E5%93%88%E4%BD%9B%E6%9E%B6%E6%9E%84/" style="font-size: 1.1em; color: #999">哈佛架构</a> <a href="/tags/Simulink/" style="font-size: 1.35em; color: #99a3b1">Simulink</a> <a href="/tags/%E5%86%AF%C2%B7%E8%AF%BA%E4%BC%8A%E6%9B%BC%E6%9E%B6%E6%9E%84/" style="font-size: 1.1em; color: #999">冯·诺伊曼架构</a> <a href="/tags/%E5%AE%9A%E7%82%B9%E6%95%B0/" style="font-size: 1.1em; color: #999">定点数</a> <a href="/tags/MATLAB/" style="font-size: 1.1em; color: #999">MATLAB</a> <a href="/tags/%E9%AB%98%E6%96%AF%E5%AE%9A%E7%90%86/" style="font-size: 1.1em; color: #999">高斯定理</a> <a href="/tags/%E4%BF%A1%E5%8F%B7%E5%88%86%E7%B1%BB/" style="font-size: 1.1em; color: #999">信号分类</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 1.1em; color: #999">树莓派</a> <a href="/tags/TI-DSP-TMS320F2812/" style="font-size: 1.4em; color: #99a5b6">TI_DSP_TMS320F2812</a> <a href="/tags/TI-DSP-TMS320X28xx%E7%B3%BB%E5%88%97/" style="font-size: 1.1em; color: #999">TI_DSP_TMS320X28xx系列</a> <a href="/tags/mermaid/" style="font-size: 1.1em; color: #999">mermaid</a> <a href="/tags/%E6%97%B6%E9%A2%91%E5%88%86%E6%9E%90/" style="font-size: 1.15em; color: #999b9e">时频分析</a> <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" style="font-size: 1.5em; color: #99a9bf">嵌入式</a> <a href="/tags/APP-Designer/" style="font-size: 1.1em; color: #999">APP Designer</a> <a href="/tags/%E5%B0%8F%E6%B3%A2%E5%8F%98%E6%8D%A2/" style="font-size: 1.15em; color: #999b9e">小波变换</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 1.1em; color: #999">动态链接库</a> <a href="/tags/DSP/" style="font-size: 1.45em; color: #99a7ba">DSP</a> <a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" style="font-size: 1.1em; color: #999">内存管理</a> <a href="/tags/Altium-Designer/" style="font-size: 1.25em; color: #999fa7">Altium Designer</a> <a href="/tags/makefile/" style="font-size: 1.1em; color: #999">makefile</a> <a href="/tags/%E6%AD%A3%E4%BA%A4/" style="font-size: 1.1em; color: #999">正交</a> <a href="/tags/markdown/" style="font-size: 1.2em; color: #999da3">markdown</a> <a href="/tags/%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 1.1em; color: #999">静态链接库</a> <a href="/tags/Gerber%E6%96%87%E4%BB%B6/" style="font-size: 1.1em; color: #999">Gerber文件</a> <a href="/tags/gcc-g/" style="font-size: 1.1em; color: #999">gcc/g++</a> <a href="/tags/%E5%8E%9F%E7%90%86%E5%9B%BE/" style="font-size: 1.1em; color: #999">原理图</a> <a href="/tags/%E4%B8%B2%E8%A1%8C/" style="font-size: 1.1em; color: #999">串行</a> <a href="/tags/%E5%8D%95-%E5%8F%8C%E5%B7%A5/" style="font-size: 1.1em; color: #999">单/双工</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91/" style="font-size: 1.1em; color: #999">网络拓扑</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E8%B0%83%E5%88%B6/" style="font-size: 1.1em; color: #999">数据调制</a> <a href="/tags/%E6%8C%87%E9%92%88/" style="font-size: 1.1em; color: #999">指针</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
-    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><span class="card-archive-list-count">8</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/10/"><span class="card-archive-list-date">十月 2023</span><span class="card-archive-list-count">17</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/08/"><span class="card-archive-list-date">八月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/07/"><span class="card-archive-list-date">七月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/06/"><span class="card-archive-list-date">六月 2023</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/05/"><span class="card-archive-list-date">五月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/11/"><span class="card-archive-list-date">十一月 2022</span><span class="card-archive-list-count">12</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/10/"><span class="card-archive-list-date">十月 2022</span><span class="card-archive-list-count">1</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">48</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-11-30T03:06:42.916Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background: #20124d"><div id="footer-wrap"><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="card-category-list-name">C语言</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/FPGA/"><span class="card-category-list-name">FPGA</span><span class="card-category-list-count">11</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/FPGA/verilog/"><span class="card-category-list-name">verilog</span><span class="card-category-list-count">11</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/"><span class="card-category-list-name">MATLAB</span><span class="card-category-list-count">6</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/App-Designer/"><span class="card-category-list-name">App Designer</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/Simulink/"><span class="card-category-list-name">Simulink</span><span class="card-category-list-count">5</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/Simulink/Embedded-Code/"><span class="card-category-list-name">Embedded Code</span><span class="card-category-list-count">5</span></a></li></ul></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/PCB%E8%AE%BE%E8%AE%A1/"><span class="card-category-list-name">PCB设计</span><span class="card-category-list-count">5</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/Gerber%E6%96%87%E4%BB%B6/" style="font-size: 1.1em; color: #999">Gerber文件</a> <a href="/tags/Raspberry-Pi-OS/" style="font-size: 1.1em; color: #999">Raspberry Pi OS</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 1.1em; color: #999">并行</a> <a href="/tags/%E5%8E%9F%E7%90%86%E5%9B%BE/" style="font-size: 1.1em; color: #999">原理图</a> <a href="/tags/%E9%AB%98%E6%96%AF%E5%AE%9A%E7%90%86/" style="font-size: 1.1em; color: #999">高斯定理</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 1.37em; color: #99a4b2">博客</a> <a href="/tags/butterfly%E4%B8%BB%E9%A2%98/" style="font-size: 1.23em; color: #999ea6">butterfly主题</a> <a href="/tags/%E5%A4%9A%E5%88%86%E8%BE%A8%E7%8E%87%E8%A7%A3%E6%9E%90/" style="font-size: 1.1em; color: #999">多分辨率解析</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 1.1em; color: #999">单片机</a> <a href="/tags/PCB%E5%B0%81%E8%A3%85%E5%BA%93/" style="font-size: 1.1em; color: #999">PCB封装库</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91/" style="font-size: 1.1em; color: #999">网络拓扑</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 1.5em; color: #99a9bf">C语言</a> <a href="/tags/%E6%95%A3%E5%BA%A6/" style="font-size: 1.1em; color: #999">散度</a> <a href="/tags/TI-DSP-TMS320X28xx%E7%B3%BB%E5%88%97/" style="font-size: 1.1em; color: #999">TI_DSP_TMS320X28xx系列</a> <a href="/tags/%E5%B0%8F%E6%B3%A2%E5%8F%98%E6%8D%A2/" style="font-size: 1.17em; color: #999c9f">小波变换</a> <a href="/tags/hexo/" style="font-size: 1.3em; color: #99a1ac">hexo</a> <a href="/tags/Cmake/" style="font-size: 1.17em; color: #999c9f">Cmake</a> <a href="/tags/makefile/" style="font-size: 1.1em; color: #999">makefile</a> <a href="/tags/%E6%AD%A3%E4%BA%A4%E5%B0%8F%E6%B3%A2/" style="font-size: 1.17em; color: #999c9f">正交小波</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 1.1em; color: #999">异步</a> <a href="/tags/%E5%8D%95-%E5%8F%8C%E5%B7%A5/" style="font-size: 1.1em; color: #999">单/双工</a> <a href="/tags/PCB%E5%9B%BE%E7%BA%B8/" style="font-size: 1.1em; color: #999">PCB图纸</a> <a href="/tags/mermaid/" style="font-size: 1.1em; color: #999">mermaid</a> <a href="/tags/Altium-Designer/" style="font-size: 1.3em; color: #99a1ac">Altium Designer</a> <a href="/tags/%E5%AE%9A%E7%82%B9%E6%95%B0/" style="font-size: 1.1em; color: #999">定点数</a> <a href="/tags/APP-Designer/" style="font-size: 1.1em; color: #999">APP Designer</a> <a href="/tags/%E5%90%8C%E6%AD%A5/" style="font-size: 1.1em; color: #999">同步</a> <a href="/tags/%E6%97%B6%E5%BB%B6/" style="font-size: 1.1em; color: #999">时延</a> <a href="/tags/github-page/" style="font-size: 1.1em; color: #999">github page</a> <a href="/tags/%E7%A6%BB%E6%95%A3%E5%B0%8F%E6%B3%A2/" style="font-size: 1.1em; color: #999">离散小波</a> <a href="/tags/Nabla%E7%AE%97%E5%AD%90/" style="font-size: 1.1em; color: #999">Nabla算子</a> <a href="/tags/GUI/" style="font-size: 1.1em; color: #999">GUI</a> <a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/markdown/" style="font-size: 1.23em; color: #999ea6">markdown</a> <a href="/tags/Simulink/" style="font-size: 1.43em; color: #99a6b9">Simulink</a> <a href="/tags/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/" style="font-size: 1.1em; color: #999">c语言编译过程</a> <a href="/tags/%E6%B3%A2%E7%89%B9%E7%8E%87/" style="font-size: 1.1em; color: #999">波特率</a> <a href="/tags/%E4%B8%B2%E8%A1%8C/" style="font-size: 1.1em; color: #999">串行</a> <a href="/tags/%E5%8E%9F%E7%90%86%E5%9B%BE%E5%BA%93/" style="font-size: 1.1em; color: #999">原理图库</a> <a href="/tags/%E6%AF%94%E7%89%B9%E7%8E%87/" style="font-size: 1.1em; color: #999">比特率</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/12/"><span class="card-archive-list-date">十二月 2023</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><span class="card-archive-list-count">15</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/10/"><span class="card-archive-list-date">十月 2023</span><span class="card-archive-list-count">17</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/08/"><span class="card-archive-list-date">八月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/07/"><span class="card-archive-list-date">七月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/06/"><span class="card-archive-list-date">六月 2023</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/05/"><span class="card-archive-list-date">五月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/11/"><span class="card-archive-list-date">十一月 2022</span><span class="card-archive-list-count">12</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">59</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-12-08T05:46:49.646Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background: #20124d"><div id="footer-wrap"><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
   init: (str) => {
     window.typed = new Typed('#subtitle', Object.assign({
       strings: str,
