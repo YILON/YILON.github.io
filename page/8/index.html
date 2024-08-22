@@ -1,0 +1,349 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>YILON - YILON的博客</title><meta name="author" content="YILON"><meta name="copyright" content="YILON"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="YILON的技术小窝">
+<meta property="og:type" content="website">
+<meta property="og:title" content="YILON">
+<meta property="og:url" content="http://example.com/page/8/index.html">
+<meta property="og:site_name" content="YILON">
+<meta property="og:description" content="YILON的技术小窝">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/private_img/avatar.jpg">
+<meta property="article:author" content="YILON">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/private_img/avatar.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/page/8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'YILON',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-08-22 08:38:20'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/private_img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">84</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/private_img/Top.svg')"><nav id="nav"><span id="blog-info"><a href="/" title="YILON"><span class="site-name">YILON</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">YILON</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2022/11/16/%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%8C%87%E6%A0%87%E4%B8%8E%E7%BB%93%E6%9E%84/" title="通信基础概念（一）——基本指标与结构"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="通信基础概念（一）——基本指标与结构"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/11/16/%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%8C%87%E6%A0%87%E4%B8%8E%E7%BB%93%E6%9E%84/" title="通信基础概念（一）——基本指标与结构">通信基础概念（一）——基本指标与结构</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-11-16T06:23:31.000Z" title="发表于 2022-11-16 14:23:31">2022-11-16</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/">网络通信</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/">通信基础概念</a></span></div><div class="content">思维导图
+
+</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/11/16/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" title="搭建个人博客（四）——常见问题"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="搭建个人博客（四）——常见问题"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/11/16/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" title="搭建个人博客（四）——常见问题">搭建个人博客（四）——常见问题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-11-16T05:08:32.000Z" title="发表于 2022-11-16 13:08:32">2022-11-16</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></span></div><div class="content">前言
+分享写博客时遇到的常见问题。
+编写博客流程
+首先在博客源目录打开git bash，键入以下命令新建文章(markdown文件)：
+1hexo new &quot;文章标题&quot;
+新建完后可以在.\source\ _posts文件夹中找到新建的文章文件。本人使用的是VS Code 配合markdown插件编辑文章。
+
+新建文章可以套用一定的模板。关于模板的编辑与使用请参考hexo说明
+markdown语法很简单，推荐在菜鸟教程学习。
+编写文章完毕后，在git bash 键入以下命令即可生成网页并推送：
+
+123hexo clean hexo ghexo d
+如果像在推送前查看生成网页效果，可在hexo g之后渐入一下命令：
+1hexo server
+然后在浏览器地址栏输入http://localhost:4000/即可进入本地服务。
+再命令行中ctrl + c可退出。
+插入图片
+markdowm语法中插入图片的语法是：
+ 1![]()
+方括号中填入图片描述或索引，圆括号中填入图片地址，可以是网络地址，也可以是本地地址(路径)。
+要使用本地图片时，为了方便博客项目迁移，一般不使 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/11/15/PCB%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" title="PCB基础概念"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PCB基础概念"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/11/15/PCB%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" title="PCB基础概念">PCB基础概念</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-11-15T07:42:26.000Z" title="发表于 2022-11-15 15:42:26">2022-11-15</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/PCB%E8%AE%BE%E8%AE%A1/">PCB设计</a></span></div><div class="content">引用说明
+本文内容引用来源：1与2，仅作交流学习使用。
+正文
+
+尾语
+思维导图可能会有错误，如果需要源文件可私信我。
+</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/10/10/esp%E7%B3%BB%E5%88%97%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/" title="esp系列简单介绍"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="esp系列简单介绍"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/10/10/esp%E7%B3%BB%E5%88%97%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/" title="esp系列简单介绍">esp系列简单介绍</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-10T09:32:26.000Z" title="发表于 2022-10-10 17:32:26">2022-10-10</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%8D%95%E7%89%87%E6%9C%BA/">单片机</a></span></div><div class="content">分类
+
+  flowchart LR
+Root --- Z1 &amp; Z2
+Root[esp系列&lt;br&gt;https:&#x2F;&#x2F;www.espressif.com.cn&#x2F;zh-hans&#x2F;products&#x2F;modules]
+
+
+Z1[esp32系列] --- A1[esp32] &amp; A2[esp32-c] &amp; A3[esp32-s]
+
+A1 ---- B1[特点] &amp; B2[外设]
+B1 --- C1[32位单&#x2F;双核 80至240MHz&lt;br&gt;2.4GHz WIFI &lt;br&gt; 传统蓝牙支持 L2CAP\SDP\GAP\SMP\AVDTP\AVCTP\A2DP和 AVRCP协议 &lt;br&gt; 低功耗蓝牙支持L2CAP\GAP\GATT\SMP\和 GATT 之上的 BluFi和SPP-like 协议等 &lt;br&gt; 支持外扩PSRAM &lt;br&gt; 睡眠电流&lt;5μA]
+
+B2--- C2[以太网&lt;br&gt;高速SPI\UART\I2S&# ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/09/29/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E6%A0%BC%E5%BC%8F/" title="搭建个人博客（三）——博客文章格式"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="搭建个人博客（三）——博客文章格式"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/09/29/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E6%A0%BC%E5%BC%8F/" title="搭建个人博客（三）——博客文章格式">搭建个人博客（三）——博客文章格式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-09-29T04:53:02.000Z" title="发表于 2022-09-29 12:53:02">2022-09-29</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></span></div><div class="content">概述
+hexo框架支持markdown格式的文章。而博客页面除了文章主题外，一些附加信息比如标题、时间、标签、分类，需要按照一定格式在markdown文件中注明。可参见butterfly主题官方说明。
+Forint-matter
+在markdown 文件最上方以 — 分隔的区域称为Forint-matter，在此处可以注明文章相关信息。（不同框架、不同主题所需的信息可能不一样）
+12345678910111213141516171819---title:date:updated:type:comments:description:keywords:top_img:cover:mathjax:katex:aside:aplayer:highlight_shrink:tags: categories:---正文部分
+以下是一些常用的信息：
+
+
+
+类别
+作用
+
+
+
+
+title
+标题
+
+
+date
+文章创建日期
+
+
+updated
+文章更新日期
+
+
+type
+文章类型，一般不需要设置
+
+
+comments
+评论模块开关（默认为开）
+
+
+description
+文章描述，方便搜索引擎链接
+
+
+ ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/09/28/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%BA%8C%EF%BC%89/" title="搭建个人博客（二）——配置主题"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="搭建个人博客（二）——配置主题"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/09/28/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%BA%8C%EF%BC%89/" title="搭建个人博客（二）——配置主题">搭建个人博客（二）——配置主题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-09-28T08:14:09.000Z" title="发表于 2022-09-28 16:14:09">2022-09-28</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></span></div><div class="content">概述
+上文完成了博客的基本搭建。本文介绍如何配置hexo框架的配置文件_config.yml，与安装主题Bufferlfy。
+配置 _config.yml
+可参考官方配置描述
+相关参数描述：
+
+title：网站标题
+subtitle：网站副标题
+description：网站描述
+author：作者
+language：语言，默认是英文，可改为中文zh-CN
+timezone：网站时区，中国大陆键入Asia/Shanghai即可
+
+主题安装
+hexo框架默认主题是landscape。开发者们为hexo框架开发了许多好看实用的主题，可在此处查看。这里选择butterfly主题。
+安装方法
+在blog文件夹中打开git bash，键入以下命令：
+  1npm i hexo-theme-butterfly
+安装完成后，修改hexo配置文件_config.yml，将主题改为butterfly：
+  1theme: butterfly
+安装完后键入以下命令，如果出现butterfly主题的logo说明安装成功：
+  12hexo cleanhexo g
+Butterfly主题配置
+可参考官方配置教程 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/09/28/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/" title="搭建个人博客（一）"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="搭建个人博客（一）"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/09/28/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/" title="搭建个人博客（一）">搭建个人博客（一）</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-09-28T06:10:04.000Z" title="发表于 2022-09-28 14:10:04">2022-09-28</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></span></div><div class="content">引用说明
+本文内容参考自知乎用户直上云霄的此回答
+概述
+hexo是一个快速、简洁、高效的博客框架，不需要有前端基础，依托它便能够较快地搭建起个人博客。本文所述的博客搭建是基于github page平台上的，这样可以免去搭建服务器的麻烦。
+前期准备（基于windows平台）
+
+注册一个Github账户。
+
+
+在中国大陆一些地区Github可能很难连接上，可能需要科学上网或更改host。
+这里推荐一个工具steamcommunity，其主要用于加速进入steam社区，也可用于加速连接Github（在该工具中设置）。
+
+
+安装Git
+安装Node.js(选择LTS版本,根据默认选项安装即可)
+
+安装hexo框架
+前面安装的git用于管理与上传博客相关内容，主要操作都是通过git bash（一个命令行窗口）进行。如果正确安装了git，那么摁下鼠标右键将会拥有“Git Bash Here”的选项。
+
+在合适的地方新建一个文件夹，用于存放博客相关内容。
+进入该文件夹，鼠标右键点击，选择“Git Bash Here”，打开命令行窗口。
+键入以下命令确认是否安装好Node.js。12node -vnp ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/7/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/#content-inner">7</a><span class="page-number current">8</span></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/private_img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">YILON</div><div class="author-info__description">YILON的技术小窝</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">84</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YILON"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客！</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/11/TI_DSP_TMS320F2812_%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%8E%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" title="TI_DSP_TMS320F2812_存储空间与启动过程"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_存储空间与启动过程"/></a><div class="content"><a class="title" href="/2023/11/11/TI_DSP_TMS320F2812_%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%8E%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" title="TI_DSP_TMS320F2812_存储空间与启动过程">TI_DSP_TMS320F2812_存储空间与启动过程</a><time datetime="2024-08-21T06:03:17.038Z" title="更新于 2024-08-21 14:03:17">2024-08-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/22/TI_DSP_TMS320F2812_%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F/" title="TI_DSP_TMS320F2812_中断系统"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_中断系统"/></a><div class="content"><a class="title" href="/2023/10/22/TI_DSP_TMS320F2812_%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F/" title="TI_DSP_TMS320F2812_中断系统">TI_DSP_TMS320F2812_中断系统</a><time datetime="2024-08-12T03:16:29.587Z" title="更新于 2024-08-12 11:16:29">2024-08-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/11/TI_DSP_TMS320F2812_CCS%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="TI_DSP_TMS320F2812_CCS工作流"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_CCS工作流"/></a><div class="content"><a class="title" href="/2023/11/11/TI_DSP_TMS320F2812_CCS%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="TI_DSP_TMS320F2812_CCS工作流">TI_DSP_TMS320F2812_CCS工作流</a><time datetime="2024-06-03T08:25:21.750Z" title="更新于 2024-06-03 16:25:21">2024-06-03</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="card-category-list-name">C语言</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/FPGA/"><span class="card-category-list-name">FPGA</span><span class="card-category-list-count">17</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/FPGA/VHDL/"><span class="card-category-list-name">VHDL</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/FPGA/verilog/"><span class="card-category-list-name">verilog</span><span class="card-category-list-count">11</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/"><span class="card-category-list-name">MATLAB</span><span class="card-category-list-count">8</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/App-Designer/"><span class="card-category-list-name">App Designer</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/Simulink/"><span class="card-category-list-name">Simulink</span><span class="card-category-list-count">5</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/Simulink/Embedded-Code/"><span class="card-category-list-name">Embedded Code</span><span class="card-category-list-count">5</span></a></li></ul></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/PCB%E8%AE%BE%E8%AE%A1/"><span class="card-category-list-name">PCB设计</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/"><span class="card-category-list-name">信号处理</span><span class="card-category-list-count">3</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/%E5%B0%8F%E6%B3%A2%E7%90%86%E8%AE%BA/"><span class="card-category-list-name">小波理论</span><span class="card-category-list-count">3</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%8D%95%E7%89%87%E6%9C%BA/"><span class="card-category-list-name">单片机</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"><span class="card-category-list-name">博客搭建</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"><span class="card-category-list-name">嵌入式</span><span class="card-category-list-count">25</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/CPLD/"><span class="card-category-list-name">CPLD</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/"><span class="card-category-list-name">DSP</span><span class="card-category-list-count">23</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/IC/"><span class="card-category-list-name">IC</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/"><span class="card-category-list-name">数学基础</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%9D%82%E8%AE%B0/"><span class="card-category-list-name">杂记</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/"><span class="card-category-list-name">树莓派</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/"><span class="card-category-list-name">网络通信</span><span class="card-category-list-count">5</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/"><span class="card-category-list-name">通信基础概念</span><span class="card-category-list-count">5</span></a></li></ul></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 1.1em; color: #999">静态链接库</a> <a href="/tags/S-Function%E6%A8%A1%E5%9D%97/" style="font-size: 1.1em; color: #999">S-Function模块</a> <a href="/tags/TI-DSP-TMS320F2812/" style="font-size: 1.39em; color: #99a5b5">TI_DSP_TMS320F2812</a> <a href="/tags/MATLAB-Function%E6%A8%A1%E5%9D%97/" style="font-size: 1.1em; color: #999">MATLAB Function模块</a> <a href="/tags/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/" style="font-size: 1.1em; color: #999">c语言编译过程</a> <a href="/tags/makefile/" style="font-size: 1.1em; color: #999">makefile</a> <a href="/tags/%E9%AB%98%E6%96%AF%E5%AE%9A%E7%90%86/" style="font-size: 1.1em; color: #999">高斯定理</a> <a href="/tags/hexo/" style="font-size: 1.21em; color: #999da3">hexo</a> <a href="/tags/Cmake/" style="font-size: 1.14em; color: #999a9c">Cmake</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 1.1em; color: #999">异步</a> <a href="/tags/MATLAB/" style="font-size: 1.1em; color: #999">MATLAB</a> <a href="/tags/github-page/" style="font-size: 1.1em; color: #999">github page</a> <a href="/tags/%E5%8D%95-%E5%8F%8C%E5%B7%A5/" style="font-size: 1.1em; color: #999">单/双工</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 1.25em; color: #999fa7">博客</a> <a href="/tags/%E5%8E%9F%E7%90%86%E5%9B%BE/" style="font-size: 1.1em; color: #999">原理图</a> <a href="/tags/%E6%AF%94%E7%89%B9%E7%8E%87/" style="font-size: 1.1em; color: #999">比特率</a> <a href="/tags/TI-DSP-TMS320F28335/" style="font-size: 1.25em; color: #999fa7">TI_DSP_TMS320F28335</a> <a href="/tags/GUI/" style="font-size: 1.1em; color: #999">GUI</a> <a href="/tags/matlab/" style="font-size: 1.14em; color: #999a9c">matlab</a> <a href="/tags/BOM%E8%A1%A8/" style="font-size: 1.1em; color: #999">BOM表</a> <a href="/tags/FPGA/" style="font-size: 1.43em; color: #99a6b8">FPGA</a> <a href="/tags/Gerber%E6%96%87%E4%BB%B6/" style="font-size: 1.1em; color: #999">Gerber文件</a> <a href="/tags/%E5%A4%9A%E5%88%86%E8%BE%A8%E7%8E%87%E8%A7%A3%E6%9E%90/" style="font-size: 1.1em; color: #999">多分辨率解析</a> <a href="/tags/OSI%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B/" style="font-size: 1.1em; color: #999">OSI七层模型</a> <a href="/tags/butterfly%E4%B8%BB%E9%A2%98/" style="font-size: 1.17em; color: #999ca0">butterfly主题</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 1.1em; color: #999">动态链接库</a> <a href="/tags/PCB%E5%9B%BE%E7%BA%B8/" style="font-size: 1.1em; color: #999">PCB图纸</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 1.1em; color: #999">单片机</a> <a href="/tags/%E7%9F%AD%E6%97%B6%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2STFT/" style="font-size: 1.1em; color: #999">短时傅里叶变换STFT</a> <a href="/tags/APP-Designer/" style="font-size: 1.1em; color: #999">APP Designer</a> <a href="/tags/%E9%BA%A6%E5%85%8B%E6%96%AF%E9%9F%A6%E6%96%B9%E7%A8%8B%E7%BB%84/" style="font-size: 1.1em; color: #999">麦克斯韦方程组</a> <a href="/tags/%E6%97%B6%E9%A2%91%E5%88%86%E6%9E%90/" style="font-size: 1.14em; color: #999a9c">时频分析</a> <a href="/tags/%E6%8C%87%E9%92%88/" style="font-size: 1.1em; color: #999">指针</a> <a href="/tags/PCB/" style="font-size: 1.25em; color: #999fa7">PCB</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91/" style="font-size: 1.1em; color: #999">网络拓扑</a> <a href="/tags/%E5%90%8C%E6%AD%A5/" style="font-size: 1.1em; color: #999">同步</a> <a href="/tags/Nabla%E7%AE%97%E5%AD%90/" style="font-size: 1.1em; color: #999">Nabla算子</a> <a href="/tags/%E5%93%88%E4%BD%9B%E6%9E%B6%E6%9E%84/" style="font-size: 1.1em; color: #999">哈佛架构</a> <a href="/tags/%E5%8E%9F%E7%90%86%E5%9B%BE%E5%BA%93/" style="font-size: 1.1em; color: #999">原理图库</a> <a href="/tags/Lattice-Diamond/" style="font-size: 1.1em; color: #999">Lattice Diamond</a> <a href="/tags/%E7%A6%BB%E6%95%A3%E5%B0%8F%E6%B3%A2/" style="font-size: 1.1em; color: #999">离散小波</a> <a href="/tags/%E6%AD%A3%E4%BA%A4%E5%B0%8F%E6%B3%A2/" style="font-size: 1.14em; color: #999a9c">正交小波</a> <a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/C/" style="font-size: 1.14em; color: #999a9c">C</a> <a href="/tags/%E6%AD%A3%E4%BA%A4/" style="font-size: 1.1em; color: #999">正交</a> <a href="/tags/Raspberry-Pi-OS/" style="font-size: 1.1em; color: #999">Raspberry Pi OS</a> <a href="/tags/%E5%B0%8F%E6%B3%A2%E5%8F%98%E6%8D%A2/" style="font-size: 1.14em; color: #999a9c">小波变换</a> <a href="/tags/VS-Code/" style="font-size: 1.1em; color: #999">VS_Code</a> <a href="/tags/%E6%97%B6%E5%BB%B6/" style="font-size: 1.1em; color: #999">时延</a> <a href="/tags/%E7%9B%B4%E5%92%8C/" style="font-size: 1.1em; color: #999">直和</a> <a href="/tags/verilog/" style="font-size: 1.35em; color: #99a3b1">verilog</a> <a href="/tags/IQ-math%E5%BA%93/" style="font-size: 1.1em; color: #999">IQ_math库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E8%B0%83%E5%88%B6/" style="font-size: 1.1em; color: #999">数据调制</a> <a href="/tags/linux/" style="font-size: 1.1em; color: #999">linux</a> <a href="/tags/gcc-g/" style="font-size: 1.1em; color: #999">gcc/g++</a> <a href="/tags/Altium-Designer/" style="font-size: 1.21em; color: #999da3">Altium Designer</a> <a href="/tags/C2000/" style="font-size: 1.1em; color: #999">C2000</a> <a href="/tags/Q%E6%A0%BC%E5%BC%8F/" style="font-size: 1.1em; color: #999">Q格式</a> <a href="/tags/%E4%B8%89%E7%9B%B8%E9%94%81%E7%9B%B8%E7%8E%AF/" style="font-size: 1.1em; color: #999">三相锁相环</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 1.1em; color: #999">并行</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 1.1em; color: #999">树莓派</a> <a href="/tags/Simulink/" style="font-size: 1.28em; color: #99a0aa">Simulink</a> <a href="/tags/%E6%95%A3%E5%BA%A6/" style="font-size: 1.1em; color: #999">散度</a> <a href="/tags/%E6%B3%9B%E5%87%BD%E7%A9%BA%E9%97%B4/" style="font-size: 1.1em; color: #999">泛函空间</a> <a href="/tags/%E5%86%AF%C2%B7%E8%AF%BA%E4%BC%8A%E6%9B%BC%E6%9E%B6%E6%9E%84/" style="font-size: 1.1em; color: #999">冯·诺伊曼架构</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 1.1em; color: #999">总结</a> <a href="/tags/VHDL/" style="font-size: 1.25em; color: #999fa7">VHDL</a> <a href="/tags/DSP/" style="font-size: 1.46em; color: #99a8bc">DSP</a> <a href="/tags/%E4%B8%B2%E8%A1%8C/" style="font-size: 1.1em; color: #999">串行</a> <a href="/tags/mermaid/" style="font-size: 1.1em; color: #999">mermaid</a> <a href="/tags/PCB%E5%B0%81%E8%A3%85%E5%BA%93/" style="font-size: 1.1em; color: #999">PCB封装库</a> <a href="/tags/markdown/" style="font-size: 1.17em; color: #999ca0">markdown</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 1.32em; color: #99a2ae">C语言</a> <a href="/tags/esp/" style="font-size: 1.1em; color: #999">esp</a> <a href="/tags/%E6%B3%A2%E7%89%B9%E7%8E%87/" style="font-size: 1.1em; color: #999">波特率</a> <a href="/tags/%E4%BF%A1%E5%8F%B7%E5%88%86%E7%B1%BB/" style="font-size: 1.1em; color: #999">信号分类</a> <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" style="font-size: 1.5em; color: #99a9bf">嵌入式</a> <a href="/tags/CPLD/" style="font-size: 1.1em; color: #999">CPLD</a> <a href="/tags/TI-DSP-C2000/" style="font-size: 1.1em; color: #999">TI_DSP_C2000</a> <a href="/tags/TI-DSP-TMS320X28xx%E7%B3%BB%E5%88%97/" style="font-size: 1.1em; color: #999">TI_DSP_TMS320X28xx系列</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">五月 2024</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/04/"><span class="card-archive-list-date">四月 2024</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/03/"><span class="card-archive-list-date">三月 2024</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/02/"><span class="card-archive-list-date">二月 2024</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/01/"><span class="card-archive-list-date">一月 2024</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/12/"><span class="card-archive-list-date">十二月 2023</span><span class="card-archive-list-count">8</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><span class="card-archive-list-count">15</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/10/"><span class="card-archive-list-date">十月 2023</span><span class="card-archive-list-count">17</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">77</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-08-22T00:38:19.292Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background: #20124d"><div id="footer-wrap"><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: (str) => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: (subtitleType) => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        getScript('https://cdn.jsdelivr.net/npm/typed.js/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  }
+}
+</script><script>function subtitleType () {
+  if (true) {
+    typedJSFn.init("持续思考。")
+  } else {
+    document.getElementById("subtitle").textContent = "持"
+  }
+}
+typedJSFn.run(subtitleType)</script><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

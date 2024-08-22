@@ -1,0 +1,353 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>simulink与MBD开发_C2000_Microcontroller_Blockset | YILON</title><meta name="author" content="YILON"><meta name="copyright" content="YILON"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="参考链接 参考链接1 参考链接2 概述 在matlab 2023a及其之后的版本集成C2000 Microcontroller Blockset， 可用于TI C2000系列MCU的MBD开发。 环境配置 在matlab命令行窗口，输入： 1C2000setup 弹出配置窗口：  勾选所要用到的处理器系列，点击下一步； 对TI C2000 Code Generation Tools与TI ARM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="simulink与MBD开发_C2000_Microcontroller_Blockset">
+<meta property="og:url" content="http://example.com/2024/05/25/simulink%E4%B8%8EMBD%E5%BC%80%E5%8F%91_C2000_Microcontroller_Blockset/index.html">
+<meta property="og:site_name" content="YILON">
+<meta property="og:description" content="参考链接 参考链接1 参考链接2 概述 在matlab 2023a及其之后的版本集成C2000 Microcontroller Blockset， 可用于TI C2000系列MCU的MBD开发。 环境配置 在matlab命令行窗口，输入： 1C2000setup 弹出配置窗口：  勾选所要用到的处理器系列，点击下一步； 对TI C2000 Code Generation Tools与TI ARM">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/private_img/cover.svg">
+<meta property="article:published_time" content="2024-05-25T03:05:31.000Z">
+<meta property="article:modified_time" content="2024-06-03T07:29:35.393Z">
+<meta property="article:author" content="YILON">
+<meta property="article:tag" content="matlab">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="simulink">
+<meta property="article:tag" content="C2000">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/private_img/cover.svg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/05/25/simulink%E4%B8%8EMBD%E5%BC%80%E5%8F%91_C2000_Microcontroller_Blockset/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'simulink与MBD开发_C2000_Microcontroller_Blockset',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-06-03 15:29:35'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/private_img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">84</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/private_img/cover.svg')"><nav id="nav"><span id="blog-info"><a href="/" title="YILON"><span class="site-name">YILON</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">simulink与MBD开发_C2000_Microcontroller_Blockset</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-05-25T03:05:31.000Z" title="发表于 2024-05-25 11:05:31">2024-05-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-06-03T07:29:35.393Z" title="更新于 2024-06-03 15:29:35">2024-06-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/MATLAB/">MATLAB</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="simulink与MBD开发_C2000_Microcontroller_Blockset"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/ti-c2000/getting-started-with-c2b.html">参考链接</a><br>
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42151264/article/details/107114851">参考链接1</a><br>
+<a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/ti-c2000/ug/getting-started-with-C2000-example.html">参考链接2</a></p>
+<h1>概述</h1>
+<p>在matlab 2023a及其之后的版本集成C2000 Microcontroller Blockset，<br>
+可用于TI C2000系列MCU的MBD开发。</p>
+<h1>环境配置</h1>
+<p>在matlab命令行窗口，输入：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C2000setup</span><br></pre></td></tr></table></figure>
+<p>弹出配置窗口：</p>
+<ul>
+<li>勾选所要用到的处理器系列，点击下一步；</li>
+<li>对TI C2000 Code Generation Tools与TI ARM Code Generation Tools点击<kbd>install</kbd>进行安装，安装完成后点击下一步；</li>
+<li>配置窗口会对TI C2000开发三件套：
+<ul>
+<li>TI controlSUITE</li>
+<li>TI Code Composer Studio</li>
+<li>TI C2000Ware<br>
+进行检测，如果未安装按照指示安装即可，（如果安装在非默认路径可以直接点击下一步；注意核实适配的版本，注意安装路径不能有中文），安装完成重启matlab重新输入命令打开配置窗口进行下一步即可；</li>
+</ul>
+</li>
+<li>这一步需要验证三件套的安装位置，如果是默认安装位置点击<kbd>Validate</kbd>验证即可，如果是自定义路径则自己选择对应路径进行验证；</li>
+<li>最后会列出各工具链的版本，核实无误后即可完成。</li>
+</ul>
+<h1>demo</h1>
+<p>新建一个simulink模型，<br>
+此时在库浏览器中可以看到<kbd>C2000 Microcontroller Blockset</kbd>的库，里面包含了各种芯片的外设模块。</p>
+<p>本次以驱动TMS320F28335的GPIO为例，拖出对应的GPIO模块<kbd>Digital Output</kbd>搭建一下模型：<br>
+<img src="./demo%E6%A8%A1%E5%9E%8B.png" alt="demo模型"></p>
+<p>配置模块为<code>Toggle GPIO0</code>，表示每执行一次该模块，当输入为<code>1</code>时，GPIO0输出状态翻转。</p>
+<p>打开<code>建模-&gt;模型设置</code>：</p>
+<ul>
+<li>求解器
+<ul>
+<li>停止时间设为<kbd>inf</kbd></li>
+<li>求解器选择为：<kbd>定步长</kbd>、<kbd>离散</kbd></li>
+<li><code>此时求解器采样步长即为处理器执行步长</code>，<br>
+这里设置为0.5，代表每0.5s执行一次;</li>
+</ul>
+</li>
+<li>数学和数据类型
+<ul>
+<li>将<code>非规范数的仿真行为</code>设为<kbd>下溢为零(FTZ)</kbd>。</li>
+<li>由于C2000系列最大支持32位，因此数据类型默认设定为<kbd>single</kbd>（即float型）
+<ul>
+<li>一些芯片不支持浮点型，因此实际使用时注意类型转换</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>硬件实现
+<ul>
+<li>Hardware board选择为对应的芯片，对于F28335，选择<code>TI Delfino F2833x</code>，等待自动配置完成；</li>
+<li>点开<code>Hardware board settings-&gt;Target hardware resources</code>，配置编译选项(Build options)：
+<ul>
+<li>build action选择为<code>build,load and run</code></li>
+<li>勾选<code>Use custom linker command file</code>，设定<code>linker command file</code>(cmd文件)和<code>CCS hardware configuration file</code>(ccxml文件)。</li>
+</ul>
+</li>
+<li><code>Clocking</code>：根据实际器件配置时钟。</li>
+<li>如果使用到其它外设，在这里可以相应进行设置。</li>
+</ul>
+</li>
+<li>代码生成
+<ul>
+<li><code>系统目标文件</code>选择<kbd>ert.tlc</kbd>（嵌入式系统）</li>
+<li><code>工具链</code>选择<kbd>Texas Instruments Code Composer Studio(C2000)</kbd>
+<ul>
+<li>在下方<code>高级参数</code>(默认是三个点)可以对工具链进行验证。</li>
+</ul>
+</li>
+<li><code>代码生成目标</code>配置为执行优先、ROM优先、RAM优先</li>
+<li>优化
+<ul>
+<li>如果需要阅读代码，则将<code>默认参数行为</code>设为<code>可调</code>，<code>优化级别</code>设定为<code>最小值</code></li>
+</ul>
+</li>
+<li>报告：勾选<code>创建代码生成报告</code>、<code>生成模型web视图</code></li>
+</ul>
+</li>
+</ul>
+<p>配置完成后，上方工具栏会新增一个<kbd>HARDWARE</kbd>,将设备通过烧录器连接到电脑（注意上电顺序），点击编译、部署与启动，即生成固件并烧录进设备里，正常情况下可以观测到GPIO0端口输出每0.5ms翻转一次。</p>
+<h1>simulink进行在环调试</h1>
+<p>上位机与处理器之间可通过串口进行通信，从而实现对处理器的监控与调整。<br>
+对于C2000系列处理器，只支持<code>SCI_A</code>串口。</p>
+<p>在硬件方面，可以基于CH340G的USB转TTL串口模块将上位机与处理器进行连接，<br>
+要特别注意处理器的上电顺序，避免损坏设备。</p>
+<blockquote>
+<p>如果干扰不严重可以只连接TX与RX两根线，因为有些PCB板设计不合理，串口模块的电源与地会直接给处理器供电，造成上电顺序错误。</p>
+</blockquote>
+<blockquote>
+<p>对于F28335，其SCI_A可以用GPIO28 &lt;-&gt; GPIO29、GPIO35 &lt;-&gt; GPIO36两种组合，simulink默认使用第一种（当然，可以更改）。</p>
+</blockquote>
+<p>如果是第一次使用串口模块，上位机需要安装对应的驱动，<br>
+并在上位机的<code>设备管理器</code>中设置串口数据帧的格式。<br>
+该数据帧格式与在simulink中设置的相匹配即可。</p>
+<p>打开<code>建模-&gt;设置-&gt;硬件实现-&gt;Hardware board settings-&gt;Target hardware resources</code>：</p>
+<ul>
+<li>配置<code>SCI_A</code>
+<ul>
+<li>默认波特率使用115200，这些设置与电脑的<code>设备管理器</code>中设置中相同即可。</li>
+</ul>
+</li>
+<li>配置<code>External mode</code>：
+<ul>
+<li>XCP on Serial</li>
+<li>SCI_A</li>
+<li>电脑对应的端口(可点击refresh进行检测)</li>
+<li>Verbose与set logging buffer size automatically可以都勾上</li>
+<li>对于传输数据的准确率有高要求，可以勾选使用专用定时器</li>
+</ul>
+</li>
+</ul>
+<p>回到主页面，点击上方工具栏的<kbd>HARDWARE</kbd>，<br>
+选择<kbd>Run on board(External mode)</kbd>,<br>
+点击“监控并调节”就能自动进行编译、烧录，并建立上位机对设备的监控。</p>
+<h1>SIL与PIL</h1>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42151264/article/details/124994055">参考链接</a></p>
+<p>在 SIL 或 PIL 仿真中，代码是为顶层模型或模型的一部分生成的。<br>
+对于 SIL，此代码针对计算机编译并在其上执行；<br>
+对于 PIL，代码针对目标硬件进行交叉编译，并在目标处理器上运行。</p>
+<p>通过通信信道，Simulink 在仿真的每个采样间隔向计算机（SIL）或目标处理器（PIL）发送激励信号。</p>
+<p>对于顶层模型，Simulink 使用来自基础工作区或模型工作区的激励信号。</p>
+<p>如果指定仅模型的一部分在 SIL 或 PIL 模式下进行仿真，则模型的其余部分将保留在 Simulink 中，并且不会为模型的此保留部分生成代码。<br>
+模型的非代码生成部分可以表示算法的其他部分或算法运行的环境。</p>
+<p>当计算机或目标处理器接收到来自 Simulink 的信号时，处理器执行 SIL 或 PIL 算法，执行时间为一个采样步长。<br>
+SIL 或 PIL 算法通过通信信道将在此步长内计算的输出信号返回到 Simulink。<br>
+仿真的一个采样周期完成后，Simulink 进入下一个采样间隔。此过程不断重复，仿真持续进行。<br>
+<code>SIL 和 PIL 仿真不以实时方式运行。</code><br>
+在每个采样周期内，Simulink 和目标代码会交换 I/O 数据。</p>
+<blockquote>
+<p>要注意无论是SIL还是PIL，算法代码都不是实时地运行，<br>
+要实现实时运行仿真，可以采用HIL，但需要购置昂贵的IO服务器用以实时模拟被控对象。</p>
+</blockquote>
+<p>SIL的配置与PIL的配置很像，先对PIL进行说明。<br>
+以下是基于搭建的子系统创建PIL模块，<br>
+该PIL模块可以直接放到模型中进行仿真运行。</p>
+<p>在上面配置上位机与硬件通讯的基础上，<br>
+在<code>建模-&gt;设置-&gt;代码生成-&gt;验证</code>中，勾选<kbd>启用可移植字长</kbd>，打开高级参数（下方三个点），<code>创建模块</code>设为<kbd>PIL</kbd>。</p>
+<blockquote>
+<p>在模型仿真中，一般模块的执行步长设定为<code>继承</code>，再配合<kbd>Rate Transition</lbd>模块即可对执行步长进行配置，<br>
+此时模型的固定步长小于等于所有模块的执行步长即可；<br>
+但在生成PIL模块之前，一定要将模型的固定步长设定为代码所需的执行步长，待生成完成后再改回原来所需的步长即可。</p>
+</blockquote>
+<p>设定好步长后，<br>
+右键点击所需编译的子系统/模块，<br>
+选择<code>C/C++代码-&gt;部署此子系统到硬件</code>，即可自动编译、生成PIL模块。<br>
+<img src="./%E7%94%9F%E6%88%90PIL%E6%A8%A1%E5%9D%97.png" alt="生成PIL模块"></p>
+<blockquote>
+<p>注意生成时matlab文件夹要处于当前模型处，<br>
+生成代码时会自动生成<code>Subsystem_ert_rtw</code>的子文件夹，里面是各种代码与目标文件。<br>
+要注意编译生成的子系统代码时本级路径是<code>模型所在文件夹\Subsystem_ert_rtw</code>，比模型的本级路径多一级，<br>
+因此子系统中的S-Function模块使用了相对路径时，要注意这个路径问题，<br>
+可以把使用的源文件复制一份到对应的路径。</p>
+</blockquote>
+<p>在<code>APP</code>中选择<kbd>SIL/PIL Manager</kbd>可以对仿真行为与监控进行设置。</p>
+<p>对于SIL模块，基本配置都是相同的，只需在<br>
+<code>建模-&gt;设置-&gt;代码生成-&gt;验证-&gt;高级参数（下方三个点）</code>中，创建模块`设为<kbd>SIL</kbd>即可。</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/matlab/">matlab</a><a class="post-meta__tags" href="/tags/C/">C</a><a class="post-meta__tags" href="/tags/simulink/">simulink</a><a class="post-meta__tags" href="/tags/C2000/">C2000</a></div><div class="post_share"><div class="social-share" data-image="/private_img/cover.svg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2024/04/21/matlab%E4%B8%8EC%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B/" title="matlab与C语言编程"><img class="cover" src="/private_img/cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">matlab与C语言编程</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/04/21/matlab%E4%B8%8EC%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B/" title="matlab与C语言编程"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-21</div><div class="title">matlab与C语言编程</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/private_img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">YILON</div><div class="author-info__description">YILON的技术小窝</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">84</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YILON"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">环境配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">demo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">simulink进行在环调试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">SIL与PIL</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/11/TI_DSP_TMS320F2812_%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%8E%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" title="TI_DSP_TMS320F2812_存储空间与启动过程"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_存储空间与启动过程"/></a><div class="content"><a class="title" href="/2023/11/11/TI_DSP_TMS320F2812_%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%8E%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" title="TI_DSP_TMS320F2812_存储空间与启动过程">TI_DSP_TMS320F2812_存储空间与启动过程</a><time datetime="2024-08-21T06:03:17.038Z" title="更新于 2024-08-21 14:03:17">2024-08-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/22/TI_DSP_TMS320F2812_%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F/" title="TI_DSP_TMS320F2812_中断系统"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_中断系统"/></a><div class="content"><a class="title" href="/2023/10/22/TI_DSP_TMS320F2812_%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F/" title="TI_DSP_TMS320F2812_中断系统">TI_DSP_TMS320F2812_中断系统</a><time datetime="2024-08-12T03:16:29.587Z" title="更新于 2024-08-12 11:16:29">2024-08-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/11/TI_DSP_TMS320F2812_CCS%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="TI_DSP_TMS320F2812_CCS工作流"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_CCS工作流"/></a><div class="content"><a class="title" href="/2023/11/11/TI_DSP_TMS320F2812_CCS%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="TI_DSP_TMS320F2812_CCS工作流">TI_DSP_TMS320F2812_CCS工作流</a><time datetime="2024-06-03T08:25:21.750Z" title="更新于 2024-06-03 16:25:21">2024-06-03</time></div></div></div></div></div></div></main><footer id="footer" style="background: #20124d"><div id="footer-wrap"><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

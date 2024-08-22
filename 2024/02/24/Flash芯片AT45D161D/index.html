@@ -1,0 +1,916 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Flash芯片AT45D161D | YILON</title><meta name="author" content="YILON"><meta name="copyright" content="YILON"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="参考自官方数据手册。 概述 AT45DB161D是一款2.5V或2.7V，串行接口的FLASH存储器。 AT45DB161D支持RapidS串行接口，适用于要求高速操作的应用。 RapidS串行接口兼容SPI，最高频率可达66MHz。 AT45DB161D的存储容量为16Mbit。 除了主存储器外，AT45DB161D还包含2个512&#x2F;528字节的SRAM缓冲区。 Buffer允许在对主存储器的页">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flash芯片AT45D161D">
+<meta property="og:url" content="http://example.com/2024/02/24/Flash%E8%8A%AF%E7%89%87AT45D161D/index.html">
+<meta property="og:site_name" content="YILON">
+<meta property="og:description" content="参考自官方数据手册。 概述 AT45DB161D是一款2.5V或2.7V，串行接口的FLASH存储器。 AT45DB161D支持RapidS串行接口，适用于要求高速操作的应用。 RapidS串行接口兼容SPI，最高频率可达66MHz。 AT45DB161D的存储容量为16Mbit。 除了主存储器外，AT45DB161D还包含2个512&#x2F;528字节的SRAM缓冲区。 Buffer允许在对主存储器的页">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/private_img/cover.svg">
+<meta property="article:published_time" content="2024-02-24T01:01:25.000Z">
+<meta property="article:modified_time" content="2024-03-18T06:49:18.073Z">
+<meta property="article:author" content="YILON">
+<meta property="article:tag" content="嵌入式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/private_img/cover.svg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/02/24/Flash%E8%8A%AF%E7%89%87AT45D161D/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Flash芯片AT45D161D',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-03-18 14:49:18'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/private_img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">84</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/private_img/cover.svg')"><nav id="nav"><span id="blog-info"><a href="/" title="YILON"><span class="site-name">YILON</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Flash芯片AT45D161D</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-02-24T01:01:25.000Z" title="发表于 2024-02-24 09:01:25">2024-02-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-03-18T06:49:18.073Z" title="更新于 2024-03-18 14:49:18">2024-03-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/IC/">IC</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Flash芯片AT45D161D"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>参考自官方数据手册。</p>
+<h1>概述</h1>
+<p>AT45DB161D是一款2.5V或2.7V，串行接口的FLASH存储器。<br>
+AT45DB161D支持RapidS串行接口，适用于要求高速操作的应用。<br>
+RapidS串行接口兼容SPI，最高频率可达66MHz。<br>
+AT45DB161D的存储容量为16Mbit。</p>
+<p>除了主存储器外，AT45DB161D还包含2个512/528字节的SRAM缓冲区。<br>
+Buffer允许在对主存储器的页重新写入时接收数据，也可写入连续的数据串。<br>
+通过独立的“读-改-写”三步操作，可以轻松实现EEPROM仿真（可设置成位或字节）。<br>
+DataFlash通过RapidS串行接口顺序访问数据，而不像传统FLASH存储器那样通过复用总线和并行接口随机存取。</p>
+<p>简单顺序访问机制极大的减少了有效引脚的数量，有利于硬件布局，增强了系统可靠性，将切换噪音降至最小，并缩小了封装的尺寸。</p>
+<p>为了实现简单的在系统重复写入，AT45DB161D并不需要高输入电压来支持写入。<br>
+AT45DB161D工作在独立的2.5V至3.6V或者2.7V至3.6V电压下，用于写入和读取操作。</p>
+<h2 id="特性">特性</h2>
+<ul>
+<li>单独2.5V至3.6V或者2.7V至3.6V工作电压</li>
+<li>RapidS串行接口：66 MHz最小时钟频率
+<ul>
+<li>SPI兼容模式 0 和 3</li>
+</ul>
+</li>
+<li>用户自定义页大小
+<ul>
+<li>512 字节每页</li>
+<li>528 字节每页（默认）
+<ul>
+<li>页大小可出厂预设为512字节</li>
+<li>设备出厂后页大小能且只能改变一次。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>页写入操作
+<ul>
+<li>4,096 页(512/528 字节/页)主存储器</li>
+</ul>
+</li>
+<li>灵活的擦除选项
+<ul>
+<li>页擦除(512 Bytes)</li>
+<li>块擦除(4 KBytes)</li>
+<li>扇区擦除(128 KBytes)</li>
+<li>片擦除(16 Mbits)</li>
+</ul>
+</li>
+<li>2个SRAM数据Buffer(512/528 字节)
+<ul>
+<li>在对FLASH阵列重新写入时允许接收数据</li>
+</ul>
+</li>
+<li>通过整体阵列可连续读取
+<ul>
+<li>代码映射应用的理想选择</li>
+</ul>
+</li>
+<li>低功耗
+<ul>
+<li>7 mA 典型有效读取电流</li>
+<li>25 μA典型待机电流</li>
+<li>9 μA 典型掉电模式电流</li>
+</ul>
+</li>
+<li>工作温度
+<ul>
+<li>-40℃~85℃</li>
+<li>允许最高温度：-55℃~150℃</li>
+</ul>
+</li>
+<li>硬件和软件数据保护特性
+<ul>
+<li>独立扇区</li>
+</ul>
+</li>
+<li>扇区锁定，用于代码安全和数据存储
+<ul>
+<li>独立扇区</li>
+</ul>
+</li>
+<li>安全性：128字节安全寄存器
+<ul>
+<li>64字节用户可写入空间</li>
+<li>唯一的64字节Flash标识符</li>
+</ul>
+</li>
+<li>JEDEC标准的制造商和器件ID标识</li>
+<li>每页写入/擦除周期最小100,000次</li>
+<li>数据保存20年 工业级温度范围</li>
+</ul>
+<h1>封装</h1>
+<p><img src="./IC%E5%B0%81%E8%A3%85%E5%BD%A2%E5%BC%8F.png" alt="IC封装形式"></p>
+<p><img src="./%E7%94%B5%E8%B7%AF%E5%85%B8%E5%9E%8B%E8%AE%BE%E8%AE%A1.png" alt="电路典型设计"></p>
+<h1>主要引脚</h1>
+<p>输入引脚：</p>
+<ul>
+<li>片选引脚<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">C</mi><mi mathvariant="normal">S</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{CS}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">CS</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>
+<ul>
+<li>低电平有效。（下降沿表示通信开始，上升沿表示通信结束）</li>
+</ul>
+</li>
+<li>时钟引脚<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">S</mi><mi mathvariant="normal">C</mi><mi mathvariant="normal">K</mi></mrow><annotation encoding="application/x-tex">\mathrm{SCK}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathrm">SCK</span></span></span></span></span></li>
+<li>输入引脚<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">S</mi><mi mathvariant="normal">I</mi></mrow><annotation encoding="application/x-tex">\mathrm{SI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathrm">SI</span></span></span></span></span></li>
+<li>输出引脚<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">S</mi><mi mathvariant="normal">O</mi></mrow><annotation encoding="application/x-tex">\mathrm{SO}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathrm">SO</span></span></span></span></span>
+<ul>
+<li>当未通讯时Flash处于<code>standby mode</code>，输出引脚<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">S</mi><mi mathvariant="normal">O</mi></mrow><annotation encoding="application/x-tex">\mathrm{SO}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathrm">SO</span></span></span></span></span>处于高阻抗。</li>
+</ul>
+</li>
+<li>写保护引脚<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">W</mi><mi mathvariant="normal">P</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{WP}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">WP</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>
+<ul>
+<li>当该引脚低电平时，禁止写入或擦除Flash。</li>
+<li>不要让该引脚悬空。</li>
+</ul>
+</li>
+<li>复位引脚<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">E</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">E</mi><mi mathvariant="normal">T</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{RESET}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">RESET</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>
+<ul>
+<li>当该引脚低电平时，会终止正在进行的操作，并将内部状态机置为<kbd>idle</kbd>状态(空闲状态)。</li>
+<li>不要让该引脚悬空。</li>
+</ul>
+</li>
+</ul>
+<p>输出引脚：</p>
+<ul>
+<li>就绪/繁忙引脚<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">D</mi><mi mathvariant="normal">Y</mi><mi mathvariant="normal">/</mi><mover accent="true"><mrow><mi mathvariant="normal">B</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">Y</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{RDY/\overline{BUSY}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1333em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">RDY/</span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.025em;">BUSY</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span></span>
+<ul>
+<li>当器件忙于内部自定时操作时，这个漏极开路输出引脚将被拉低。<br>
+该引脚通常处于高电平状态（通过外部上拉电阻器），<br>
+在写入/擦除操作、比较操作和页到Buffer传输期间将被拉低。</li>
+<li>忙状态表示无法访问闪存阵列和其中一个Buffer；<br>
+但仍可对另一个Buffer执行读写操作。</li>
+</ul>
+</li>
+</ul>
+<h1>存储结构</h1>
+<p><img src="./%E5%86%85%E9%83%A8%E5%B1%82%E6%AC%A1.png" alt="内部层次"></p>
+<p>由上可知，<br>
+可以直接读取Flash的页(main page)，但不能直接写入，<br>
+而是要先通过缓冲区才能写入。<br>
+对于缓冲区，可以直接读取与写入。</p>
+<p>AT45DB161D 的存储器阵列分为三个级别：</p>
+<ul>
+<li>扇区<kbd>SECTOR</kbd>：
+<ul>
+<li>总共有16扇区，其中第0个扇区分为0a与0b两个子扇区；</li>
+<li>一个扇区有256页，即32个块。</li>
+</ul>
+</li>
+<li>块<kbd>BLOCK</kbd>：
+<ul>
+<li>一个块有8个页；</li>
+<li>总共有512个块；</li>
+</ul>
+</li>
+<li>页<kbd>PAGE</kbd>：
+<ul>
+<li>一个页大小可以为标准页大小<kbd>528bit</kbd>或<kbd>512bit</kbd>；</li>
+<li>整块芯片总共有4096个页。</li>
+</ul>
+</li>
+</ul>
+<p><img src="./%E6%AE%B5_%E5%9D%97_%E9%A1%B5%E5%B1%82%E6%AC%A1.png" alt="扇区_块_页层次"></p>
+<blockquote>
+<p>对数据闪存的所有写入操作都是<code>逐页进行</code>；<br>
+读取则可以按字节进行；<br>
+擦除操作可在芯片、扇区、块或页级执行。</p>
+</blockquote>
+<h2 id="地址说明">地址说明</h2>
+<p>由上可知，</p>
+<blockquote>
+<ul>
+<li>主存储器字节寻址共22bit，
+<ul>
+<li>其中 PA11 - PA0 表示指定页地址所需的<kbd>12</kbd>个地址位，</li>
+<li>BA9 - BA0 表示指定页内字节地址所需的<kbd>10</kbd>个地址位。<br>
+对于<code>标准 DataFlash页大小</code>（528 字节），</li>
+</ul>
+</li>
+<li>缓冲区寻址则使用 BFA9 - BFA0 表示指定缓冲区内字节地址所需的<kbd>10</kbd>个地址位；</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>对于<code>二进制页大小（512 字节）</code>，</p>
+<ul>
+<li>主存储器字节寻址共使用21bit，
+<ul>
+<li>其中 A20 - A9 表示指定页地址所需的<kbd>12</kbd>个地址位，</li>
+<li>A8 - A0 表示指定页内字节地址所需的<kbd>9</kbd>个地址位。</li>
+</ul>
+</li>
+<li>缓冲区寻址则使用 BFA8 - BFA0 来表示缓冲区内指定字节地址所需的<kbd>9</kbd>个地址位；</li>
+</ul>
+</blockquote>
+<hr>
+<p>根据层次<code>扇区-块-段</code>，对主存储器，</p>
+<blockquote>
+<p>扇区地址需要前<kbd>4bit</kbd>，<br>
+块地址需要前<kbd>9bit</kbd>，<br>
+页地址则需要前<kbd>12bit</kbd>。</p>
+</blockquote>
+<h1>Flash基本操作</h1>
+<blockquote>
+<p>所有指令、地址与数据都以<kbd>MSB</kbd>格式传输。</p>
+</blockquote>
+<hr>
+<h2 id="读操作">读操作</h2>
+<blockquote>
+<p>基于SPI协议，通讯都是从<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">C</mi><mi mathvariant="normal">S</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{CS}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">CS</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>下降沿开始。</p>
+</blockquote>
+<p><img src="./%E8%AF%BB%E6%93%8D%E4%BD%9C%E8%B7%AF%E5%BE%84.png" alt="读操作路径"></p>
+<h3 id="连续阵列读取-E8H-传统指令，最高66MHz">连续阵列读取 E8H(传统指令，最高66MHz)</h3>
+<blockquote>
+<p>给定一个主存储器的起始字节地址，便一直读下去，直到片选信号拉高。<br>
+连续阵列读取绕过两个数据缓冲区，并保持缓冲区的内容不变。</p>
+</blockquote>
+<p><img src="./E8H%E6%97%B6%E5%BA%8F.png" alt="E8H命令时序"></p>
+<p>开始时主机先向Flash发送命令与要读取的地址：</p>
+<blockquote>
+<ul>
+<li>
+<p><kbd>OPCODE</kbd>即命令(8bit)，</p>
+</li>
+<li>
+<p><kbd>ADDRESS BITS</kbd>即要读取的主存储器起始字节地址<br>
+由于以8 bit一单位发送数据，则地址位需要凑够为8的整数</p>
+<ul>
+<li>若是标准页大小，字节地址为22位，因此在前面添加<code>两个</code><kbd>无意义位</kbd>凑够24位的地址。</li>
+<li>若是二进制页大小，字节地址为21位，因此在前面添加<code>三个</code><kbd>无意义位</kbd>凑够24位的地址。</li>
+</ul>
+</li>
+<li>
+<p><kbd>DON’T CARE BITS</kbd>是无意义位（为了满足时序需求）</p>
+<ul>
+<li>对于两种页大小的阵列读取，地址后<code>Don't care码</code>长度都为32 bit。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>随后Flash开始向主机返回对应的数据，<br>
+只要<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">C</mi><mi mathvariant="normal">S</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{CS}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">CS</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>就一直返回。</p>
+<blockquote>
+<p>此模式读取下如果要跨页，将在下一页开始时继续读取，<br>
+在页边界交叉（从一页结束到下一页结束的交叉）期间不会产生延迟。</p>
+<p>当主存储器阵列中的最后一位已被读取时，<br>
+Flash将继续在存储器的第一页的开始处读回。<br>
+与跨越页边界一样，从数组的末尾到数组的开头换行时不会产生延迟。</p>
+</blockquote>
+<h3 id="连续阵列读取-0BH-高频指令，最高66MHz">连续阵列读取 0BH(高频指令，最高66MHz)</h3>
+<blockquote>
+<p>给定一个起始地址，便一直读下去，直到片选信号拉高。<br>
+连续阵列读取绕过两个数据缓冲区，并保持缓冲区的内容不变。</p>
+</blockquote>
+<p><img src="./0BH%E6%97%B6%E5%BA%8F.png" alt="0BH命令时序(二进制页大小)"></p>
+<p>开始时主机先向Flash发送命令与要读取的地址：</p>
+<blockquote>
+<ul>
+<li>
+<p><kbd>OPCODE</kbd>即命令(8bit)，</p>
+</li>
+<li>
+<p><kbd>ADDRESS BITS</kbd>即要读取的起始地址<br>
+由于以8 bit一单位发送数据，则地址位需要凑够为8的整数</p>
+<ul>
+<li>若是标准页大小，字节地址为22位，因此在前面添加<code>两个</code><kbd>无意义位</kbd>凑够24位的地址。</li>
+<li>若是二进制页大小，字节地址为21位，因此在前面添加<code>三个</code><kbd>无意义位</kbd>凑够24位的地址。</li>
+</ul>
+</li>
+<li>
+<p><kbd>DON’T CARE BITS</kbd>是无意义位（为了满足时序需求）</p>
+<ul>
+<li>对于两种页大小的读取，地址后<code>Don't care码</code>为8 bit。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>随后Flash开始向主机返回对应的数据，<br>
+只要<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">C</mi><mi mathvariant="normal">S</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{CS}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">CS</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>就一直返回。</p>
+<blockquote>
+<p>此模式读取下如果要跨页，将在下一页开始时继续读取，<br>
+在页边界交叉（从一页结束到下一页结束的交叉）期间不会产生延迟。</p>
+<p>当主存储器阵列中的最后一位已被读取时，<br>
+Flash将继续在存储器的第一页的开始处读回。<br>
+与跨越页边界一样，从数组的末尾到数组的开头换行时不会产生延迟。</p>
+</blockquote>
+<h3 id="连续阵列读取-03H-低频指令，最高33MHz">连续阵列读取 03H(低频指令，最高33MHz)</h3>
+<blockquote>
+<p>给定一个起始地址，便一直读下去，直到片选信号拉高。<br>
+连续阵列读取绕过两个数据缓冲区，并保持缓冲区的内容不变。</p>
+</blockquote>
+<p><img src="./03H%E6%97%B6%E5%BA%8F.png" alt="03H命令时序(二进制页大小)"></p>
+<p>开始时主机先向Flash发送命令与要读取的地址：</p>
+<blockquote>
+<ul>
+<li><kbd>OPCODE</kbd>即命令(8bit)，</li>
+<li><kbd>ADDRESS BITS</kbd>即要读取的起始地址<br>
+由于以8 bit一单位发送数据，则地址位需要凑够为8的整数
+<ul>
+<li>
+<p>若是标准页大小，字节地址为22位，因此在前面添加<code>两个</code><kbd>无意义位</kbd>凑够24位的地址。</p>
+</li>
+<li>
+<p>若是二进制页大小，字节地址为21位，因此在前面添加<code>三个</code><kbd>无意义位</kbd>凑够24位的地址。</p>
+</li>
+<li>
+<p>地址后无<code>Don't care码</code>。</p>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>随后Flash开始向主机返回对应的数据，<br>
+只要<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">C</mi><mi mathvariant="normal">S</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{CS}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">CS</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>就一直往下读。</p>
+<blockquote>
+<p>此模式读取下如果要跨页，将在下一页开始时继续读取，<br>
+在页边界交叉（从一页结束到下一页结束的交叉）期间不会产生延迟。</p>
+<p>当主存储器阵列中的最后一位已被读取时，<br>
+Flash将继续在存储器的第一页的开始处读回。<br>
+与跨越页边界一样，从数组的末尾到数组的开头换行时不会产生延迟。</p>
+</blockquote>
+<h3 id="主存储器页读取-D2H">主存储器页读取 D2H</h3>
+<blockquote>
+<p>直接从主存储器中4096个页中的任何一个字节读取数据，<br>
+绕过两个数据缓冲器并保持缓冲器的内容不变。</p>
+</blockquote>
+<blockquote>
+<p>只要片选引脚<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">C</mi><mi mathvariant="normal">S</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{CS}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">CS</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>不拉高就一直往下读，<br>
+当到达主存储器中指定页的末尾时，Flash将继续从同一页的开头读回。</p>
+</blockquote>
+<p><img src="./D2H%E6%97%B6%E5%BA%8F.png" alt="D2H命令时序"></p>
+<blockquote>
+<ul>
+<li>
+<p><kbd>OPCODE</kbd>即命令(8bit)，</p>
+</li>
+<li>
+<p><kbd>ADDRESS BITS</kbd>即要读取的起始地址<br>
+由于以8 bit一单位发送数据，则地址位需要凑够为8的整数</p>
+<ul>
+<li>若是标准页大小，字节地址为22位，因此在前面添加<code>两个</code><kbd>无意义位</kbd>凑够24位的地址。</li>
+<li>若是二进制页大小，字节地址为21位，因此在前面添加<code>三个</code><kbd>无意义位</kbd>凑够24位的地址。</li>
+</ul>
+</li>
+<li>
+<p>对于两种页大小的读取，地址后<code>Don't care码</code>长度都为32 bit。</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="缓冲区读取-D4H、D1H、D6H、D3H">缓冲区读取  D4H、D1H、D6H、D3H</h3>
+<blockquote>
+<p>SRAM数据缓冲器可以独立于主存储器阵列进行访问。<br>
+Buffer 1使用D4H（低频，最高66MHz）与D1H（低频，最高33MHz），<br>
+Buffer 2使用D6H（低频，最高66MHz）与D3H（低频，最高33MHz）。<br>
+只要片选引脚<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">C</mi><mi mathvariant="normal">S</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{CS}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">CS</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>不拉高就一直往下读，<br>
+当到达缓冲区的末尾时，Flash将继续从缓冲区开头读回。</p>
+</blockquote>
+<p><img src="./D4H%E6%88%96D6%E6%97%B6%E5%BA%8F.png" alt="D4H或D6命令时序"></p>
+<p><img src="./D1H%E6%88%96D3%E6%97%B6%E5%BA%8F.png" alt="D1H或D3命令时序"></p>
+<blockquote>
+<ul>
+<li>
+<p><kbd>OPCODE</kbd>即命令(8bit)，</p>
+</li>
+<li>
+<p><kbd>ADDRESS BITS</kbd>即要读取的起始地址</p>
+<ul>
+<li>若是标准页大小，此时该地址（缓冲区地址）为10 bit。</li>
+<li>若是二进制页大小，此时该地址（缓冲区地址）为9 bit。</li>
+</ul>
+</li>
+<li>
+<p>对于标准页大小的缓冲区读取，地址前<code>Don't care码</code>为14 bit。</p>
+</li>
+<li>
+<p>对于二进制页大小的缓冲区读取，地址前的<code>Don't care码</code>为15 bit。</p>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>特别地，在低频读取时(D4H 或 D6H)，<br>
+地址后还有8 bit<code>Don't care码</code>。</p>
+</blockquote>
+<h3 id="主存储器读到缓冲区-53H、55H">主存储器读到缓冲区 53H、55H</h3>
+<blockquote>
+<p>Buffer 1使用53H<br>
+Buffer 2使用55H</p>
+</blockquote>
+<p>在执行过程中，状态寄存器和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">D</mi><mi mathvariant="normal">Y</mi><mi mathvariant="normal">/</mi><mover accent="true"><mrow><mi mathvariant="normal">B</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">Y</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{RDY/\overline{BUSY}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1333em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">RDY/</span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.025em;">BUSY</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span></span>指示正忙。</p>
+<blockquote>
+<p>对于标准页大小，地址前的<code>Don't care码</code>为2 bit。<br>
+对于二进制页大小的擦除，地址前的<code>Don't care码</code>为3 bit。</p>
+<ul>
+<li>两种页的地址都为12个地址位。</li>
+</ul>
+<p>对于标准页大小的擦除，地址后的<code>Don't care码</code>为10 bit。<br>
+对于二进制页大小的擦除，地址后的<code>Don't care码</code>为9 bit。</p>
+</blockquote>
+<hr>
+<h2 id="写操作">写操作</h2>
+<p><img src="./%E5%86%99%E6%93%8D%E4%BD%9C%E8%B7%AF%E5%BE%84.png" alt="写操作路径"></p>
+<h3 id="缓冲区写入-84H、87H">缓冲区写入 84H、87H</h3>
+<p><img src="./84H%E6%88%9687H%E6%97%B6%E5%BA%8F.png" alt="84H或87H命令时序(二进制页大小)"></p>
+<ul>
+<li>84H用于写入Buffer 1，</li>
+<li>87H用于写入Buffer 2。</li>
+</ul>
+<blockquote>
+<p>对于标准页大小的缓冲区写入，地址前的<code>Don't care码</code>为14 bit。<br>
+对于二进制页大小的缓冲区写入，地址前的<code>Don't care码</code>为15 bit。</p>
+<ul>
+<li>若是标准页大小，此时地址（缓冲区地址）为10 bit。</li>
+<li>若是二进制页大小，此时地址（缓冲区地址）为9 bit。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>当到达缓冲区的末尾时，Flash将继续从缓冲区开头写入。</p>
+</blockquote>
+<h3 id="带内置擦除功能的缓冲区到主存储器-83H、86H">带内置擦除功能的缓冲区到主存储器 83H、86H</h3>
+<p>此功能会先将主存储器指定页擦除，然后将缓冲区数据写入该页。<br>
+在执行过程中，状态寄存器和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">D</mi><mi mathvariant="normal">Y</mi><mi mathvariant="normal">/</mi><mover accent="true"><mrow><mi mathvariant="normal">B</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">Y</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{RDY/\overline{BUSY}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1333em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">RDY/</span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.025em;">BUSY</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span></span>指示正忙。<br>
+执行时间不长于40ms，典型时间为17ms。</p>
+<p><img src="./%E7%BC%93%E5%86%B2%E5%8C%BA%E5%86%99%E5%85%A5%E4%B8%BB%E5%AD%98%E5%82%A8%E5%99%A8%E5%91%BD%E4%BB%A4%E6%97%B6%E5%BA%8F.png" alt="指定缓冲区写入主存储器命令时序(二进制页大小)"></p>
+<ul>
+<li>83H用于Buffer 1写入主存储器，</li>
+<li>86H用于Buffer 2写入主存储器。</li>
+</ul>
+<blockquote>
+<p>对于标准页大小的写入，地址前的<code>Don't care码</code>为2 bit。<br>
+对于二进制页大小的写入，地址前的<code>Don't care码</code>为3 bit。</p>
+<ul>
+<li>若是标准页大小，此时地址为12个页面地址位（PA11-PA0）。</li>
+<li>若是二进制页大小，此时地址为12个页面地址位（PA11-PA0）。</li>
+</ul>
+<p>对于标准页大小的写入，地址后的<code>Don't care码</code>为10 bit。<br>
+对于二进制页大小的写入，地址后的<code>Don't care码</code>为9 bit。</p>
+</blockquote>
+<h3 id="不带内置擦除功能的缓冲区到主存储器-88H、89H">不带内置擦除功能的缓冲区到主存储器 88H、89H</h3>
+<p>必须先发送对应指令将主存储器指定页擦除，<br>
+然后才能使用该指令将缓冲区数据写入该页。<br>
+在执行过程中，状态寄存器和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">D</mi><mi mathvariant="normal">Y</mi><mi mathvariant="normal">/</mi><mover accent="true"><mrow><mi mathvariant="normal">B</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">Y</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{RDY/\overline{BUSY}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1333em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">RDY/</span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.025em;">BUSY</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span></span>指示正忙。<br>
+缓冲区写入主存储器执行时间不长于6ms，典型时间为3ms。</p>
+<blockquote>
+<p>对于标准页大小的写入，地址前的<code>Don't care码</code>为2 bit。<br>
+对于二进制页大小的写入，地址前的<code>Don't care码</code>为3 bit。</p>
+<ul>
+<li>若是标准页大小，此时地址为12个页面地址位（PA11-PA0）。</li>
+<li>若是二进制页大小，此时地址为12个页面地址位（PA11-PA0）。</li>
+</ul>
+<p>对于标准页大小的写入，地址后的<code>Don't care码</code>为10 bit。<br>
+对于二进制页大小的写入，地址后的<code>Don't care码</code>为9 bit。</p>
+</blockquote>
+<p><img src="./%E7%BC%93%E5%86%B2%E5%8C%BA%E5%86%99%E5%85%A5%E4%B8%BB%E5%AD%98%E5%82%A8%E5%99%A8%E5%91%BD%E4%BB%A4%E6%97%B6%E5%BA%8F.png" alt="指定缓冲区写入主存储器命令时序(二进制页大小)"></p>
+<ul>
+<li>83H用于Buffer 1写入主存储器，</li>
+<li>86H用于Buffer 2写入主存储器。</li>
+</ul>
+<blockquote>
+<p>对于标准页大小的写入，地址前的<code>Don't care码</code>为2 bit。<br>
+对于二进制页大小的写入，地址前的<code>Don't care码</code>为3 bit。</p>
+<ul>
+<li>若是标准页大小，此时地址为12个页面地址位（PA11-PA0）。</li>
+<li>若是二进制页大小，此时地址为12个页面地址位（PA11-PA0）。</li>
+</ul>
+<p>对于标准页大小的写入，地址后的<code>Don't care码</code>为10 bit。<br>
+对于二进制页大小的写入，地址后的<code>Don't care码</code>为9 bit。</p>
+</blockquote>
+<h3 id="通过缓存写入主存储器-82H、85H">通过缓存写入主存储器 82H、85H</h3>
+<p>即执行<br>
+数据写入缓冲区、<br>
+擦除主存储器指定页并将缓冲区数据写入、<br>
+二者结合起来。<br>
+在缓冲区写入主存储器过程中，状态寄存器和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">D</mi><mi mathvariant="normal">Y</mi><mi mathvariant="normal">/</mi><mover accent="true"><mrow><mi mathvariant="normal">B</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">Y</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{RDY/\overline{BUSY}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1333em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">RDY/</span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.025em;">BUSY</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span></span>指示正忙。<br>
+缓冲区写入主存储器执行时间不长于17ms，典型时间为40ms。</p>
+<ul>
+<li>82H用于写入Buffer 1，</li>
+<li>85H用于写入Buffer 2。</li>
+</ul>
+<blockquote>
+<p>对于标准页大小的写入，地址前的<code>Don't care码</code>为2 bit。<br>
+对于二进制页大小的写入，地址前的<code>Don't care码</code>为3 bit。</p>
+<ul>
+<li>
+<p>若是标准页大小，此时地址为</p>
+<ul>
+<li>12个页面地址位（PA11-PA0）</li>
+<li>+ 写入缓冲区字节地址(10 bit)</li>
+</ul>
+</li>
+<li>
+<p>若是二进制页大小，此时地址为</p>
+<ul>
+<li>12个页面地址位（PA11-PA0）</li>
+<li>+ 写入缓冲区字节地址(9 bit)</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>两种页大小地址后都没有<code>Don't care码</code></p>
+</blockquote>
+<blockquote>
+<p>跟在地址后的是要写入的数据。</p>
+</blockquote>
+<p>当<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">C</mi><mi mathvariant="normal">S</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{CS}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">CS</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>引脚上升沿后（写入缓冲区完成），<br>
+该部件将首先将主存储器中的所选页面擦除为全部1，<br>
+然后将存储在缓冲器中的数据写到该存储器页面中。</p>
+<blockquote>
+<p>当写入到达缓冲区的末尾时，Flash将继续从缓冲区开头写入。</p>
+</blockquote>
+<h3 id="自动页面重写-APR-58H、59H">自动页面重写(APR) 58H、59H</h3>
+<p>一般情况下，<br>
+往主存储器写入一页数据需要先往缓冲区写入，<br>
+再让缓冲区数据写入主存储器。</p>
+<p>但实际上这只适合按顺序写入，即依次逐页地写入。</p>
+<p>如果需要频繁地随机写入某页，<br>
+这种做法不仅耗时长，而且可能会使其它页的数据发生错误。<br>
+（这个和NOR flash性质有关）</p>
+<blockquote>
+<p>该芯片手册要求扇区中的每个页，<br>
+必须在该扇区中每10000次累积页面擦除/编程操作中至少更新/重写一次，<br>
+以确保数据不发生错误。</p>
+</blockquote>
+<p>APR就是将主存储器指定页的数据写到缓冲区中，然后再写回去。<br>
+在执行过程中，状态寄存器和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">D</mi><mi mathvariant="normal">Y</mi><mi mathvariant="normal">/</mi><mover accent="true"><mrow><mi mathvariant="normal">B</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">Y</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{RDY/\overline{BUSY}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1333em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">RDY/</span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.025em;">BUSY</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span></span>指示正忙。</p>
+<ul>
+<li>58H用于Buffer 1，</li>
+<li>89H用于Buffer 2。</li>
+</ul>
+<blockquote>
+<p>对于标准页大小的写入，地址前的<code>Don't care码</code>为2 bit。<br>
+对于二进制页大小的写入，地址前的<code>Don't care码</code>为3 bit。</p>
+<ul>
+<li>两种页大小对应的地址都是12 bit</li>
+</ul>
+<p>对于标准页大小的写入，地址后的<code>Don't care码</code>为10 bit。<br>
+对于二进制页大小的写入，地址后的<code>Don't care码</code>为9 bit。</p>
+</blockquote>
+<hr>
+<h2 id="擦除">擦除</h2>
+<h3 id="主存储器页擦除-81H">主存储器页擦除 81H</h3>
+<p>在执行过程中，状态寄存器和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">D</mi><mi mathvariant="normal">Y</mi><mi mathvariant="normal">/</mi><mover accent="true"><mrow><mi mathvariant="normal">B</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">Y</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{RDY/\overline{BUSY}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1333em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">RDY/</span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.025em;">BUSY</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span></span>指示正忙。<br>
+擦除页执行时间不长于35ms，典型时间为15ms。</p>
+<blockquote>
+<p>对于标准页大小的擦除，地址前的<code>Don't care码</code>为2 bit。<br>
+对于二进制页大小的擦除，地址前的<code>Don't care码</code>为3 bit。</p>
+<ul>
+<li>两种页大小的地址皆为12个地址位（PA11-PA0）。</li>
+</ul>
+<p>对于标准页大小的擦除，地址后的<code>Don't care码</code>为10 bit。<br>
+对于二进制页大小的擦除，地址后的<code>Don't care码</code>为9 bit。</p>
+</blockquote>
+<h3 id="块擦除-50H">块擦除 50H</h3>
+<p>一块的大小是8页。</p>
+<p>在执行过程中，状态寄存器和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">D</mi><mi mathvariant="normal">Y</mi><mi mathvariant="normal">/</mi><mover accent="true"><mrow><mi mathvariant="normal">B</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">Y</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{RDY/\overline{BUSY}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1333em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">RDY/</span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.025em;">BUSY</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span></span>指示正忙。<br>
+擦除块执行时间不长于100ms，典型时间为45ms。</p>
+<blockquote>
+<p>对于标准页大小的擦除，地址前的<code>Don't care码</code>为2 bit。<br>
+对于二进制页大小的擦除，地址前的<code>Don't care码</code>为3 bit。</p>
+<ul>
+<li>两种块地址都为9个地址位。</li>
+</ul>
+<p>对于标准页大小的擦除，地址后的<code>Don't care码</code>为13 bit。<br>
+对于二进制页大小的擦除，地址后的<code>Don't care码</code>为12 bit。</p>
+</blockquote>
+<h3 id="扇区擦除-7CH">扇区擦除 7CH</h3>
+<p>一个扇区的大小是256页。</p>
+<p>在执行过程中，状态寄存器和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">D</mi><mi mathvariant="normal">Y</mi><mi mathvariant="normal">/</mi><mover accent="true"><mrow><mi mathvariant="normal">B</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">Y</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{RDY/\overline{BUSY}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1333em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">RDY/</span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.025em;">BUSY</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span></span>指示正忙。<br>
+擦除块执行时间不长于5s，典型时间为1.6s。</p>
+<blockquote>
+<p>对于标准页大小的擦除，</p>
+<ul>
+<li>
+<p>如果是0a或0b扇区</p>
+<ul>
+<li>地址前的<code>Don't care码</code>为2 bit。</li>
+<li>地址为9个页面地址位。</li>
+<li>地址后的<code>Don't care码</code>为13 bit。</li>
+</ul>
+</li>
+<li>
+<p>如果是01~15扇区</p>
+<ul>
+<li>地址前的<code>Don't care码</code>为2 bit。</li>
+<li>地址为4个扇区地址位。</li>
+<li>地址后的<code>Don't care码</code>为18 bit。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>对于二进制页大小的擦除，</p>
+<ul>
+<li>
+<p>如果是0a或0b扇区</p>
+<ul>
+<li>地址前的<code>Don't care码</code>为3 bit。</li>
+<li>地址为9个页面地址位。</li>
+<li>地址后的<code>Don't care码</code>为12 bit。</li>
+</ul>
+</li>
+<li>
+<p>如果是01~15扇区</p>
+<ul>
+<li>地址前的<code>Don't care码</code>为3 bit。</li>
+<li>地址为4个扇区地址位。</li>
+<li>地址后的<code>Don't care码</code>为17 bit。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="整芯擦除-C7H-94H-80H-9AH">整芯擦除 C7H_94H_80H_9AH</h3>
+<p><img src="./%E8%8A%AF%E7%89%87%E6%93%A6%E9%99%A4%E6%8C%87%E4%BB%A4%E6%97%B6%E5%BA%8F.png" alt="芯片擦除指令时序"></p>
+<p>执行芯片擦除命令，命令序列为4字节：C7H、94H、80H和9AH。<br>
+由于要擦除整个存储器阵列，因此不需要将地址字节，<br>
+并且在操作码之后计时的任何数据都将被忽略。</p>
+<p>当<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">C</mi><mi mathvariant="normal">S</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{CS}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">CS</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>上升沿后开始擦除，<br>
+在执行过程中，状态寄存器和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">D</mi><mi mathvariant="normal">Y</mi><mi mathvariant="normal">/</mi><mover accent="true"><mrow><mi mathvariant="normal">B</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">Y</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{RDY/\overline{BUSY}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1333em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">RDY/</span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.025em;">BUSY</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span></span>指示正忙。<br>
+片擦除命令不会影响受保护或锁定的扇区。</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">W</mi><mi mathvariant="normal">P</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{WP}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">WP</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>引脚可以在设备擦除时被置低，<br>
+但在内部擦除周期完成之前，保护不会被激活。</p>
+<hr>
+<h1>Flash操作的说明</h1>
+<p>Flash操作可分为四类。</p>
+<p>A 组：</p>
+<ol>
+<li>主存储器页读取</li>
+<li>连续阵列读取</li>
+<li>读取扇区保护寄存器</li>
+<li>读取扇区锁定寄存器</li>
+<li>读取安全寄存器</li>
+</ol>
+<p>B 组包括：</p>
+<ol>
+<li>页擦除</li>
+<li>块擦除</li>
+<li>扇区擦除</li>
+<li>芯片擦除</li>
+<li>主内存页到Buffer 1（或 2）传输</li>
+<li>主存储器页到Buffer 1（或 2）比较</li>
+<li>Buffer 1（或 2）至主存储器页写入（带内置擦除）</li>
+<li>Buffer 1（或 2）至主存储器页程序（无内置擦除）</li>
+<li>通过Buffer 1（或 2）进行主存储器页写入</li>
+<li>自动页重写</li>
+</ol>
+<p>C 组包括：</p>
+<ol>
+<li>Buffer 1（或 2）读</li>
+<li>Buffer 1（或 2）写</li>
+<li>状态寄存器读</li>
+<li>制造商和Flash ID 读取</li>
+</ol>
+<p>D 组包括：</p>
+<ol>
+<li>擦除扇区保护寄存器</li>
+<li>对扇区保护寄存器写入</li>
+<li>扇区锁定</li>
+<li>写入安全寄存器</li>
+</ol>
+<blockquote>
+<p>如果 A 组操作正在执行中（未全部完成），则不应启动 A、B、C 或 D 组中的另一个操作。<br>
+在 B 组操作的内部自定时部分，可以执行 C 组中的任何操作。<br>
+使用Buffer 1 的 B 组命令应使用Buffer 2 的 C 组操作，反之亦然。<br>
+最后，在 D 组操作的内部自定时部分，只能执行状态寄存器读取操作。</p>
+</blockquote>
+<h2 id="操作对应命令">操作对应命令</h2>
+<p>读操作：</p>
+<blockquote>
+<ul>
+<li>主存储器页读取 D2H</li>
+<li>连续阵列读取（传统命令） E8H</li>
+<li>连续阵列读取（低频） 03H</li>
+<li>连续阵列读取（高频） 0BH</li>
+<li>Buffer 1 读取（低频） D1H</li>
+<li>Buffer 2 读取（低频） D3H</li>
+<li>Buffer 1 读取 D4H</li>
+<li>Buffer 2 读取 D6H</li>
+</ul>
+</blockquote>
+<p>写操作：</p>
+<blockquote>
+<ul>
+<li>Buffer 1 写入 84H</li>
+<li>Buffer 2 写入 87H</li>
+<li>Buffer 1 至有内置擦除功能的主存储器页程序 83H</li>
+<li>Buffer 2 至有内置擦除功能的主存储器页程序 86H</li>
+<li>Buffer 1 至无内置擦除功能的主存储器页程序 88H</li>
+<li>Buffer 2 至无内置擦除功能的主存储器页程序 89H</li>
+<li>页擦除 81H</li>
+<li>块擦除 50H</li>
+<li>扇区擦除 7CH</li>
+<li>芯片擦除 C7H、94H、80H、9AH</li>
+<li>通过Buffer 1 执行主存储器页程序 82H</li>
+<li>通过Buffer 2 执行主存储器页程序 85H</li>
+</ul>
+</blockquote>
+<p>保护与安全命令：</p>
+<blockquote>
+<ul>
+<li>启用扇区保护 3DH + 2AH + 7FH + A9H</li>
+<li>禁用扇区保护 3DH + 2AH + 7FH + 9AH</li>
+<li>擦除扇区保护寄存器 3DH + 2AH + 7FH + CFH</li>
+<li>写入扇区保护寄存器 3DH + 2AH + 7FH + FCH</li>
+<li>读取扇区保护寄存器 32H</li>
+<li>扇区锁定 3DH + 2AH + 7FH + 30H</li>
+<li>读取扇区锁定寄存器 35H</li>
+<li>写入安全寄存器 9BH + 00H + 00H + 00H</li>
+<li>读取安全寄存器 77H</li>
+</ul>
+</blockquote>
+<p>额外命令：</p>
+<blockquote>
+<ul>
+<li>主存储器页到Buffer 1 传输 53H</li>
+<li>主存储器页到Buffer 2 传输 55H</li>
+<li>主存储器页到Buffer 1 比较 60H</li>
+<li>主存储器页到Buffer 2 比较 61H</li>
+<li>通过Buffer 1 自动重写页 58H</li>
+<li>通过Buffer 2 自动重写页 59H</li>
+<li>Deep Power-down B9H</li>
+<li>从深度掉电恢复 ABH</li>
+<li>状态寄存器读取 D7H</li>
+<li>制造商和Flash ID 读取 9FH</li>
+</ul>
+</blockquote>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></div><div class="post_share"><div class="social-share" data-image="/private_img/cover.svg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/01/25/TI_DSP_C2000%E7%B3%BB%E5%88%97%E5%BA%94%E5%BD%93%E6%B3%A8%E6%84%8F%E7%9A%84%E9%97%AE%E9%A2%98/" title="TI_DSP_C2000系列应当注意的问题"><img class="cover" src="/private_img/cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">TI_DSP_C2000系列应当注意的问题</div></div></a></div><div class="next-post pull-right"><a href="/2024/03/09/CPLD_%E6%A6%82%E8%BF%B0/" title="CPLD_概述"><img class="cover" src="/private_img/cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CPLD_概述</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/03/09/CPLD_%E6%A6%82%E8%BF%B0/" title="CPLD_概述"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-09</div><div class="title">CPLD_概述</div></div></a></div><div><a href="/2023/10/21/DSP%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="DSP基本概念"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-21</div><div class="title">DSP基本概念</div></div></a></div><div><a href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E5%88%9B%E5%BB%BAC%E8%AF%AD%E8%A8%80_%E5%87%BD%E6%95%B0%E5%8E%9F%E5%9E%8B%E4%B8%8E%E4%BC%A0%E5%8F%82%E6%8E%A7%E5%88%B6/" title="Simulink模型创建C语言_函数原型与传参控制"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-21</div><div class="title">Simulink模型创建C语言_函数原型与传参控制</div></div></a></div><div><a href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90C%E8%AF%AD%E8%A8%80_%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" title="Simulink模型生成C语言_基础概念"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-21</div><div class="title">Simulink模型生成C语言_基础概念</div></div></a></div><div><a href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E5%88%9B%E5%BB%BAC%E8%AF%AD%E8%A8%80_%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Simulink模型创建C语言_数据类型"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-21</div><div class="title">Simulink模型创建C语言_数据类型</div></div></a></div><div><a href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90C%E8%AF%AD%E8%A8%80_%E5%AD%90%E7%B3%BB%E7%BB%9F/" title="Simulink模型生成C语言_子系统"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-21</div><div class="title">Simulink模型生成C语言_子系统</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/private_img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">YILON</div><div class="author-info__description">YILON的技术小窝</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">84</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YILON"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E6%80%A7"><span class="toc-number">1.1.</span> <span class="toc-text">特性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">封装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">主要引脚</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">存储结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E8%AF%B4%E6%98%8E"><span class="toc-number">4.1.</span> <span class="toc-text">地址说明</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">Flash基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E6%93%8D%E4%BD%9C"><span class="toc-number">5.1.</span> <span class="toc-text">读操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E7%BB%AD%E9%98%B5%E5%88%97%E8%AF%BB%E5%8F%96-E8H-%E4%BC%A0%E7%BB%9F%E6%8C%87%E4%BB%A4%EF%BC%8C%E6%9C%80%E9%AB%9866MHz"><span class="toc-number">5.1.1.</span> <span class="toc-text">连续阵列读取 E8H(传统指令，最高66MHz)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E7%BB%AD%E9%98%B5%E5%88%97%E8%AF%BB%E5%8F%96-0BH-%E9%AB%98%E9%A2%91%E6%8C%87%E4%BB%A4%EF%BC%8C%E6%9C%80%E9%AB%9866MHz"><span class="toc-number">5.1.2.</span> <span class="toc-text">连续阵列读取 0BH(高频指令，最高66MHz)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E7%BB%AD%E9%98%B5%E5%88%97%E8%AF%BB%E5%8F%96-03H-%E4%BD%8E%E9%A2%91%E6%8C%87%E4%BB%A4%EF%BC%8C%E6%9C%80%E9%AB%9833MHz"><span class="toc-number">5.1.3.</span> <span class="toc-text">连续阵列读取 03H(低频指令，最高33MHz)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%AD%98%E5%82%A8%E5%99%A8%E9%A1%B5%E8%AF%BB%E5%8F%96-D2H"><span class="toc-number">5.1.4.</span> <span class="toc-text">主存储器页读取 D2H</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%86%B2%E5%8C%BA%E8%AF%BB%E5%8F%96-D4H%E3%80%81D1H%E3%80%81D6H%E3%80%81D3H"><span class="toc-number">5.1.5.</span> <span class="toc-text">缓冲区读取  D4H、D1H、D6H、D3H</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%AD%98%E5%82%A8%E5%99%A8%E8%AF%BB%E5%88%B0%E7%BC%93%E5%86%B2%E5%8C%BA-53H%E3%80%8155H"><span class="toc-number">5.1.6.</span> <span class="toc-text">主存储器读到缓冲区 53H、55H</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E6%93%8D%E4%BD%9C"><span class="toc-number">5.2.</span> <span class="toc-text">写操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%86%B2%E5%8C%BA%E5%86%99%E5%85%A5-84H%E3%80%8187H"><span class="toc-number">5.2.1.</span> <span class="toc-text">缓冲区写入 84H、87H</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%86%85%E7%BD%AE%E6%93%A6%E9%99%A4%E5%8A%9F%E8%83%BD%E7%9A%84%E7%BC%93%E5%86%B2%E5%8C%BA%E5%88%B0%E4%B8%BB%E5%AD%98%E5%82%A8%E5%99%A8-83H%E3%80%8186H"><span class="toc-number">5.2.2.</span> <span class="toc-text">带内置擦除功能的缓冲区到主存储器 83H、86H</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E5%B8%A6%E5%86%85%E7%BD%AE%E6%93%A6%E9%99%A4%E5%8A%9F%E8%83%BD%E7%9A%84%E7%BC%93%E5%86%B2%E5%8C%BA%E5%88%B0%E4%B8%BB%E5%AD%98%E5%82%A8%E5%99%A8-88H%E3%80%8189H"><span class="toc-number">5.2.3.</span> <span class="toc-text">不带内置擦除功能的缓冲区到主存储器 88H、89H</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E7%BC%93%E5%AD%98%E5%86%99%E5%85%A5%E4%B8%BB%E5%AD%98%E5%82%A8%E5%99%A8-82H%E3%80%8185H"><span class="toc-number">5.2.4.</span> <span class="toc-text">通过缓存写入主存储器 82H、85H</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E9%A1%B5%E9%9D%A2%E9%87%8D%E5%86%99-APR-58H%E3%80%8159H"><span class="toc-number">5.2.5.</span> <span class="toc-text">自动页面重写(APR) 58H、59H</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%A6%E9%99%A4"><span class="toc-number">5.3.</span> <span class="toc-text">擦除</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%AD%98%E5%82%A8%E5%99%A8%E9%A1%B5%E6%93%A6%E9%99%A4-81H"><span class="toc-number">5.3.1.</span> <span class="toc-text">主存储器页擦除 81H</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9D%97%E6%93%A6%E9%99%A4-50H"><span class="toc-number">5.3.2.</span> <span class="toc-text">块擦除 50H</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%87%E5%8C%BA%E6%93%A6%E9%99%A4-7CH"><span class="toc-number">5.3.3.</span> <span class="toc-text">扇区擦除 7CH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E8%8A%AF%E6%93%A6%E9%99%A4-C7H-94H-80H-9AH"><span class="toc-number">5.3.4.</span> <span class="toc-text">整芯擦除 C7H_94H_80H_9AH</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">Flash操作的说明</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E5%AF%B9%E5%BA%94%E5%91%BD%E4%BB%A4"><span class="toc-number">6.1.</span> <span class="toc-text">操作对应命令</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/11/TI_DSP_TMS320F2812_%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%8E%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" title="TI_DSP_TMS320F2812_存储空间与启动过程"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_存储空间与启动过程"/></a><div class="content"><a class="title" href="/2023/11/11/TI_DSP_TMS320F2812_%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%8E%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" title="TI_DSP_TMS320F2812_存储空间与启动过程">TI_DSP_TMS320F2812_存储空间与启动过程</a><time datetime="2024-08-21T06:03:17.038Z" title="更新于 2024-08-21 14:03:17">2024-08-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/22/TI_DSP_TMS320F2812_%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F/" title="TI_DSP_TMS320F2812_中断系统"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_中断系统"/></a><div class="content"><a class="title" href="/2023/10/22/TI_DSP_TMS320F2812_%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F/" title="TI_DSP_TMS320F2812_中断系统">TI_DSP_TMS320F2812_中断系统</a><time datetime="2024-08-12T03:16:29.587Z" title="更新于 2024-08-12 11:16:29">2024-08-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/11/TI_DSP_TMS320F2812_CCS%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="TI_DSP_TMS320F2812_CCS工作流"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_CCS工作流"/></a><div class="content"><a class="title" href="/2023/11/11/TI_DSP_TMS320F2812_CCS%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="TI_DSP_TMS320F2812_CCS工作流">TI_DSP_TMS320F2812_CCS工作流</a><time datetime="2024-06-03T08:25:21.750Z" title="更新于 2024-06-03 16:25:21">2024-06-03</time></div></div></div></div></div></div></main><footer id="footer" style="background: #20124d"><div id="footer-wrap"><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

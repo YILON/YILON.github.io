@@ -1,0 +1,651 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Lattice_Diamond使用教程 | YILON</title><meta name="author" content="YILON"><meta name="copyright" content="YILON"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="本文基于Lattice官网的Lattice Diamond3.13使用教程，仅供学习使用。  该教程针对MachXO3L器件系列的VHDL和Verilog混合设计的所有基本步骤。  官方例程源码结构 官方源码(Verilog和VHDL代码)例程位置： diamond_install_directory&#x2F;docs&#x2F;tutorial&#x2F;Diamond_tutorial  1234567891011121">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lattice_Diamond使用教程">
+<meta property="og:url" content="http://example.com/2024/04/06/Lattice_Diamond%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="YILON">
+<meta property="og:description" content="本文基于Lattice官网的Lattice Diamond3.13使用教程，仅供学习使用。  该教程针对MachXO3L器件系列的VHDL和Verilog混合设计的所有基本步骤。  官方例程源码结构 官方源码(Verilog和VHDL代码)例程位置： diamond_install_directory&#x2F;docs&#x2F;tutorial&#x2F;Diamond_tutorial  1234567891011121">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/private_img/cover.svg">
+<meta property="article:published_time" content="2024-04-06T03:05:25.000Z">
+<meta property="article:modified_time" content="2024-06-03T07:28:49.738Z">
+<meta property="article:author" content="YILON">
+<meta property="article:tag" content="FPGA">
+<meta property="article:tag" content="Lattice Diamond">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/private_img/cover.svg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/04/06/Lattice_Diamond%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Lattice_Diamond使用教程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-06-03 15:28:49'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/private_img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">84</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/private_img/cover.svg')"><nav id="nav"><span id="blog-info"><a href="/" title="YILON"><span class="site-name">YILON</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Lattice_Diamond使用教程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-06T03:05:25.000Z" title="发表于 2024-04-06 11:05:25">2024-04-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-06-03T07:28:49.738Z" title="更新于 2024-06-03 15:28:49">2024-06-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/FPGA/">FPGA</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Lattice_Diamond使用教程"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>本文基于Lattice官网的<a target="_blank" rel="noopener" href="https://www.latticesemi.com/view_document?document_id=53952">Lattice Diamond3.13使用教程</a>，仅供学习使用。</p>
+<blockquote>
+<p>该教程针对MachXO3L器件系列的VHDL和Verilog混合设计的所有基本步骤。</p>
+</blockquote>
+<h1>官方例程源码结构</h1>
+<p>官方源码(Verilog和VHDL代码)例程位置：<br>
+<kbd>diamond_install_directory/docs/tutorial/Diamond_tutorial</kbd></p>
+<p><img src="./%E4%BE%8B%E7%A8%8B%E7%BB%93%E6%9E%84.png" alt="例程结构"></p>
+<figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--count8.vhd</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span> IEEE;</span><br><span class="line"><span class="keyword">use</span> IEEE.std_logic_1164.<span class="keyword">all</span>;</span><br><span class="line"><span class="keyword">use</span> IEEE.numeric_std.<span class="keyword">all</span>;</span><br><span class="line"><span class="keyword">use</span> work.typepackage.<span class="keyword">all</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">entity</span> count8 <span class="keyword">is</span></span><br><span class="line">  <span class="keyword">port</span> (</span><br><span class="line">  clk: <span class="keyword">in</span> <span class="built_in">std_logic</span>;</span><br><span class="line">  reset: <span class="keyword">in</span> <span class="built_in">std_logic</span>;</span><br><span class="line">  direction: <span class="keyword">in</span> <span class="built_in">std_logic</span>;</span><br><span class="line">  count: <span class="keyword">out</span> <span class="built_in">std_logic_vector</span>(<span class="number">7</span> <span class="keyword">downto</span> <span class="number">0</span>));</span><br><span class="line"><span class="keyword">end</span> count8;</span><br><span class="line"></span><br><span class="line"><span class="keyword">architecture</span> rtl <span class="keyword">of</span> count8 <span class="keyword">is</span></span><br><span class="line">  <span class="keyword">signal</span> countai: std8s;</span><br><span class="line">  <span class="keyword">signal</span> countbi: std8t;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  main1: <span class="keyword">process</span> (clk, reset)</span><br><span class="line">  <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span> (reset = <span class="string">&#x27;1&#x27;</span>) <span class="keyword">then</span></span><br><span class="line">      countai &lt;= <span class="string">&quot;00000000&quot;</span>;</span><br><span class="line">      countbi &lt;= <span class="string">&quot;00000000&quot;</span>;</span><br><span class="line">    <span class="keyword">elsif</span> (clk<span class="symbol">&#x27;event</span> <span class="keyword">and</span> clk = <span class="string">&#x27;1&#x27;</span>) <span class="keyword">then</span></span><br><span class="line">      <span class="keyword">if</span> (direction = <span class="string">&#x27;1&#x27;</span>) <span class="keyword">then</span></span><br><span class="line">        countai &lt;= std8s(<span class="built_in">unsigned</span>(countai) + <span class="number">1</span>);</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">        countai &lt;= std8s(<span class="built_in">unsigned</span>(countai) - <span class="number">1</span>);</span><br><span class="line">      <span class="keyword">end</span> <span class="keyword">if</span>;</span><br><span class="line">      countbi &lt;= std8st(countai);</span><br><span class="line">      count &lt;= std8ts(countbi);</span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">if</span>;</span><br><span class="line">  <span class="keyword">end</span> <span class="keyword">process</span>;</span><br><span class="line"><span class="keyword">end</span> rtl; </span><br></pre></td></tr></table></figure>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//count32.v</span></span><br><span class="line"><span class="keyword">module</span> count32(	clk,</span><br><span class="line">				direction,</span><br><span class="line">				reset,</span><br><span class="line">				count</span><br><span class="line">				);</span><br><span class="line">				</span><br><span class="line">  <span class="keyword">input</span> clk, direction,reset;</span><br><span class="line">  <span class="keyword">output</span> <span class="keyword">reg</span> [<span class="number">31</span>:<span class="number">0</span>] count;</span><br><span class="line">  <span class="keyword">reg</span> [<span class="number">31</span>:<span class="number">0</span>] countai; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">always</span>@(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">posedge</span> reset)</span><br><span class="line">  <span class="keyword">begin</span> </span><br><span class="line">	<span class="keyword">if</span>(reset) <span class="keyword">begin</span></span><br><span class="line">		countai &lt;= <span class="number">31&#x27;b0</span>;</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">		<span class="keyword">if</span>(direction) countai &lt;= countai + <span class="number">1&#x27;b1</span>;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">			countai &lt;= countai - <span class="number">1&#x27;b1</span>; </span><br><span class="line">		<span class="keyword">end</span></span><br><span class="line">	count &lt;= countai;</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"> <span class="keyword">endmodule</span> </span><br></pre></td></tr></table></figure>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//topcount.v</span></span><br><span class="line"><span class="keyword">module</span> topcount (<span class="keyword">input</span>	reset,</span><br><span class="line">				 <span class="keyword">input</span>	direction,</span><br><span class="line">				 <span class="keyword">output</span> LOCK, </span><br><span class="line">				 <span class="keyword">output</span> [<span class="number">7</span>:<span class="number">0</span>]count3t, </span><br><span class="line">				 <span class="keyword">output</span> [<span class="number">31</span>:<span class="number">0</span>]count2t</span><br><span class="line">				);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">wire</span> [<span class="number">2</span>:<span class="number">0</span>] countt;</span><br><span class="line">	<span class="keyword">reg</span> directionR;</span><br><span class="line">	<span class="keyword">wire</span> CLKOP, clk_1Hz;</span><br><span class="line">	<span class="keyword">wire</span> [<span class="number">31</span>:<span class="number">0</span>] count2t_o;</span><br><span class="line">	<span class="keyword">wire</span> [<span class="number">31</span>:<span class="number">0</span>] countt_o;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">assign</span> count2t = count2t_o;</span><br><span class="line">	</span><br><span class="line">	OSCH OSCinst0 (<span class="variable">.STDBY</span>(<span class="number">1&#x27;b0</span>), <span class="variable">.OSC</span>(clk), <span class="variable">.SEDSTDBY</span>());</span><br><span class="line">	<span class="keyword">defparam</span> OSCinst0<span class="variable">.NOM_FREQ</span> = <span class="string">&quot;20.46&quot;</span>;</span><br><span class="line">	</span><br><span class="line">	my_pll my_pll_inst (<span class="variable">.CLKI</span>(clk), <span class="variable">.CLKOP</span>(CLKOP), <span class="variable">.LOCK</span>(LOCK));</span><br><span class="line">	</span><br><span class="line">	count8 counter1 (CLKOP, reset, directionR, count3t);</span><br><span class="line">	count32 counter2 (CLKOP, directionR, reset, count2t_o);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">always</span> @(<span class="keyword">posedge</span> CLKOP )<span class="keyword">begin</span></span><br><span class="line">		directionR &lt;= direction;</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line">	</span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// testbench.v</span></span><br><span class="line"><span class="meta">`<span class="keyword">timescale</span> 1 ns / 1 ns</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> testbench;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">parameter</span> CLOCK_CYCLE = <span class="number">10</span>;</span><br><span class="line">	<span class="keyword">wire</span> [<span class="number">7</span>:<span class="number">0</span>] count2;</span><br><span class="line">	<span class="keyword">wire</span> [<span class="number">7</span>:<span class="number">0</span>] count3;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">reg</span> clk, reset, direction; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> topcount topcount_inst(<span class="variable">.reset</span>(reset), <span class="variable">.direction</span>(direction), <span class="variable">.count3t</span>(count3), <span class="variable">.count2t</span>(count2));</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">		clk = <span class="number">1&#x27;b1</span>;</span><br><span class="line">		reset = <span class="number">1&#x27;b0</span>;</span><br><span class="line">		direction = <span class="number">1&#x27;b1</span>;</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// 100MHz clock generation </span></span><br><span class="line">	<span class="keyword">always</span></span><br><span class="line">		<span class="variable">#(CLOCK_CYCLE/2.0)</span> clk = ~clk;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">initial</span> <span class="keyword">begin</span>		</span><br><span class="line">		<span class="variable">#(10*CLOCK_CYCLE)</span>;</span><br><span class="line">		<span class="variable">#(0.3*CLOCK_CYCLE)</span> reset = <span class="number">1&#x27;b1</span>;</span><br><span class="line">		<span class="variable">#(10*CLOCK_CYCLE)</span> reset = <span class="number">1&#x27;b0</span>;	</span><br><span class="line">		</span><br><span class="line">		<span class="variable">#(500*CLOCK_CYCLE)</span> <span class="built_in">$finish</span>;</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line">	</span><br><span class="line"><span class="keyword">endmodule</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1>创建Project</h1>
+<p>按软件引导设置projec名与位置。</p>
+<p>注意事项：</p>
+<blockquote>
+<p>Project与其目录名只能为字母、数字、下划线的组合。</p>
+</blockquote>
+<p>project配置硬件信息：</p>
+<blockquote>
+<p>Family: MachXO3L<br>
+Device: LCMXO3L-6900C<br>
+Performance grade: 5<br>
+Package type: CABGA256<br>
+Operating conditions: Commercial</p>
+</blockquote>
+<p>在本教程中，选择使用<kbd>Synplify Pro</kbd>。</p>
+<h2 id="File-List说明">File List说明</h2>
+<p>创建完后，左侧的File List列出了各文件：</p>
+<ul>
+<li>Strategies（策略）：<br>
+策略是控制实现过程中各阶段（综合、映射、放置和布线等）的设置，<br>
+其可控制优化面向速度还是面积，放置和布线的时长，以及许多其他因素。
+<ul>
+<li>区域</li>
+<li>I/O 助理</li>
+<li>快速</li>
+<li>时序</li>
+</ul>
+</li>
+<li>Implementation（实现）：<br>
+定义了项目的设计结构元素，包括源代码、约束文件和调试插入。<br>
+源代码可以混合使用 VHDL、Verilog 和 EDIF。<br>
+文件可以被引用或包含在实现中。<br>
+实现之间可以共享引用文件。
+<ul>
+<li>输入文件：导入的VHDL与Verilog文件存放于此。</li>
+<li>约束文件</li>
+<li>调试文件</li>
+<li>脚本文件</li>
+<li>分析文件</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>可以通过在列表中拖放文件名来调整文件顺序。<br>
+右键单击文件并从弹出菜单中选择 “属性”，即可访问每个文件的属性。</p>
+</blockquote>
+<h2 id="逻辑首选项文件">逻辑首选项文件</h2>
+<p>创建一个新项目时，会自动生成一个逻辑首选项文件<kbd>.lpf</kbd>，并分配与Project相同的名称。<br>
+其中包含了将该设计项目编程到FPGA上所需的所有引脚分配，<br>
+对逻辑约束所做的所有更改都将保存在该文件中。</p>
+<p>在本教程中，提供了一个名为pin_assignments.lpf的逻辑首选项文件，位置在：<br>
+<kbd>diamond_install_directory/docs/tutorial/Diamond_tutorial</kbd><br>
+右键点击LPF Constraint Files即可进行添加，<br>
+添加完毕后右键点击该文件设置为<kbd>Active Preference File</kbd>。</p>
+<h1>testbench选择</h1>
+<p>在input Files文件夹下右键点击所需的testbench文件，选择<kbd>include for &gt; simulation</kbd>。</p>
+<h1>创建一个IPexpress Module</h1>
+<p>Lattice提供了很多IP核以供使用。</p>
+<blockquote>
+<p>根据选择的目标FPGA器件型号不同，会有两种不同的IP核菜单：<br>
+<kbd>IPexpress</kbd>中每一个IP核会生成一个HDL文件用于例化，<br>
+<kbd>Clarity</kbd>是可以将很多个IP核封装在一起，最终自动生成一个HDL文件用于例化。</p>
+</blockquote>
+<p>本教程中以创建一个PLL模块为例。</p>
+<ol>
+<li>点击顶栏的<code>Tool &gt; IPexpress</code>，</li>
+<li>将弹出的窗口最大化（不然很多内容看不到）。在窗口的左侧面板中，选择<code>Module &gt; Architechture_modules &gt; PLL</code>。</li>
+<li>在右侧配置面板中，填写File name和文件类型（Verilog或VHDL）</li>
+<li>点击<kbd>Customize</kbd>，出现新弹窗。</li>
+<li>本教程中，将PLL配置为<code>Frequency Mode</code>，<br>
+配置<code>CLKI Frequency</code>为20；<br>
+配置<code>CLKOP Desired Frequency</code>为80，<code>CLKOP Tolerance</code>为1.0；<br>
+勾选<code>Provide PLL Lock signal</code>；</li>
+<li>点击<kbd>Calculate</kbd></li>
+<li>勾选<kbd>Import IPX to Diamond project</kbd></li>
+<li>点击<kbd>Generate</kbd></li>
+</ol>
+<p>此时便会生成<kbd>.ipx</kbd>文件。</p>
+<h1>仿真</h1>
+<p>在Lattice设计流程中，需要进行三种仿真：</p>
+<ul>
+<li>Before synthesis (RTL)</li>
+<li>Post-map, gate-level</li>
+<li>Post-route, gate-level and timing</li>
+</ul>
+<p>以综合前仿真为例。</p>
+<p>在仿真器方面，本教程使用 Windows 版 Diamond 随附的 Mentor® ModelSim® Lattice FPGA Edition 仿真器。</p>
+<h2 id="进行仿真">进行仿真</h2>
+<p>虽然可以直接启动仿真器，但最好还是创建一个仿真项目，<br>
+以便从 Diamond 运行仿真器。</p>
+<ol>
+<li>选择顶栏<kbd>Tool &gt; Simulation Wizard</kbd>，出现弹窗。</li>
+<li>点击Next，填入仿真项目的名字，勾选所使用的仿真器（Modelsim）。</li>
+<li>点击Next，如果仿真项目的位置是默认的，其会告诉你尚未创建对应文件夹，点击Yes自动创建即可。</li>
+<li>选择所做的仿真类型。</li>
+<li>点击Next，其会自动将各源文件排序（编译顺序）。<br>
+注意ModelSim 不会自动重新排列 VHDL 文件与SystemVerilog 包，因此需要手动将这些类型的源文件进行排序。<br>
+在本教程中，typepackage.vhd应当最先编译，<br>
+因此在源文件列表中，选择 typepackage.vhd，然后单击向上箭头，直到 typepackage.vhd 位于列表顶部。</li>
+<li>点击Next，确认simulation top module 是testbench。</li>
+<li>点击Next，确认<kbd>Run simulator</kbd>、<kbd>Add top-level signals to waveform display</kbd>、<kbd>Run simulation</kbd>被勾选。</li>
+<li>点击Finish。会自动启动Modelsim并自动运行。<br>
+模拟完成后，波形出现。这需要一些时间。<br>
+如果看到 &quot;欢迎使用 ModelSim &quot;对话框，请选择对话框底部的 “不再显示”，<br>
+然后单击 “关闭”。不要单击 “启动”。</li>
+<li>查看 Diamond 窗口中的文件列表视图。在<code>Script Files</code>下，可以看到仿真项目文件夹即仿真文件<kbd>.spf</kbd>。</li>
+</ol>
+<p>双击<kbd>.spf</kbd>文件可以重新运行仿真。<br>
+再次运行时可以直接点<kbd>Skip to end</kbd>跳到引导页面的最后。</p>
+<h2 id="仿真结果">仿真结果</h2>
+<p><img src="./Modelsim%E7%95%8C%E9%9D%A2.png" alt="Modelsim界面"></p>
+<blockquote>
+<ul>
+<li>在波形窗口按住Ctrl键滑动鼠标滚轮可缩放。</li>
+<li>在模块选择窗口点击模块，可看到各模块信号在信号选择窗口上显示。<br>
+在信号选择窗口可直接将信号拖拽进信号监视窗口进行监视（需要重新运行）。</li>
+<li>在顶栏<kbd>simulate &gt; Runtime Options</kbd>可设置若干选项：
+<ul>
+<li>在<kbd>default Radix</kbd>中可选择显示的进制，比如<kbd>Hexadecimal</kbd>是16进制；</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>如果要重新运行，</p>
+<ol>
+<li>先点击<kbd>Simulate &gt; Restart</kbd>,在弹出的窗口选择对应选项，然后点击OK，</li>
+<li>然后点击<kbd>Simulate &gt; Run &gt; Run -All</kbd>，然后会弹出<code>结束询问窗口</code>，切记点击<kbd>No</kbd>。</li>
+<li>再次仿真结束后，会自动打开testbench的源文件，关闭即可。</li>
+</ol>
+<h1>Strategies</h1>
+<p>和Implementations（实现）一样，策略也可以有创建多个，根据需要选择其中一个使用即可。</p>
+<p>双击策略文件可修改对应的设置。</p>
+<p>在本例中，修改<kbd>Synthesize Design &gt; Synplify Pro &gt; Number of Critical Path</kbd>为<code>10</code>.</p>
+<blockquote>
+<p>修改后的值以斜体显示以示区分。</p>
+</blockquote>
+<h1>检查器件资源</h1>
+<p>Diamond 提供可视化工具，帮助了解和记录目标器件的物理资源和资源利用情况。<br>
+综合后，您可以查看计算出的资源利用率。</p>
+<p>要查看器件资源，在顶栏<kbd>Tools &gt; Device View</kbd>中可查看。</p>
+<h1>Synthesis（综合）</h1>
+<p>Diamond集成了两种综合工具：</p>
+<ul>
+<li>Synopsys Synplify Pro for Lattice</li>
+<li>Lattice Synthesis Engine (LSE)</li>
+</ul>
+<p>注意LSE不适用于LatticeEC、LatticeECP、LatticeSC/M或LatticeXP。</p>
+<p>本教程使用Synplify Pro for Lattice来综合在MachXO3L FPGA上的设计。</p>
+<p>要更改合成工具，<br>
+在 Diamond 主窗口中选择 <kbd>Project &gt; Active Implementation &gt; Select Synthesis Tool</kbd>。</p>
+<p>综合设计并检查资源利用率：</p>
+<ol>
+<li>在<kbd>Process</kbd>视图中，双击<kbd>Systhesize Design</kbd>。<br>
+完成后，检查<kbd>Process</kbd>中<kbd>Systhesize Design</kbd>旁边的图标。<br>
+绿色复选标记表示成功；<br>
+黄色三角形表示成功并带有警告；<br>
+红色 X 表示失败。</li>
+<li>单击 <kbd>Hierarchy—Post Synthesis Resources tab</kbd>选项卡，<br>
+此视图显示设计各层次的逻辑资源数量。<br>
+资源数据中，括号外的数据表示使用的总数，括号内的数据表示这一层级使用的数量。</li>
+</ol>
+<h1>设置时序与端口分配</h1>
+<p>时序和端口分配对逻辑综合以及后端映射和布局布线程序进行约束，以满足设计要求。<br>
+约束良好的设计有助于优化算法尽可能高效地工作。</p>
+<ol>
+<li>在<kbd>Process</kbd>视图中，双击<kbd>Translate Design</kbd>。</li>
+<li>选择<kbd>Tool &gt; Spreadsheet View</kbd>，出现电子表格视图。<br>
+电子表格视图是多个首选项编辑器之一，可用于为布局布线工具定义时序、I/O 和平面图约束。</li>
+<li>单击电子表格视图工具栏上的<kbd>PERIOD/FREQUENCY Preference</kbd>，弹出窗口。</li>
+<li>在弹出的窗口左侧有一排按钮（可能会很小），<br>
+点击其<kbd>PERIOD/FREQUENCY Preference</kbd>按钮（绿色连续脉冲的样式），弹出相关窗口。</li>
+<li>在窗口中选择/输入相关信息：
+<ul>
+<li>Type: FREQUENCY</li>
+<li>Second Type: Net</li>
+<li>Available Clock Nets: CLKOP</li>
+<li>Frequency: 80<br>
+选择完毕后点OK。</li>
+</ul>
+</li>
+<li>此时当前窗口会切换到<kbd>Timeing Preferences</kbd>子页面（在窗口下方可看到各子页面选项），<br>
+其中显示我们定义了<code>FREQUENCY</code>的相关信息，这些信息可直接在上面修改。</li>
+<li>点击左侧按钮栏的<kbd>INPUT_SETUP/CLOCK_TO_OUT Preference</kbd>，出现对应窗口。</li>
+<li>在窗口中选择/输入相关信息：
+<ul>
+<li>Type: INPUT_SETUP</li>
+<li>Second Type: ALL ports</li>
+<li>Clock Ports/Nets: clk</li>
+<li>Time: 50</li>
+<li>Hold time: 12<br>
+选择完毕后点OK。</li>
+</ul>
+</li>
+<li>此时<kbd>Timeing Preferences</kbd>子页面新增我们定义的<code>INPUT_SETUP</code>的相关信息。</li>
+<li>右键点击上面提到的<code>INPUT_SETUP</code>，选择<kbd>New INPUT_SETUP</kbd>，弹出对应窗口。</li>
+<li>在窗口中选择/输入相关信息：
+<ul>
+<li>Type: INPUT_SETUP</li>
+<li>Second Type: Individual ports</li>
+<li>Available Input Ports: reset</li>
+<li>Clock Ports/Nets: clk</li>
+<li>Time: 50<br>
+选择完毕后点OK。</li>
+</ul>
+</li>
+<li>此时<kbd>Timeing Preferences</kbd>子页面新增我们定义的<code>INPUT_SETUP</code>的相关信息。</li>
+</ol>
+<p><img src="./Timing_Preferences.jpg" alt="Timing_Preferences"></p>
+<ol start="13">
+<li>在主窗口下方点击<kbd>Port Assignments</kbd>子页面，<br>
+其显示了<code>pin_assignments.lpf</code>文件中的端口配置以及每个端口的规格。<br>
+如有需要可以在此进行更改。</li>
+<li>保存该文件并关闭。</li>
+<li>在左侧的<kbd>File View</kbd>窗口双击<code>LPF Constraint Files</code>下的<code>pin_assignments.lpf</code>，自动弹出其内关于时序与端口分配的内容。<br>
+确认无误后关闭。</li>
+<li>切换至左侧的<kbd>Process view</kbd>窗口，双击<kbd>Map Design</kbd>，运行逻辑综合、EDIF 转换和设计映射器的批处理程序。<br>
+如果是第一次综合，会自动弹出报告界面，否则，在顶栏<kbd>View &gt; Reports<kbd>中打开报告界面。</li>
+<li>报告界面的左侧是<code>Design Summary</code>选项栏，对应报告的各分项。<br>
+如果对应项已正常生成报告，图标显示为绿色勾；<br>
+如果报告不是最新版本，图标显示为橙色问号；<br>
+某些报告分为多个部分，单击报告名称前的箭头可在列表中显示各部分。<br>
+在报告窗口右键选择<kbd>Find in text</kbd>可按进行关键词查询。</li>
+</ol>
+<h1>布局与布线</h1>
+<ol>
+<li>在左侧的<kbd>Process view</kbd>窗口，双击<kbd>Place &amp; Route Design</kbd>，运行相关工具。下方信息窗口会显示过程相关信息。完成后，自动弹出报告界面。</li>
+<li>在报告界面的左侧<code>Design Summary</code>选项栏查看<kbd>Process Reports &gt; Place &amp; Route</kbd>，正常执行时图标为绿色勾。</li>
+<li>在左侧的<kbd>Process view</kbd>窗口，双击<kbd>Place &amp; Route Trace</kbd>，运行跟踪时序分析工具。</li>
+<li>执行完成后，在<code>Design Summary</code>选项栏查看<kbd>Analysis Reports &gt; Place &amp; Route Trace</kbd>状态。</li>
+<li>在左侧的<kbd>Process view</kbd>窗口，双击<kbd>I/O Timing Analysis</kbd>，运行时序分析。</li>
+<li>执行完成后，在<code>Design Summary</code>选项栏查看<kbd>Analysis Reports &gt;I/O Timing<br>
+Analysis</kbd>状态。</li>
+<li>选择顶栏<kbd>Tools &gt; Physical View</kbd>，弹出对应窗口。<br>
+物理视图提供设计的只读详细布局，包括开关盒和物理导线连接。</li>
+<li>关于物理布局查看：
+<ul>
+<li>右键点击元件并选择<kbd>Show in &gt; Floorplan View</kbd>可查看在该元件在平面视图中对应的位置。</li>
+<li>要在 &quot;平面图视图 &quot;和 &quot;物理视图 &quot;之间自动交叉探测，确保这两个视图都连接到 Diamond 主窗口，<br>
+然后右键单击<kbd>Floorplan View</kbd>选项卡并选择<kbd>Split Tab Group</kbd>。<br>
+当同时打开平面图视图和实物图视图时，在其中一个视图中选择的项目会自动在另一个视图中选择。自动交叉探测对于立即检查两个视图中的连接尤其有用。</li>
+</ul>
+</li>
+</ol>
+<h1>检查静态时序分析</h1>
+<p>静态时序分析 (STA) 可以确定电路设计是否符合时序约束。<br>
+与模拟相比，静态时序分析采用保守的门延迟和互连延迟建模，以反映不同芯片上的不同工作条件范围，从而提供完整的验证覆盖范围。</p>
+<ol>
+<li>选择顶栏<kbd>Tools &gt; Timing Analysis View</kbd>，弹出窗口。<br>
+左上窗格显示布线后静态定时分析设置的摘要，如目标设备信息、首选项文件、性能等级和环境条件。<br>
+左下窗格提供可用分析结果的索引。相关的时序首选项出现在每个分析部分。</li>
+<li>在主窗口中点击<code>FREQUENCY NET &quot;CLKOP&quot;</code>(任选一个)。<br>
+右上方的<kbd>Path table</kbd>包含源、目的地、加权松弛、到达、所需、数据延迟、路径、级别和其他详细信息。</li>
+<li>选择<kbd>Path table</kbd>第一行，<br>
+右下窗格中的三个选项卡将显示详细信息。</li>
+<li>单击下面的<kbd>Detailed Path Tables</kbd>选项卡，在选项卡上方单击<kbd>Data Path Details</kbd>选项卡。<br>
+该页面将识别数据路径延迟的每个组成部分，在路径延迟和组合或时钟到输出类型延迟之间交替进行。</li>
+<li>单击下面的<kbd>Schematic Path View</kbd>选项卡，可查看数据通道时序路径示意图。</li>
+<li>关闭时序分析窗口。</li>
+<li>Diamond允许为时序分析指定峰峰值系统抖动。<br>
+不使用时，默认值 0 将用于所有分析。<br>
+系统抖动会影响设计中的所有时钟。<br>
+要输入系统抖动值，<br>
+请选择<kbd>Tools &gt; Spreadsheet View</kbd>。<br>
+单击<kbd>Global Preferences</kbd>选项卡。<br>
+双击<kbd>SYSTEM_JITTER(ns)</kbd>的值进行修改。</li>
+</ol>
+<h1>调整静态时序约束</h1>
+<p>Lattice Diamond的时序分析可以在典型设计流程的四个阶段进行：</p>
+<ul>
+<li>综合后</li>
+<li>网表转换到目标器件后的映射后</li>
+<li>布局后</li>
+<li>布线后</li>
+</ul>
+<p>每个阶段都能逐步提供更准确的延迟特性报告。<br>
+综合阶段的时序分析由相应的综合工具执行：<br>
+Synplify Pro 或 Precision。</p>
+<p>默认情况下，时序分析引擎 TRACE 使用时序驱动的映射、布局和布线应用的时序约束。<br>
+但也可以修改时序首选项，以管理独立于静态时序分析的实现工具的时序目标。<br>
+为适应试验性静态定时分析循环，TPF 电子表格视图允许编辑定时首选项，以便与定时分析视图一起使用。<br>
+这样就可以建立独立于 MPAR 所用约束的修改或附加时序首选项。</p>
+<p>收紧偏好的时序目标并检查结果：</p>
+<ol>
+<li>选择顶栏<kbd>Tools &gt; Timing Analysis View</kbd>，弹出窗口。</li>
+<li>点击窗口左侧工具栏的<kbd>Change timing preferences</kbd>按钮。<br>
+弹出<code>Spreadsheet View – TPF</code>窗口。</li>
+<li>点击窗口下方的<kbd>Timing Preferences</kbd>选项卡。</li>
+<li>找到<kbd>INPUT SETUP &gt; ALLPORTS CLKPORT “clk” &gt; Time</kbd>，双击首选项值进行修改。<br>
+在本例中修改为15.</li>
+<li>切换回<code>Timing Analysis View</code>窗口，其左侧工具栏的<kbd>Update</kbd>此时在转动，点击该按钮。<br>
+过一会儿，指示器停止旋转，新的分析结果就会出现。<br>
+在<code>Timing Analysis View</code>的标题栏中，<code>&quot;Untitled&quot;</code>带星号，<br>
+表示内存中的定时首选项已更改。<br>
+点击顶栏<kbd>File &gt; Save Untitled As</kbd>将更改保存到文件（.tpf）中。<br>
+<kbd>.tpf</kbd>文件将出现在<code>File List &gt; Analysis Files</code>中。<br>
+通过这些<kbd>.tpf</kbd>文件，可以尝试不同的时序设置，而不会影响<kbd>.lpf</kbd>源文件。</li>
+</ol>
+<h1>能耗分析</h1>
+<p>Diamond 软件中包含 Power Calculator，可估算给定设计的功耗。<br>
+功率计算器使用电压、温度、工艺变化、气流、散热器、资源利用率、活动和频率等参数来计算器件的静态和动态功耗。</p>
+<ol>
+<li>
+<p>选择顶栏<kbd>Tools &gt; Power Calculator</kbd>，弹出窗口。<br>
+功率计算器在计算模式下打开。 功率计算器提供两种报告功耗的模式：</p>
+<ul>
+<li>Estimation Mode: 功耗计算器可根据提供的器件资源或模板估算功耗。通过该模式，可以在设计完成甚至开始之前估算设计的功耗。</li>
+<li>Calculation Mode：Power Calculator 基于器件资源计算功耗，器件资源来自设计的<kbd>.ncd</kbd>文件，或来自贴片和布线后的外部文件，如值变化转储<kbd>.vcd</kbd>文件。该模式以实际器件利用率为基础，用于精确计算功耗。</li>
+</ul>
+<p>编辑白色单元格中的数据（如电压、频率、活动因子和热数据）不会改变模式。编辑蓝色单元格中的数据（如设计数据）会将计算模式更改为估算模式。</p>
+</li>
+<li>
+<p>当修改完相关数据后，会自动计算得出能耗。保存报告文件为<kbd>.pcf</kbd>，<br>
+其一般存放在<kbd>File List &gt; Analysis Files</kbd>。</p>
+</li>
+</ol>
+<h1>导出</h1>
+<p>在左侧<kbd>Process &gt; Export Files</kbd>中可以设置要导出各种文件，（包括下载进FPGA的二进制文件<kbd>.bit</kbd>）<br>
+双击<kbd>Export Files</kbd>或点击顶栏绿色的<kbd>Run</kbd>按钮执行导出。</p>
+<h1>将二进制文件下载进FPGA</h1>
+<ol>
+<li>
+<p>选择顶栏<kbd>Tools &gt; Programmer</kbd>，弹出窗口。</p>
+</li>
+<li>
+<p>在窗口中选择<kbd>Create a new project from a JTAG scan</kbd></p>
+</li>
+<li>
+<p>点击<kbd>Detect Cable</kbd><br>
+线缆和端口框会自动更改，以显示与器件的连接。<br>
+如果看到<code>Programmer: Multiple Cables Detected dialog box</code>，选择正确的端口并单击 “确定”。</p>
+</li>
+<li>
+<p>点击OK。<br>
+编程器扫描设备数据库，然后在 Diamond 中显示编程器视图。<br>
+这需要一些时间。</p>
+</li>
+<li>
+<p>在编程器窗口中，单击第一行的任意位置。</p>
+</li>
+<li>
+<p>选择<kbd>Edit &gt; Device Properties</kbd>，弹出窗口。</p>
+</li>
+<li>
+<p>选择以下设置：</p>
+<ul>
+<li>Access Mode：Static RAM Cell Mode</li>
+<li>Operation：SRAM Fast Configuration</li>
+<li>Programming File：（选择对应的二进制文件）</li>
+</ul>
+<p>点击OK</p>
+</li>
+<li>
+<p>点击编程器工具栏的绿色按钮<kbd>Program</kbd>执行下载。<br>
+如果编程过程成功，将在编程器状态栏中看到绿色阴影的<code>PASS</code>。</p>
+</li>
+<li>
+<p>在 Diamond 中，选择<kbd>File &gt; Save xxxx.xcf</kbd>。</p>
+</li>
+</ol>
+<h1>添加片上Debug逻辑</h1>
+<p>使用<code>Reveal Inserter</code>可根据触发条件和所需的跟踪缓冲区配置 Reveal core。<br>
+<code>Reveal Inserter</code>的主要输出是修改后的设计版本，<br>
+其中一个或多个内核已实例化，内核逻辑已准备好进行映射、布局和布线。</p>
+<p>生成并添加一个Reveal core：</p>
+<ol>
+<li>选择顶栏<kbd>Tools &gt; Reveal Inserter</kbd>，点击主窗口下方的<kbd>Trace Signal Setup</kbd>选项卡。</li>
+<li>在左侧的<code>Design Tree</code>面板中显示了程序中的各个模块，可以通过拖动将模块拉至右侧的<code>Trace Data</code>面板中。<br>
+在本例程中，将counter1(count8_uniq_0)下的countai[7:0]总线拖到右侧。</li>
+<li>右键点击被拖到右边面板的总线，选择<kbd>Rename Trace Bus</kbd>可进行重命名。<br>
+本例程中将其重命名为 countai</li>
+<li>在右侧面板下方勾选<kbd>Include Trigger Signals in Trace Data</kbd></li>
+<li>在右侧面板下方的<kbd>Sample Clock</kbd>填写采样的时钟信号。<br>
+（可将对应信号直接拖到这里填入）<br>
+在本例程中，将clk填入。</li>
+<li>在右侧面板下方的<kbd>Buffer Depth</kbd>填写缓冲区深度。<br>
+本例程中使用1024.</li>
+<li>在右侧面板下方的<kbd>Data Capture Mode</kbd>选择数据采样模式与每次触发最小采样次数。<br>
+本教程中，使用多重触发采样，次数设为32.</li>
+</ol>
+<h2 id="设置触发单元">设置触发单元</h2>
+<ol>
+<li>点击主窗口下方的<kbd>Trigger Signal Setup</kbd>选项卡。<br>
+在<kbd>Trigger Unit</kbd>面板中出现一行，默认名称为 TU1。</li>
+<li>点击<code>TU1</code>可进行重命名。</li>
+<li>在左侧的<code>Design Tree</code>面板中拖动到<kbd>Trigger Unit</kbd>面板触发单元的<code>Signals(MSB:LSB)</code>中进行被捕捉信号的设置。并设置<code>捕捉操作符</code>、<code>进制</code>、<code>捕捉值</code>。</li>
+<li>点击<kbd>Trigger Unit</kbd>下方的<code>Add</code>可添加捕捉单元。</li>
+</ol>
+<h2 id="设置触发表达式">设置触发表达式</h2>
+<ol>
+<li>在下方的<kbd>Trigger Expression</kbd>面板中可设置触发表达式。<br>
+比如&quot;TU1 THEN TU2&quot;<br>
+在例程中，参数选择了：
+<ul>
+<li>RAM Type：1 EBR</li>
+<li>Sequence Depth：2</li>
+<li>Max Sequence Depth：4</li>
+<li>Max Event Counter：32</li>
+</ul>
+</li>
+</ol>
+<h2 id="插入Debug逻辑">插入Debug逻辑</h2>
+<ol>
+<li>选择顶栏<kbd>Debug &gt; Insert Debug</kbd>，弹出窗口</li>
+<li>确认<kbd>Activate Reveal File in Design Project</kbd>勾选上，点击OK，命名并保存<kbd>.rvl</kbd>文件。<br>
+Reveal Inserter 将 Reveal 项目<kbd>.rvl</kbd>文件导入 Diamond。<br>
+在<kbd>File List &gt; Debug Files</kbd>中可查看<kbd>.rvl</kbd>文件。</li>
+</ol>
+<h2 id="将程序下载进FPGA">将程序下载进FPGA</h2>
+<p>正常步骤进行下载，此时选择的程序是<kbd>.xcf</kbd>.</p>
+<h1>行为逻辑分析</h1>
+<p>通过使用 Reveal Logic Analyzer 设置触发条件，<br>
+并查看来自 FPGA 内运行的片上 Reveal 内核的跟踪缓冲区数据。<br>
+触发设置会影响 Reveal 内核在哪些特定条件下以及如何在 Reveal Logic Analyzer 的波形视图中显示跟踪信号状态。</p>
+<p>器件应当已经连接到计算机。</p>
+<h2 id="创建新的Reveal-Logic-Analyzer项目">创建新的Reveal Logic Analyzer项目</h2>
+<ol>
+<li>点击顶栏<kbd>Tools &gt; Reveal Analyzer</kbd>，弹出窗口。</li>
+<li>勾选<code>Create a new file</code>，输入项目名字</li>
+<li>选择设备与电脑的连接方式，比如<code>HW-USBN-2B (FTDI)</code>，点击<kbd>Detect</kbd>，如果设备正常连接到电脑，则会列在<code>USB port</code>中。</li>
+<li>点击<kbd>Scan</kbd>找到FPGA</li>
+<li>在<code>RVL source</code>中，选择上一节生成的<kbd>.rvl</kbd>文件。</li>
+<li>点击OK，弹出窗口。</li>
+<li>在<kbd>Trigger Options</kbd>指定触发的相关参数；</li>
+<li>在<kbd>Trigger Position</kbd>部分，可以指定相对于轨迹数据的触发位置。<br>
+该标题中的数字显示当前位置。其内的选项含义为：
+<ul>
+<li><kbd>Pre-selected</kbd>：选择其中一个标准位置
+<ul>
+<li><code>Pre-Trigger</code>：距离采样起始位置 4/64 的位置。</li>
+<li><code>Center-Trigger</code>：距离采样起始位置还有 32/64 的距离。</li>
+<li><code>Post-Trigger</code>：距离采样起始位置还有 57/64 的距离。</li>
+</ul>
+</li>
+<li><kbd>User-selected</kbd>：用滑块选择位置</li>
+</ul>
+</li>
+</ol>
+<h2 id="运行逻辑分析">运行逻辑分析</h2>
+<ol>
+<li>在<code>Reveal Analyzer</code>工具栏，点击绿色的<kbd>Run</kbd>按钮。<br>
+该按钮会变成红色的<kbd>Stop</kbd>按钮，按钮旁边的状态栏会显示进度。<br>
+Reveal Analyzer 首先为正确的触发条件配置所选模块，然后等待触发条件发生。触发发生后，数据将上传到计算机。<br>
+生成的波形显示在<kbd>LA Waveform</kbd>选项卡中。<br>
+触发表达式可以对下一个触发单元进行评估，并生成一个要捕获数据的触发器。</li>
+<li>如果没有触发，请单击<kbd>Manual Trigger</kbd>按钮。</li>
+</ol>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/FPGA/">FPGA</a><a class="post-meta__tags" href="/tags/Lattice-Diamond/">Lattice Diamond</a></div><div class="post_share"><div class="social-share" data-image="/private_img/cover.svg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/06/VHDL_%E8%AF%AD%E5%8F%A5/" title="VHDL_语句"><img class="cover" src="/private_img/cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">VHDL_语句</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/21/matlab%E4%B8%8EC%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B/" title="matlab与C语言编程"><img class="cover" src="/private_img/cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">matlab与C语言编程</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/12/03/FPGA_%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="FPGA_基本概念"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-03</div><div class="title">FPGA_基本概念</div></div></a></div><div><a href="/2024/03/16/VHDL_%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84/" title="VHDL_基本结构"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-16</div><div class="title">VHDL_基本结构</div></div></a></div><div><a href="/2024/03/17/VHDL_%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E8%BF%90%E7%AE%97%E6%93%8D%E4%BD%9C%E7%AC%A6/" title="VHDL_数据类型与运算操作符"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-17</div><div class="title">VHDL_数据类型与运算操作符</div></div></a></div><div><a href="/2024/03/17/VHDL_%E6%9E%84%E9%80%A0%E4%BD%93%E7%9A%84%E6%8F%8F%E8%BF%B0%E6%96%B9%E5%BC%8F/" title="VHDL_构造体的描述方式"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-17</div><div class="title">VHDL_构造体的描述方式</div></div></a></div><div><a href="/2024/03/09/VHDL_%E6%A6%82%E8%BF%B0/" title="VHDL_概述"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-09</div><div class="title">VHDL_概述</div></div></a></div><div><a href="/2024/04/06/VHDL_%E8%AF%AD%E5%8F%A5/" title="VHDL_语句"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-06</div><div class="title">VHDL_语句</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/private_img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">YILON</div><div class="author-info__description">YILON的技术小窝</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">84</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YILON"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">官方例程源码结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">创建Project</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#File-List%E8%AF%B4%E6%98%8E"><span class="toc-number">2.1.</span> <span class="toc-text">File List说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E9%A6%96%E9%80%89%E9%A1%B9%E6%96%87%E4%BB%B6"><span class="toc-number">2.2.</span> <span class="toc-text">逻辑首选项文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">testbench选择</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">创建一个IPexpress Module</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">仿真</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E8%A1%8C%E4%BB%BF%E7%9C%9F"><span class="toc-number">5.1.</span> <span class="toc-text">进行仿真</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C"><span class="toc-number">5.2.</span> <span class="toc-text">仿真结果</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">Strategies</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">检查器件资源</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">8.</span> <span class="toc-text">Synthesis（综合）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">9.</span> <span class="toc-text">设置时序与端口分配</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">10.</span> <span class="toc-text">布局与布线</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">11.</span> <span class="toc-text">检查静态时序分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">12.</span> <span class="toc-text">调整静态时序约束</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">13.</span> <span class="toc-text">能耗分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">14.</span> <span class="toc-text">导出</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">15.</span> <span class="toc-text">将二进制文件下载进FPGA</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">16.</span> <span class="toc-text">添加片上Debug逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E8%A7%A6%E5%8F%91%E5%8D%95%E5%85%83"><span class="toc-number">16.1.</span> <span class="toc-text">设置触发单元</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E8%A7%A6%E5%8F%91%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">16.2.</span> <span class="toc-text">设置触发表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E5%85%A5Debug%E9%80%BB%E8%BE%91"><span class="toc-number">16.3.</span> <span class="toc-text">插入Debug逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%86%E7%A8%8B%E5%BA%8F%E4%B8%8B%E8%BD%BD%E8%BF%9BFPGA"><span class="toc-number">16.4.</span> <span class="toc-text">将程序下载进FPGA</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">17.</span> <span class="toc-text">行为逻辑分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B0%E7%9A%84Reveal-Logic-Analyzer%E9%A1%B9%E7%9B%AE"><span class="toc-number">17.1.</span> <span class="toc-text">创建新的Reveal Logic Analyzer项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E9%80%BB%E8%BE%91%E5%88%86%E6%9E%90"><span class="toc-number">17.2.</span> <span class="toc-text">运行逻辑分析</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/11/TI_DSP_TMS320F2812_%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%8E%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" title="TI_DSP_TMS320F2812_存储空间与启动过程"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_存储空间与启动过程"/></a><div class="content"><a class="title" href="/2023/11/11/TI_DSP_TMS320F2812_%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%8E%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" title="TI_DSP_TMS320F2812_存储空间与启动过程">TI_DSP_TMS320F2812_存储空间与启动过程</a><time datetime="2024-08-21T06:03:17.038Z" title="更新于 2024-08-21 14:03:17">2024-08-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/22/TI_DSP_TMS320F2812_%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F/" title="TI_DSP_TMS320F2812_中断系统"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_中断系统"/></a><div class="content"><a class="title" href="/2023/10/22/TI_DSP_TMS320F2812_%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F/" title="TI_DSP_TMS320F2812_中断系统">TI_DSP_TMS320F2812_中断系统</a><time datetime="2024-08-12T03:16:29.587Z" title="更新于 2024-08-12 11:16:29">2024-08-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/11/TI_DSP_TMS320F2812_CCS%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="TI_DSP_TMS320F2812_CCS工作流"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_CCS工作流"/></a><div class="content"><a class="title" href="/2023/11/11/TI_DSP_TMS320F2812_CCS%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="TI_DSP_TMS320F2812_CCS工作流">TI_DSP_TMS320F2812_CCS工作流</a><time datetime="2024-06-03T08:25:21.750Z" title="更新于 2024-06-03 16:25:21">2024-06-03</time></div></div></div></div></div></div></main><footer id="footer" style="background: #20124d"><div id="footer-wrap"><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
