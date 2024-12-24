@@ -1,0 +1,582 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>TI_DSP_C2000_driverlib与Sysconfig | YILON</title><meta name="author" content="YILON"><meta name="copyright" content="YILON"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="driverlib 简述 driverLib是德州仪器为C2000微控制器提供的一个驱动库，它包含了大量的硬件抽象层（HAL）函数，用于简化微控制器的编程过程。 driverlib 库的代码组织通常遵循模块化设计，每个模块对应一个微控制器外设或功能模块。 每个模块都提供初始化函数、配置函数以及操作函数。开发者只需调用这些函数即可完成外设的配置和操作，避免手动处理低级别的寄存器操作。 由于 driv">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TI_DSP_C2000_driverlib与Sysconfig">
+<meta property="og:url" content="http://example.com/2024/09/19/TI_DSP_C2000_driverlib%E4%B8%8ESysconfig/index.html">
+<meta property="og:site_name" content="YILON">
+<meta property="og:description" content="driverlib 简述 driverLib是德州仪器为C2000微控制器提供的一个驱动库，它包含了大量的硬件抽象层（HAL）函数，用于简化微控制器的编程过程。 driverlib 库的代码组织通常遵循模块化设计，每个模块对应一个微控制器外设或功能模块。 每个模块都提供初始化函数、配置函数以及操作函数。开发者只需调用这些函数即可完成外设的配置和操作，避免手动处理低级别的寄存器操作。 由于 driv">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/private_img/cover.svg">
+<meta property="article:published_time" content="2024-09-19T03:38:32.000Z">
+<meta property="article:modified_time" content="2024-12-24T00:44:11.300Z">
+<meta property="article:author" content="YILON">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="DSP">
+<meta property="article:tag" content="TMS320F28377D">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/private_img/cover.svg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/09/19/TI_DSP_C2000_driverlib%E4%B8%8ESysconfig/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'TI_DSP_C2000_driverlib与Sysconfig',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-color: #4582A0;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/private_img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">91</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">25</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/private_img/cover.svg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">YILON</span></a><a class="nav-page-title" href="/"><span class="site-name">TI_DSP_C2000_driverlib与Sysconfig</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">TI_DSP_C2000_driverlib与Sysconfig</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-09-19T03:38:32.000Z" title="发表于 2024-09-19 11:38:32">2024-09-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-12-24T00:44:11.300Z" title="更新于 2024-12-24 08:44:11">2024-12-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>driverlib</h1>
+<h2 id="简述">简述</h2>
+<p>driverLib是德州仪器为C2000微控制器提供的一个驱动库，它包含了大量的硬件抽象层（HAL）函数，用于简化微控制器的编程过程。</p>
+<p>driverlib 库的代码组织通常遵循模块化设计，每个模块对应一个微控制器外设或功能模块。<br>
+每个模块都提供初始化函数、配置函数以及操作函数。开发者只需调用这些函数即可完成外设的配置和操作，避免手动处理低级别的寄存器操作。</p>
+<p>由于 driverlib 提供了对硬件寄存器的抽象层，代码在不同的 C2000 器件之间的移植变得更容易。</p>
+<blockquote>
+<p>TI通常将项目架构称为<code>基于bit-filed</code>的或<code>基于driverlib</code>的，<br>
+前者即所谓的“操作寄存器”式设计，是C2000Ware/device_support中的例程形式。</p>
+</blockquote>
+<blockquote>
+<p>driverlib包含在<code>C2000 Ware</code>中，要使用此库，必须安装<code>C2000 Ware</code>。</p>
+</blockquote>
+<h2 id="driverlib的文件结构">driverlib的文件结构</h2>
+<p>默认位置安装C2000 Ware后，<br>
+driverlib的相关文件存放于<kbd>C:\ti\c2000\&lt;C2000Ware_VERSION&gt;\driverlib\&lt;chip_name&gt;\driverlib</kbd></p>
+<p>该文件夹下的结构为：</p>
+<ul>
+<li>driverlib
+<ul>
+<li>ccs
+<ul>
+<li>driverlib_coff.lib（指定COFF时使用）</li>
+<li>driverlib_eabi.lib（指定EABI时使用）</li>
+<li>driverlib.lib（兼容上述两种格式）</li>
+</ul>
+</li>
+<li>inc
+<ul>
+<li>lib的底层驱动必要的头文件，应全部加入到项目中</li>
+</ul>
+</li>
+<li>.c/.h文件
+<ul>
+<li>.c文件：driverlib的源文件，当不使用lib文件时，项目用这些源文件进行编译，否则没必要添加到项目中</li>
+<li>.h文件：driverlib模块调用函数的头文件，应全部加入到项目中</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>关于<code>COFF</code>与<code>EABI</code>:</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>COFF</th>
+<th>EABI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>文件格式</strong></td>
+<td>COFF（二进制目标文件格式）</td>
+<td>ELF（基于嵌入式应用的ABI）</td>
+</tr>
+<tr>
+<td><strong>历史</strong></td>
+<td>起源于Unix系统，较为老旧，曾被广泛使用</td>
+<td>新型标准，针对嵌入式系统优化</td>
+</tr>
+<tr>
+<td><strong>性能优化</strong></td>
+<td>较少的优化支持</td>
+<td>高度优化，支持寄存器分配和链接时优化等</td>
+</tr>
+<tr>
+<td><strong>移植性</strong></td>
+<td>依赖平台，跨平台移植较困难</td>
+<td>高度可移植，适用于多种架构</td>
+</tr>
+<tr>
+<td><strong>支持的处理器架构</strong></td>
+<td>主要用于早期的DSP处理器</td>
+<td>支持ARM、DSP等多个处理器架构</td>
+</tr>
+<tr>
+<td><strong>调试信息</strong></td>
+<td>支持简单的调试信息</td>
+<td>更强的调试支持和优化分析</td>
+</tr>
+<tr>
+<td><strong>适用的开发场景</strong></td>
+<td>小型嵌入式应用或老旧项目</td>
+<td>高性能嵌入式系统和现代处理器应用</td>
+</tr>
+</tbody>
+</table>
+<h3 id="创建基于driverlib的project">创建基于driverlib的project</h3>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xht2403267701/article/details/128445683">参考链接</a></p>
+<ol>
+<li>在CCS中新建空白工程（推荐指定为EABI格式）。</li>
+</ol>
+<blockquote>
+<p>创建项目后，有可能会在工程内自动添加<code>.cmd</code>文件，此时应将其删除，<br>
+在下文中会手动将需要的cmd文件添加到工程中。</p>
+</blockquote>
+<ol start="2">
+<li>在项目中创建如下文件结构：</li>
+</ol>
+<ul>
+<li>project_name
+<ul>
+<li><code>CMD</code>
+<ul>
+<li>放置<kbd>C:\ti\c2000\&lt;C2000Ware_VERSION&gt;\device_support\&lt;chip_name&gt;\common\cmd\xxxx_RAM_lnk.cmd</kbd>，当将程序烧写进RAM时使用这个，另一个右键选择&quot;Exclude from build&quot;</li>
+<li>放置<kbd>C:\ti\c2000\&lt;C2000Ware_VERSION&gt;\device_support\&lt;chip_name&gt;\common\cmd\xxxx_flash_lnk.cmd</kbd>，当将程序烧写进flash时使用这个，另一个右键选择&quot;Exclude from build&quot;</li>
+</ul>
+</li>
+<li><code>device</code>
+<ul>
+<li>放置<kbd>C:\ti\c2000\&lt;C2000Ware_VERSION&gt;\device_support\&lt;chip_name&gt;\common\include</kbd>中的<code>device.h</code></li>
+<li>放置<kbd>C:\ti\c2000\&lt;C2000Ware_VERSION&gt;\device_support\&lt;chip_name&gt;\common\source</kbd>的<code>device.c</code>文件</li>
+</ul>
+</li>
+<li><code>lib</code>
+<ul>
+<li><code>driverlib</code>
+<ul>
+<li>放置<kbd>C:\ti\c2000\&lt;C2000Ware_VERSION&gt;\…\driverlib</kbd>所有.h文件</li>
+<li>放置<code>driverlib_eabi.lib</code>或<code>driverlib_coff.lib</code>或<code>driverlib.lib</code>（根据项目格式）</li>
+<li><code>inc</code>：放置<kbd>C:\ti\c2000\&lt;C2000Ware_VERSION&gt;\…\driverlib\inc</kbd>所有.h文件</li>
+<li><code>ccs</code>：放置<kbd>C:\ti\c2000\&lt;C2000Ware_VERSION&gt;\…\driverlib\ccs</kbd>所有文件
+<ul>
+<li>Debug
+<ul>
+<li>driverlib_coff.lib（Debug版本，指定COFF时使用）</li>
+<li>driverlib_eabi.lib（Debug版本，指定EABI时使用）</li>
+</ul>
+</li>
+<li>Release
+<ul>
+<li>driverlib_coff.lib（Release版本，指定COFF时使用）</li>
+<li>driverlib_eabi.lib（Release版本，指定EABI时使用）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>inc</code>
+<ul>
+<li>放置<kbd>C:\ti\c2000\&lt;C2000Ware_VERSION&gt;\device_support\&lt;chip_name&gt;\common\include</kbd>中的<code>driverlib.h</code></li>
+<li>放置自定义的头文件</li>
+</ul>
+</li>
+<li><code>src</code>
+<ul>
+<li>放置<kbd>C:\ti\c2000\&lt;C2000Ware_VERSION&gt;\device_support\&lt;chip_name&gt;\common\source</kbd>的<code>xxxx_CodeStartBranch.asm</code></li>
+<li>放置自定义的源文件</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li><kbd>右键点击项目名称-&gt;Properties-&gt;C2000 compiler-&gt;Include Options-&gt;Add dir to #include search path</kbd>添加如下几个路径：</li>
+</ol>
+<blockquote>
+<pre><code> - $&#123;PROJECT_ROOT&#125;/device
+ - $&#123;PROJECT_ROOT&#125;/lib
+ - $&#123;PROJECT_ROOT&#125;/lib/driverlib
+ - $&#123;PROJECT_ROOT&#125;/lib/driverlib/inc
+ - $&#123;PROJECT_ROOT&#125;/include
+ - $&#123;CG_TOOL_ROOT&#125;/include
+</code></pre>
+</blockquote>
+<ol start="4">
+<li><kbd>右键点击项目名称-&gt;Properties-&gt;Build-&gt;General-&gt;Project type and tool-chain-&gt;Linker command file</kbd>，选择<code>&lt;none&gt;</code>。</li>
+</ol>
+<blockquote>
+<p>对于多核处理器，还需要在<kbd>右键点击项目名称-&gt;Properties-&gt;C2000 compiler-&gt;Predefined Symbols-&gt;Pre-define NAME</kbd>增加<code>CPU1</code>或<code>CPU2</code>的宏名，以指定属于哪个核的项目。</p>
+</blockquote>
+<blockquote>
+<p>因为前面已经手动将cmd文件加入编译环节中，此处不再进行重复指定。</p>
+</blockquote>
+<blockquote>
+<p><code>debug</code>版本和<code>release</code>版本是单独进行设置的。</p>
+</blockquote>
+<ol start="5">
+<li>main函数的基本格式配置：</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;device.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Initialize device clock and peripherals</span></span><br><span class="line">    Device_init();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Initialize GPIO and configure the GPIO pin as a push-pull output</span></span><br><span class="line">    Device_initGPIO();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Initialize PIE and clear PIE registers. Disables CPU interrupts.</span></span><br><span class="line">    Interrupt_initModule();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Initialize the PIE vector table with pointers to the shell Interrupt</span></span><br><span class="line">    <span class="comment">// Service Routines (ISR).</span></span><br><span class="line">    Interrupt_initVectorTable();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Enable Global Interrupt (INTM) and realtime interrupt (DBGM)</span></span><br><span class="line">    EINT;</span><br><span class="line">    ERTM;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Loop Forever</span></span><br><span class="line">    <span class="keyword">for</span> (;;)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<hr>
+<h1>Sysconfig</h1>
+<h2 id="简述-2">简述</h2>
+<p>SysConfig 工具是一种图形化的配置工具，旨在简化 TI 嵌入式系统开发中的外设和软件堆栈配置过程。SysConfig 工具支持各种 TI 嵌入式处理器，如 MSP430、C2000、SimpleLink MCU、Sitara 处理器和其他设备。<br>
+通过 SysConfig，开发人员可以以更直观的方式配置硬件外设、引脚分配和软件组件，而无需手动编写复杂的配置代码。</p>
+<p><img src="./Sysconfig%E7%95%8C%E9%9D%A2.png" alt="Sysconfig界面"></p>
+<ol>
+<li>
+<p><strong>引脚分配和复用管理</strong>：<br>
+SysConfig 帮助用户简化和自动化引脚的分配。TI 的器件通常具有多功能引脚 (多路复用)，SysConfig 工具允许开发者为每个外设模块选择合适的引脚，同时避免引脚冲突。工具会自动提示并优化这些选择。</p>
+</li>
+<li>
+<p><strong>中断和外设管理</strong>：<br>
+对于复杂的嵌入式应用，SysConfig 提供了一种方便的方法来配置外设、中断优先级和定时器等系统资源。用户可以通过图形界面来设置外设的操作模式、时钟源、中断设置等参数。</p>
+</li>
+<li>
+<p><strong>代码生成</strong>：<br>
+一旦用户完成配置，可令SysConfig 工具自动生成相应的 C 或 C++ 代码，这些代码可以直接用于项目中。这些生成的代码包括所有必要的外设初始化、引脚设置和中断配置等，大幅减少了手动编写和调试的时间。</p>
+</li>
+<li>
+<p><strong>支持多种外设和协议</strong>：<br>
+SysConfig 不仅支持基本的外设配置（如 GPIO、UART、SPI、I2C 等），还支持高级协议栈的配置，如 BLE (Bluetooth Low Energy)、Zigbee、Wi-Fi、EtherCAT 等。</p>
+</li>
+</ol>
+<blockquote>
+<p>对于C2000器件sysconfig工具的使用,必须安装C2000 Ware。<br>
+要注意，不是所有C2000 器件都支持sysconfig。</p>
+</blockquote>
+<h2 id="基本使用流程">基本使用流程</h2>
+<p>Sysconfig是基于driverlib的，<br>
+因此基于上一节创建的项目进行设置。</p>
+<ol>
+<li>
+<p>在项目中新建一个后缀为<code>.syscfg</code>的文件。</p>
+</li>
+<li>
+<p>创建成功后，会提示是否启用sysconfig配置，确认启用即可。</p>
+</li>
+<li>
+<p><kbd>右键点击项目名称-&gt;Properties-&gt;Bulid-&gt;SysConfig-&gt;Basic Options -&gt; Root system config meta data file in a product or SDK</kbd>，<br>
+新增一个路径：<kbd>C:\ti\c2000\&lt;C2000Ware_VERSION&gt;\.metadata\sdk.json</kbd>；<br>
+同时在本页面的<kbd>Name of the Device as defined in the core SOC data</kbd>输入本项目的设备名称，可输入名称如下： (大小写严格对应)<br>
+（截止C2000Ware_5_01_00_00）</p>
+<ul>
+<li>F28004x</li>
+<li>F2837xD</li>
+<li>F2837xS</li>
+<li>F2807x</li>
+<li>F2838x</li>
+<li>F28002x</li>
+<li>F28003x</li>
+<li>F280013x</li>
+<li>F280015x</li>
+<li>F28P65x</li>
+</ul>
+</li>
+<li>
+<p>CCS中双击打开<code>syscfg</code>文件，会自动加载Sysconfig工具。<br>
+先进行如下配置：<br>
+<img src="./Sysconfig%E9%85%8D%E7%BD%AE1.png" alt="Sysconfig配置1.png"></p>
+</li>
+<li>
+<p>根据需要对模块进行新建与配置，这里以GPIO为例：<br>
+<img src="./Sysconfig%E9%85%8D%E7%BD%AE2.png" alt="Sysconfig配置2"><br>
+在配置过程中，可以预览sysconfig生成的文件：<br>
+<img src="./Sysconfig%E9%85%8D%E7%BD%AE3.png" alt="Sysconfig配置3"></p>
+</li>
+<li>
+<p>在配置好相关外设后，<code>Ctrl+s</code>保存<code>syscfg</code>文件即可，等到编译时，会在编译文件夹（默认为Debug或Release）的syscfg文件夹中生成相关文件。</p>
+</li>
+</ol>
+<blockquote>
+<p>第一次编译时有可能会自动引入官方例程的cmd文件，导致冲突，将此删除即可。</p>
+</blockquote>
+<ol start="7">
+<li>在主函数中引入相关头文件，并调用初始化函数即可：<br>
+<img src="./Sysconfig%E9%85%8D%E7%BD%AE4.png" alt="Sysconfig配置4"></li>
+</ol>
+<blockquote>
+<p>Board_init()会将所有在sysconfig配置的模块都初始化。<br>
+在Board.c中起始对每个模块的单独初始化也作了定义，可以根据需要使用。</p>
+</blockquote>
+<h2 id="通过Sysconfig配置系统基本属性">通过Sysconfig配置系统基本属性</h2>
+<p>当使用controlsuite例程提供的<code>Device.c</code>与<code>Device.h</code>时，<br>
+将无法通过Sysconfig配置系统基本属性。（比如时钟、外设使能、低功耗模式等）</p>
+<p>为了通过Sysconfig配置芯片基本属性：</p>
+<ol>
+<li>
+<p>删除project中的Device.c与Device.h文件，project属性中配置的对应路径也删除。</p>
+</li>
+<li>
+<p>打开<code>.Syscfg</code>文件，找到SOFTWARE-&gt;Device Support：<br>
+<img src="./Sysconfig%E9%85%8D%E7%BD%AE%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7.png" alt="Sysconfig配置系统属性"></p>
+</li>
+<li>
+<p>保存配置好的<code>.syscfg</code>文件，编译project。<br>
+如果报错，很可能是 project属性-&gt;头文件路径 配置不对。<br>
+project的构建尽量按照前文进行。</p>
+</li>
+</ol>
+<blockquote>
+<p>如此配置完成后，可以通过Sysconfig的<code>clock tree</code>工具对系统时钟进行配置。</p>
+</blockquote>
+<h2 id="关于中断">关于中断</h2>
+<p>一些外设有对应的中断，在Sysconfig对应页面中可进行配置并注册中断函数：<br>
+<img src="./Sysconfig%E9%85%8D%E7%BD%AE5.png" alt="Sysconfig配置5"><br>
+在<kbd>INTERRUPT</kbd>模块中可对所有在Sysconfig配置的中断进行管理<br>
+（不在Sysconfig配置的中断无法进行统一管理）<br>
+在Sysconfig配置完中断后，在主函数中要声明与定义对应中断服务函数，<br>
+<strong>注意中断服务函数名字要和在Sysconfig中注册的相同</strong>。<br>
+<img src="./Sysconfig%E9%85%8D%E7%BD%AE6.png" alt="Sysconfig配置6"></p>
+<blockquote>
+<p>要注意，自动生成的<kbd>Board.c</kbd>与<kbd>Board.h</kbd>是只读的，即使自行修改，在重新编译后其相关内容也会置为与<kbd>.syscfg</kbd>一致的情况。<br>
+因此要修改相关内容，在<kbd>.syscfg</kbd>中修改即可。</p>
+</blockquote>
+<h2 id="使用Sysconfig自动生成的CMD文件">使用Sysconfig自动生成的CMD文件</h2>
+<p>在Sysconfig中可以图形化配置CMD文件。</p>
+<p>要实现这个目的，按如下进行配置：<br>
+<img src="./Sysconfig%E9%85%8D%E7%BD%AECMD.png" alt="Sysconfig配置CMD"></p>
+<p>接着把原工程中使用的cmd文件删除或右键<code>Exclude</code>。</p>
+<p>完成上述步骤后编译工程，此时本工程使用的就是Sysconfig自动生成的cmd文件。</p>
+<blockquote>
+<p>一般地，工程分为Debug版本和Release版本，分别对应RAM中运行和FLASH中运行。<br>
+因此可创建两个CMD模块： RAMRUN与FLASHRUN：<br>
+<img src="./Sysconfig%E9%85%8D%E7%BD%AECMD_2.png" alt="Sysconfig配置CMD_2"><br>
+当切换到对应程序版本时，启用对应的CMD模块。</p>
+</blockquote>
+<blockquote>
+<p>启用对应的CMD模块时，会预定义一个对应名字的宏，<br>
+比如启用CPU1_FLASHRUN时，会定义宏<code>CPU1_FLASHRUN</code>。<br>
+这个宏可用于协助程序中判断此时处于那种版本。</p>
+</blockquote>
+<h1>工程相关配置与注意事项</h1>
+<blockquote>
+<p>28377D在Sysconfig时钟树默认外部晶振是10MHz，但大多数应用案例用的是20MHz，注意手动配置。</p>
+</blockquote>
+<h2 id="CPU2的project配置">CPU2的project配置</h2>
+<p>对于多核设备，每个CPU会有一个project。<br>
+对于28377D，<br>
+在配置 CPU2 project的<code>syscfg</code>时，<br>
+在芯片选型配置中切换为CPU2：<br>
+<img src="./CPU2_project_%E9%85%8D%E7%BD%AE1.png" alt="CPU2_project_配置1"></p>
+<p>配置后会发现可配置内容少了很多，且无法配置时钟树，<br>
+这是因为只有CPU1才能配置时钟与GPIO。</p>
+<blockquote>
+<p>注意此时仍保留<code>LED</code>的配置模块，其本质上是配置GPIO，在CPU2 project中即使配置也是无效的。</p>
+</blockquote>
+<blockquote>
+<p>记得将project配置中预定义的宏改为<code>CPU2</code>.</p>
+</blockquote>
+<blockquote>
+<p>在CPU2的project中，<br>
+虽然仍然可以使用syscfg自动生成的Device.c和device.h，<br>
+甚至还会生成clocktree.h，但其中是空的，<br>
+因此device.h中与时钟相关的内容（包括Delay函数）都不能使用。</p>
+</blockquote>
+<p>除了以上注意点外，main函数的初始化设置是相同的。</p>
+<h2 id="多核烧写">多核烧写</h2>
+<p>当第一次新建工程完成后，进行烧写程序时会生成默认的配置文件，<br>
+默认配置文件会将project的.out文件烧进所有核中，这样陷入不符合需求，<br>
+因此需要进行手动配置。</p>
+<p>点击上方工具栏的Debug按钮（小虫子）旁的下箭头，选择<code>Debug Configurations...</code>，弹出配置窗口：<br>
+<img src="./%E5%A4%9A%E6%A0%B8%E7%83%A7%E5%86%99%E9%85%8D%E7%BD%AE.png" alt="多核烧写配置"></p>
+<p>此时便可以自动将其余核心的程序分别烧写进对应的核心中。</p>
+<blockquote>
+<p>如果更改了其余project的程序最好先编译一次。<br>
+不能保证烧写程序前会将所有project重新编译一次。</p>
+</blockquote>
+<h3 id="系统project">系统project</h3>
+<p>为了方便，可以创建一个system project，<br>
+用以连接各个子核心的project。</p>
+<p><img src="./system_project.png" alt="system_project"><br>
+打开新建项目页面，在<code>project type and tool-chain</code>子项中选择Output type为<code>System</code>，<br>
+为project命名好后点击Finish。</p>
+<p>项目新建完成后会自动弹出<code>system.xml</code>的配置页面，也可手动打开：<br>
+<img src="./system_xml.png" alt="system_xml"></p>
+<p>配置完成后，在该项目中进行debug或烧写程序时便自动将对应project的程序烧写进去。<br>
+同时，打开任一project的<code>syscfg</code>时发现其融合为一个页面，方便快速调整。</p>
+<h2 id="多核启动引导">多核启动引导</h2>
+<p>当处于Debug界面时，CCS会自动引导各核心的程序，<br>
+此时不需要其余配置。</p>
+<p>但正常情况下(standalone模式)，当芯片上电后，其余核心的程序是由CPU1来引导的。<br>
+因此，在CPU1中，需要在<code>Device_init()</code>加上以下内容：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//这里的“CPU1_FLASHRUN”便是上文配置CMD中提到的由syscfg自动定义的宏</span></span><br><span class="line"><span class="comment">//宏名和对应CMD模块名是一样的</span></span><br><span class="line"> <span class="meta">#<span class="keyword">ifdef</span> CPU1_FLASHRUN</span></span><br><span class="line"> <span class="comment">// Send boot command to allow the CPU2 application to begin execution</span></span><br><span class="line"> Device_bootCPU2(C1C2_BROM_BOOTMODE_BOOT_FROM_FLASH);</span><br><span class="line"> <span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"> <span class="comment">// Send boot command to allow the CPU2 application to begin execution</span></span><br><span class="line"> Device_bootCPU2(C1C2_BROM_BOOTMODE_BOOT_FROM_RAM);</span><br><span class="line"> <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>要注意的是，进行Debug时，应把上述代码注释掉，<br>
+因为CCS已经进行了引导，<br>
+CPU1不会再收到其余核心的引导成功返回值，<br>
+此时CPU1会陷入死循环一直等待。</p>
+</blockquote>
+<h2 id="Debug与Release版本切换">Debug与Release版本切换</h2>
+<p>不同版本的project配置是完全独立的，<br>
+包括源文件的Exclude、project配置中的宏、头文件路径、Sysconfig的sdk路径。<br>
+因此第一次切换版本时需要重新配置一次。</p>
+<p>但syscfg的配置是不变的，<br>
+因此每次切换都需要将CMD模块切换为对应的模块，<br>
+Device Support的Driverlib Build版本也要切换。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="YILON">YILON</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/09/19/TI_DSP_C2000_driverlib%E4%B8%8ESysconfig/">http://example.com/2024/09/19/TI_DSP_C2000_driverlib%E4%B8%8ESysconfig/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">YILON</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><a class="post-meta__tags" href="/tags/DSP/">DSP</a><a class="post-meta__tags" href="/tags/TMS320F28377D/">TMS320F28377D</a></div><div class="post-share"><div class="social-share" data-image="/private_img/cover.svg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/09/10/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E7%A6%BB%E6%95%A3%E5%9E%8B%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/" title="卡尔曼滤波（二）——离散型卡尔曼滤波"><img class="cover" src="/private_img/cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">卡尔曼滤波（二）——离散型卡尔曼滤波</div></div><div class="info-2"><div class="info-item-1">离散卡尔曼滤波算法的优点  算法是递推的 算法适用于平稳或非平稳过程  离散卡尔曼滤波基本方程 设tkt_ktk​时刻的被估计状态 Xk\bm{X}_kXk​受系统噪声序列 Wk−1\bm{W}_{k-1}Wk−1​作用: Xk=Φk/k−1Xk−1+Γk−1Wk−1\bm{X}_k = \bm{\Phi}_{k/k-1}\bm{X}_{k-1}+\bm{\Gamma}_{k-1}\bm{W}_{k-1} Xk​=Φk/k−1​Xk−1​+Γk−1​Wk−1​ 对Xk\bm{X}_kXk​ 的量测Zk\bm{Z}_kZk​满足线性关系, 量测方程为 Zk=HkXk+Vk\bm{Z}_{k}=\bm{H}_{k} \bm{X}_{k}+\bm{V}_{k} Zk​=Hk​Xk​+Vk​ 式中， Φk/k−1\bm{\Phi}_{k/k-1}Φk/k−1​ 为 tk−1t_ {k-1}tk−1​ 时刻至 tkt_ktk​ 时刻的状态转移阵； Γk−1\bm{\Gamma}_{k-1}Γk−1​ 为系统噪声驱动阵； Hk\bm{H}_kHk​ 为量测阵； Vk\bm{V}_kVk​...</div></div></div></a><a class="pagination-related" href="/2024/09/25/TI_DSP_TMS320F28377D_%E5%A4%8D%E4%BD%8D%E6%9C%BA%E5%88%B6/" title="TI_DSP_TMS320F28377D_复位机制"><img class="cover" src="/private_img/cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">TI_DSP_TMS320F28377D_复位机制</div></div><div class="info-2"><div class="info-item-1">设备标识 器件识别寄存器提供有关器件类别，器件系列，版本，器件编号，引脚数，工作温度范围，封装类型，引脚数和器件验证状态的信息。 所有器件信息都是 DEV_CFG_REGS空间的一部分，只能由 CPU1子系统上运行的软件访间。 UIDREGS中提供256位唯一ID（UID）。256位分为以下寄存器：  UID_PSRAND0-5：192位伪随机数据 UID_UNIQUE：32位唯一数据，该寄存器中的值在具有相同PARTIDH的所有器件中将是唯一的 UID_CHECKSUM: 前两者 的 32 位 fletcher...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/10/21/TI_DSP_TMS320F28377D_DMA/" title="TI_DSP_TMS320F28377D_DMA"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-21</div><div class="info-item-2">TI_DSP_TMS320F28377D_DMA</div></div><div class="info-2"><div class="info-item-1">概述  六个具有独立 PIE 中断的通道 每个 DMA 通道可由多个外设触发源独立触发 数据源和目标：  GSx RAM CPU 消息RAM (IPC RAM) ADC存储器总线映射结果寄存器 ePWMx SPI, McBSP, EMIF   字长:16-bit或 32-bit(SPI和 McBSP 限制为 16-bit) 吞吐量：4 cycles/word 无仲裁    DMA总线由32位地址总线、32位数据读总线、32位数据写总线组成。   明确一点，挂载在DMA总线上的内部存储空间只有GS RAM和MSG RAM， 因此DMA可以访问的内部空间指针（地址）必须分配在这两类空间中。 一般地，如果使用数组作为源或目标地址， 可使用如下方式将该数组分配在GS RAM或MSG RAM中：   首先在CMD文件中定义相应的段； 注意，CPU2要使用GS RAM或MSG RAM，必须先在CPU1中进行分配。 具体分配方式见文末例程。  1234567// 在数组定义之前声明// 假设定义的段的名字是“ramgs0”，代表其占用RAM GS0的空间。 #pragma...</div></div></div></a><a class="pagination-related" href="/2024/11/21/TI_DSP_TMS320F28377D_GPIO%E3%80%81SCI%E3%80%81I2C%E4%B8%8ESPI/" title="TI_DSP_TMS320F28377D_GPIO、SCI、I2C与SPI"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-21</div><div class="info-item-2">TI_DSP_TMS320F28377D_GPIO、SCI、I2C与SPI</div></div><div class="info-2"><div class="info-item-1">GPIO 除了 CPU 控制的 I/O 功能外，单个 GPIO 引脚可复用多达12个独立的外设信号。 每个引脚输出既可由外设控制，也可由四个master控制：  CPU1 CPU1.CLA CPU2 CPU2.CLA  最高有8个 IO 端口: • Port A ： GPIO0-GPIO31 • Port B ： GPIO32-GPIO63 • Port C ： GPIO64-GPIO95 • Port D ： GPIO96-GPIO127 • Port E ： GPIO128-GPIO159 • Port F ： GPIO160-GPIO191 • Port G ： GPIO192-GPIO223 • Port H ： GPIO224-GPIO255  首先，输入和输出路径完全分开，只在引脚处连接。其次，外设复用远离引脚。 因此，CPU 和 CLA 都可以读取引脚的物理状态，而不受master设置和外设复用的影响。 同样的，外部中断也可以从外设活动中产生。 开漏输出等所有引脚选项对所有主设备和外设都有效。  注意，外设复用、master 设置和引脚配置只能由 CPU1...</div></div></div></a><a class="pagination-related" href="/2024/12/16/TI_DSP_TMS320F28377D_EMIF/" title="TI_DSP_TMS320F28377D_EMIF"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-16</div><div class="info-item-2">TI_DSP_TMS320F28377D_EMIF</div></div><div class="info-2"><div class="info-item-1">相关概念   SRAM(Static Random-Access Memory)：这种存储器只要保持通电，里面储存的数据就可以恒常保持。 DRAM(Dynamic Random-Access Memory)：里面所储存的数据就需要周期性地刷新充电。功耗较SRAM要小；集成度比SRAM要高，因此价格更便宜。   SDRAM（Synchronous Dynamic Random Access Memory）是一种同步动态随机存取存储器。 SDRAM的“同步”指的是它的操作是与系统时钟同步的， 这意味着数据传输的时序受到系统时钟信号的控制，使得数据访问和处理更为高效。 主要特点：  同步时序：SDRAM的所有操作都与外部时钟信号同步，保证数据传输的准确性和一致性。 动态存储：和传统的静态RAM（SRAM）相比，SDRAM是动态的，需要定期刷新才能保持数据。否则，存储的数据会丢失。 高性能：SDRAM通过使用流水线技术（pipelining）来提高数据处理速度，通常具有更高的带宽和更低的延迟。 三级寻址：先选择Bank，再选择行地址，最后再选择列地址。   第一代SDRAM(SDR...</div></div></div></a><a class="pagination-related" href="/2024/12/13/TI_DSP_TMS320F28377D_IPC/" title="TI_DSP_TMS320F28377D_IPC"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-13</div><div class="info-item-2">TI_DSP_TMS320F28377D_IPC</div></div><div class="info-2"><div class="info-item-1">基本架构  功能组成 Message RAMs 有两个 2KByte 的消息RAM， 分别为由CPU1 -&gt; CPU2 和 CPU2 -&gt; CPU1。 具体控制情况如下：   对Message RAM进行读写不会触发远程CPU的任何事件。  IPC 标志和中断 每个通信方向有 32 个IPC事件信号。  CPUx 可以通过写入 IPCSET 寄存器 32 位中的任意一位来引发 IPC 事件。 这将设置 CPUx IPCFLG 寄存器和 CPUy IPCSTS 寄存器中的相应位。  CPUy 可以通过设置 IPCACK 寄存器中的相应位来发出响应事件的信号。 这将清除 CPUx IPCFLG 寄存器和 CPUy IPCSTS 寄存器中的相应位。  如果 CPUx 需要取消事件，可设置 IPCCLR 寄存器中的相应位。 这与 CPUy 写入 IPCACK 的效果相同。  标志 0-3（使用 IPCSET[3:0]设置）向远程 CPU 发射中断。 远程 CPU 必须正确配置 ePIE 模块才能接收 IPC 中断。 标志 4-31（使用 IPCSET[31:4]...</div></div></div></a><a class="pagination-related" href="/2024/09/26/TI_DSP_TMS320F28377D_%E4%B8%AD%E6%96%AD/" title="TI_DSP_TMS320F28377D_中断"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-26</div><div class="info-item-2">TI_DSP_TMS320F28377D_中断</div></div><div class="info-2"><div class="info-item-1">中断  外设中断 C28xCPU有14个外设中断线。其中两个（INT13和INT14）分别直接连接到CPU定时器Timer 1和Timer...</div></div></div></a><a class="pagination-related" href="/2024/09/25/TI_DSP_TMS320F28377D_%E5%A4%8D%E4%BD%8D%E6%9C%BA%E5%88%B6/" title="TI_DSP_TMS320F28377D_复位机制"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-25</div><div class="info-item-2">TI_DSP_TMS320F28377D_复位机制</div></div><div class="info-2"><div class="info-item-1">设备标识 器件识别寄存器提供有关器件类别，器件系列，版本，器件编号，引脚数，工作温度范围，封装类型，引脚数和器件验证状态的信息。 所有器件信息都是 DEV_CFG_REGS空间的一部分，只能由 CPU1子系统上运行的软件访间。 UIDREGS中提供256位唯一ID（UID）。256位分为以下寄存器：  UID_PSRAND0-5：192位伪随机数据 UID_UNIQUE：32位唯一数据，该寄存器中的值在具有相同PARTIDH的所有器件中将是唯一的 UID_CHECKSUM: 前两者 的 32 位 fletcher...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/private_img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YILON</div><div class="author-info-description">YILON的技术小窝</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">91</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">25</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YILON"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">driverlib</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">简述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#driverlib%E7%9A%84%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">driverlib的文件结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%9F%BA%E4%BA%8Edriverlib%E7%9A%84project"><span class="toc-number">1.2.1.</span> <span class="toc-text">创建基于driverlib的project</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">Sysconfig</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E8%BF%B0-2"><span class="toc-number">2.1.</span> <span class="toc-text">简述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="toc-number">2.2.</span> <span class="toc-text">基本使用流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87Sysconfig%E9%85%8D%E7%BD%AE%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E5%B1%9E%E6%80%A7"><span class="toc-number">2.3.</span> <span class="toc-text">通过Sysconfig配置系统基本属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E4%B8%AD%E6%96%AD"><span class="toc-number">2.4.</span> <span class="toc-text">关于中断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Sysconfig%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E7%9A%84CMD%E6%96%87%E4%BB%B6"><span class="toc-number">2.5.</span> <span class="toc-text">使用Sysconfig自动生成的CMD文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">工程相关配置与注意事项</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU2%E7%9A%84project%E9%85%8D%E7%BD%AE"><span class="toc-number">3.1.</span> <span class="toc-text">CPU2的project配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E6%A0%B8%E7%83%A7%E5%86%99"><span class="toc-number">3.2.</span> <span class="toc-text">多核烧写</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9Fproject"><span class="toc-number">3.2.1.</span> <span class="toc-text">系统project</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E6%A0%B8%E5%90%AF%E5%8A%A8%E5%BC%95%E5%AF%BC"><span class="toc-number">3.3.</span> <span class="toc-text">多核启动引导</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Debug%E4%B8%8ERelease%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2"><span class="toc-number">3.4.</span> <span class="toc-text">Debug与Release版本切换</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/12/16/TI_DSP_TMS320F28377D_EMIF/" title="TI_DSP_TMS320F28377D_EMIF"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F28377D_EMIF"/></a><div class="content"><a class="title" href="/2024/12/16/TI_DSP_TMS320F28377D_EMIF/" title="TI_DSP_TMS320F28377D_EMIF">TI_DSP_TMS320F28377D_EMIF</a><time datetime="2024-12-16T03:10:24.000Z" title="发表于 2024-12-16 11:10:24">2024-12-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/13/TI_DSP_TMS320F28377D_IPC/" title="TI_DSP_TMS320F28377D_IPC"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F28377D_IPC"/></a><div class="content"><a class="title" href="/2024/12/13/TI_DSP_TMS320F28377D_IPC/" title="TI_DSP_TMS320F28377D_IPC">TI_DSP_TMS320F28377D_IPC</a><time datetime="2024-12-13T07:10:44.000Z" title="发表于 2024-12-13 15:10:44">2024-12-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/10/FT4222H%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" title="FT4222H使用说明"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FT4222H使用说明"/></a><div class="content"><a class="title" href="/2024/12/10/FT4222H%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" title="FT4222H使用说明">FT4222H使用说明</a><time datetime="2024-12-10T06:00:44.000Z" title="发表于 2024-12-10 14:00:44">2024-12-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/private_img/Top.svg);"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By YILON</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

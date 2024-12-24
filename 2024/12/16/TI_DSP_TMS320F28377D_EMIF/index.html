@@ -1,0 +1,614 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>TI_DSP_TMS320F28377D_EMIF | YILON</title><meta name="author" content="YILON"><meta name="copyright" content="YILON"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="相关概念   SRAM(Static Random-Access Memory)：这种存储器只要保持通电，里面储存的数据就可以恒常保持。 DRAM(Dynamic Random-Access Memory)：里面所储存的数据就需要周期性地刷新充电。功耗较SRAM要小；集成度比SRAM要高，因此价格更便宜。   SDRAM（Synchronous Dynamic Random Access Memo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TI_DSP_TMS320F28377D_EMIF">
+<meta property="og:url" content="http://example.com/2024/12/16/TI_DSP_TMS320F28377D_EMIF/index.html">
+<meta property="og:site_name" content="YILON">
+<meta property="og:description" content="相关概念   SRAM(Static Random-Access Memory)：这种存储器只要保持通电，里面储存的数据就可以恒常保持。 DRAM(Dynamic Random-Access Memory)：里面所储存的数据就需要周期性地刷新充电。功耗较SRAM要小；集成度比SRAM要高，因此价格更便宜。   SDRAM（Synchronous Dynamic Random Access Memo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/private_img/cover.svg">
+<meta property="article:published_time" content="2024-12-16T03:10:24.000Z">
+<meta property="article:modified_time" content="2024-12-24T00:45:10.155Z">
+<meta property="article:author" content="YILON">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="DSP">
+<meta property="article:tag" content="TMS320F28377D">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/private_img/cover.svg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/12/16/TI_DSP_TMS320F28377D_EMIF/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'TI_DSP_TMS320F28377D_EMIF',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-color: #4582A0;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/private_img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">91</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">25</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/private_img/cover.svg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">YILON</span></a><a class="nav-page-title" href="/"><span class="site-name">TI_DSP_TMS320F28377D_EMIF</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">TI_DSP_TMS320F28377D_EMIF</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-16T03:10:24.000Z" title="发表于 2024-12-16 11:10:24">2024-12-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-12-24T00:45:10.155Z" title="更新于 2024-12-24 08:45:10">2024-12-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>相关概念</h1>
+<blockquote>
+<ul>
+<li>SRAM(Static Random-Access Memory)：这种存储器只要保持通电，里面储存的数据就可以恒常保持。</li>
+<li>DRAM(Dynamic Random-Access Memory)：里面所储存的数据就需要周期性地刷新充电。功耗较SRAM要小；集成度比SRAM要高，因此价格更便宜。</li>
+</ul>
+</blockquote>
+<p>SDRAM（Synchronous Dynamic Random Access Memory）是一种同步动态随机存取存储器。<br>
+SDRAM的“同步”指的是它的操作是与系统时钟同步的，<br>
+这意味着数据传输的时序受到系统时钟信号的控制，使得数据访问和处理更为高效。</p>
+<p>主要特点：</p>
+<ul>
+<li>同步时序：SDRAM的所有操作都与外部时钟信号同步，保证数据传输的准确性和一致性。</li>
+<li>动态存储：和传统的静态RAM（SRAM）相比，SDRAM是动态的，需要定期刷新才能保持数据。否则，存储的数据会丢失。</li>
+<li>高性能：SDRAM通过使用流水线技术（pipelining）来提高数据处理速度，通常具有更高的带宽和更低的延迟。</li>
+<li>三级寻址：先选择Bank，再选择行地址，最后再选择列地址。</li>
+</ul>
+<blockquote>
+<p>第一代SDRAM(SDR SDRAM)采用单端（Single-Ended）时钟信号,<br>
+后续世代（DDRx SDRAM）由于工作频率比较快，所以采用可降低干扰的差分时钟信号作为同步时钟。</p>
+</blockquote>
+<h1>概述</h1>
+<p>根据封装的不同最多有两个EMIF模块，其中EMIF1由两个CPU共享，EMIF2专属于CPU1。</p>
+<p>两模块功能完全相同，但是EMIF1接口最高可设置为32 bit，EMIF 1只能为 16 bit。</p>
+<blockquote>
+<p>当EMIF1取32位的总线宽度时，由于引脚复用，无法使用EMIF2.</p>
+</blockquote>
+<p><img src="./EMIF%E6%9E%B6%E6%9E%84.png" alt="EMIF架构"></p>
+<p>EMIF支持：</p>
+<ul>
+<li>
+<p>异步访问（如SRAM、NOR FLASH等）<br>
+通过一个等待引脚确保读取到信息，并且等待超时可编程。<br>
+不支持NAND Flash</p>
+</li>
+<li>
+<p>同步访问（如SDRAM）</p>
+<ul>
+<li>支持一个、两个或四个bank、具有八/九/十/十一列地址的SDR SDRAM器件</li>
+<li>CAS延迟位两个或三个时钟周期</li>
+<li>支持将SDRAM置于自刷新模式（即使没有来自控制器的时钟，SDRAM也能继续刷新自身，降低功耗）<br>
+或更进一步的低功耗模式（要数据不丢失需要控制器定时唤醒刷新SDRAM）</li>
+<li>不支持移动SDRAM</li>
+</ul>
+</li>
+</ul>
+<h1>时钟</h1>
+<p>EMIF模块的时钟输入为<code>PLLSYSCLK</code>。<br>
+可配置工作频率为<code>PLLSYSCLK</code>或<code>PLLSYSCLK/2</code>.</p>
+<h1>接口</h1>
+<p>EMIF的接口可分为三部分：支持SDRAM访问部分、支持异步访问部分、二者共享部分<br>
+<img src="./EMIF%E6%8E%A5%E5%8F%A3%E7%BB%84%E6%88%90.png" alt="EMIF接口组成"></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">异步相关引脚</th>
+<th style="text-align:center">引脚类型</th>
+<th style="text-align:center">概述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">C</mi><mi mathvariant="normal">S</mi><mn>4</mn></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{EMxCS4}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">EMxCS4</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span><br><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">C</mi><mi mathvariant="normal">S</mi><mn>3</mn></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{EMxCS3}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">EMxCS3</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span><br><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">C</mi><mi mathvariant="normal">S</mi><mn>2</mn></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{EMxCS2}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">EMxCS2</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span></td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">异步设备的低电平有效使能引脚。<br>仅在访问异步设备时有效。</td>
+</tr>
+<tr>
+<td style="text-align:left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">W</mi><mi mathvariant="normal">A</mi><mi mathvariant="normal">I</mi><mi mathvariant="normal">T</mi></mrow><annotation encoding="application/x-tex">\mathrm{EMxWAIT}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathrm">EMxWAIT</span></span></span></span></span></td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">连接的异步设备可通过此引脚来延长STROBE周期。<br>可定义有效极性。<br>当 NAND 闪存控制寄存器 (NANDFCR) 中的<br> CS2NAND/CS3NAND/CS4NAND/CS5NAND 位被设置时，该引脚将用作 NAND 闪存就绪输入。</td>
+</tr>
+<tr>
+<td style="text-align:left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">O</mi><mi mathvariant="normal">E</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{EMxOE}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">EMxOE</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span></td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">读取使能引脚。（低电平有效）</td>
+</tr>
+<tr>
+<td style="text-align:left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">R</mi><mi mathvariant="normal">N</mi><mi mathvariant="normal">W</mi></mrow><annotation encoding="application/x-tex">\mathrm{EMxRNW}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.01389em;">EMxRNW</span></span></span></span></span></td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">该引脚在读操作器件保持高电平，在写操作器件保持低电平。（与CS持续时间相同）</td>
+</tr>
+</tbody>
+</table>
+<br>
+<br>
+<br>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">同步相关引脚</th>
+<th style="text-align:center">引脚类型</th>
+<th style="text-align:center">概述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">C</mi><mi mathvariant="normal">S</mi><mn>0</mn></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{EMxCS0}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">EMxCS0</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span></td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">SDRAM 设备的低电平有效使能引脚。<br>默认情况下，即使 EMIF 未与 SDRAM 设备连接，EMIF 也会将此 SDRAM 芯片选择保持激活状态。<br>在访问异步设备时，该引脚将停用，并在完成异步访问后重新激活。</td>
+</tr>
+<tr>
+<td style="text-align:left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">R</mi><mi mathvariant="normal">A</mi><mi mathvariant="normal">S</mi></mrow><annotation encoding="application/x-tex">\mathrm{EMxRAS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathrm">EMxRAS</span></span></span></span></span></td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">低电平有效行地址片选引脚。<br>连接至SDRAM的nRAS引脚。</td>
+</tr>
+<tr>
+<td style="text-align:left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">C</mi><mi mathvariant="normal">A</mi><mi mathvariant="normal">S</mi></mrow><annotation encoding="application/x-tex">\mathrm{EMxCAS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathrm">EMxCAS</span></span></span></span></span></td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">低电平有效列地址片选引脚。<br>连接至SDRAM的nCAS引脚。</td>
+</tr>
+<tr>
+<td style="text-align:left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">D</mi><mi mathvariant="normal">C</mi><mi mathvariant="normal">K</mi><mi mathvariant="normal">E</mi></mrow><annotation encoding="application/x-tex">\mathrm{EMxSDCKE}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathrm">EMxSDCKE</span></span></span></span></span></td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">时钟使能引脚。<br>连接至SDRAM的CKE引脚，用于发出将器件置于自刷新模式的SELF REFRESH命令。</td>
+</tr>
+<tr>
+<td style="text-align:left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">C</mi><mi mathvariant="normal">L</mi><mi mathvariant="normal">K</mi></mrow><annotation encoding="application/x-tex">\mathrm{EMxCLK}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathrm">EMxCLK</span></span></span></span></span></td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">时钟引脚</td>
+</tr>
+</tbody>
+</table>
+<br>
+<br>
+<br>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">共用引脚</th>
+<th style="text-align:center">引脚类型</th>
+<th style="text-align:center">概述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">D</mi><mo stretchy="false">[</mo><mi mathvariant="normal">n</mi><mo>:</mo><mn>0</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">\mathrm{EMxD[n:0]}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">EMxD</span><span class="mopen">[</span><span class="mord mathrm">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathrm">0</span><span class="mclose">]</span></span></span></span></span></td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">数据总线 <br> EMIF1：n&lt;= 31 <br> EMIF2：n &lt;= 15</td>
+</tr>
+<tr>
+<td style="text-align:left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">A</mi><mo stretchy="false">[</mo><mn>19</mn><mo>:</mo><mn>0</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">\mathrm{EMxA[19:0]}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">EMxA</span><span class="mopen">[</span><span class="mord mathrm">19</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathrm">0</span><span class="mclose">]</span></span></span></span></span></td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">地址总线的一部分。<br>在SDRAM的寻址中，分为行寻址部分和列寻址部分，并且<code>EMxA[10]</code>用于选择PRE命令指定要停用的bank。</td>
+</tr>
+<tr>
+<td style="text-align:left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">B</mi><mi mathvariant="normal">A</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">\mathrm{EMxBA1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathrm">EMxBA1</span></span></span></span></span><br><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">B</mi><mi mathvariant="normal">A</mi><mn>0</mn></mrow><annotation encoding="application/x-tex">\mathrm{EMxBA0}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathrm">EMxBA0</span></span></span></span></span></td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">地址总线另一部分。<br>在SDRAM的寻址中，作为bank寻址部分。<br>在异步访问中，用于低位宽的地址访问补充。</td>
+</tr>
+<tr>
+<td style="text-align:left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">D</mi><mi mathvariant="normal">Q</mi><mi mathvariant="normal">M</mi><mo stretchy="false">[</mo><mn>3</mn><mo>:</mo><mn>0</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">\mathrm{EMxDQM[3:0]}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">EMxDQM</span><span class="mopen">[</span><span class="mord mathrm">3</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathrm">0</span><span class="mclose">]</span></span></span></span></span></td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">字节访问掩码（低电平有效）</td>
+</tr>
+<tr>
+<td style="text-align:left"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">W</mi><mi mathvariant="normal">E</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{EMxWE}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">EMxWE</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span></td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">写使能。（低电平有效）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="EMIF引脚冲突情况">EMIF引脚冲突情况</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">GPIO</th>
+<th style="text-align:center">复用一</th>
+<th style="text-align:center">复用二</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">GPIO86</td>
+<td style="text-align:center">EM1A13</td>
+<td style="text-align:center">EM1CAS</td>
+</tr>
+<tr>
+<td style="text-align:center">GPIO87</td>
+<td style="text-align:center">EM1A14</td>
+<td style="text-align:center">EM1RAS</td>
+</tr>
+<tr>
+<td style="text-align:center">GPIO88</td>
+<td style="text-align:center">EM1A15</td>
+<td style="text-align:center">EM1DQM0</td>
+</tr>
+<tr>
+<td style="text-align:center">GPIO89</td>
+<td style="text-align:center">EM1A16</td>
+<td style="text-align:center">EM1DQM1</td>
+</tr>
+<tr>
+<td style="text-align:center">GPIO90</td>
+<td style="text-align:center">EM1A17</td>
+<td style="text-align:center">EM1DQM2</td>
+</tr>
+<tr>
+<td style="text-align:center">GPIO91</td>
+<td style="text-align:center">EM1A18</td>
+<td style="text-align:center">EM1DQM3</td>
+</tr>
+<tr>
+<td style="text-align:center">GPIO92</td>
+<td style="text-align:center">EM1A19</td>
+<td style="text-align:center">EM1BA1</td>
+</tr>
+</tbody>
+</table>
+<h1>EMIF异步访问</h1>
+<h2 id="基本概念">基本概念</h2>
+<p>异步存储器接口不使用通用时钟信号进行信号对齐，而是通过组合逻辑。<br>
+EMIF 遵循 SETUP-STROBE-HOLD 的时序。<br>
+<strong>每个 SETUP、STROBE 和 HOLD 的持续时间可由软件编程确定</strong></p>
+<p><img src="./%E5%BC%82%E6%AD%A5%E8%AE%BF%E9%97%AE%E5%9F%BA%E6%9C%AC%E6%97%B6%E5%BA%8F.png" alt="异步访问基本时序"></p>
+<p>EMIF的基本寻址是以32 bit为单位进行寻址，<br>
+因此要实现半字（16 bit）访问或字节（8 bit）访问，<br>
+需要对地址总线进行移位，并使用扩展地址线进行补充：<br>
+<img src="./EMIF_%E5%9C%B0%E5%9D%80%E6%80%BB%E7%BA%BF%E7%A7%BB%E4%BD%8D.png" alt="EMIF_地址总线移位"></p>
+<blockquote>
+<p>普通的地址总线<code>EMxA[y:0]</code><br>
+用于字节访问的扩展地址线<code>EMxBA[1:0]</code></p>
+</blockquote>
+<p>对于16 bit宽的存储器，其地址总线最低位的步进为1个Byte，<br>
+因此EMIF模块连接此类存储器时整体向前偏移一位，并且取<code>EMxBA[1]</code>作为最低位地址线；<br>
+对于8 bit宽的存储器也是类似的原理。</p>
+<blockquote>
+<p>由于基本地址线和扩展地址线存在复用，<br>
+因此想要访问更低位宽，需要牺牲可访问的地址空间大小。</p>
+<p>例如，<br>
+F2837x 上可通过 EM1A0 ~ EM1A19 支持多达 4MB 的地址空间(4M × 32bit)，<br>
+实际上<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mrow><mi mathvariant="normal">M</mi><mi mathvariant="normal">B</mi></mrow><mo>÷</mo><msup><mn>2</mn><mn>20</mn></msup><mo>=</mo><mn>4</mn><mrow><mi mathvariant="normal">B</mi><mi mathvariant="normal">y</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">e</mi></mrow></mrow><annotation encoding="application/x-tex">4\mathrm{MB} \div 2^{20} = 4\rm{Byte}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord">4</span><span class="mord"><span class="mord mathrm">MB</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">÷</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">20</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord">4</span><span class="mord"><span class="mord"><span class="mord mathrm">Byte</span></span></span></span></span></span><br>
+因此此时实际上只能进行 32 位的访问。</p>
+<p>但是对于 16 位存储器，<br>
+需要使用 EM1BA1 连接到存储器的A[0]。<br>
+而由于EM1BA1 与 EM1A19 复用一个引脚，<br>
+因此实际上在使用 16 位存储器时，CS2 的总容量将减至 2MB （1M x 16bit）。</p>
+</blockquote>
+<p><img src="./EMIF_%E5%BC%82%E6%AD%A5%E6%8E%A5%E5%8F%A3%E5%9F%BA%E6%9C%AC%E5%BD%A2%E5%BC%8F.png" alt="异步接口基本形式"></p>
+<blockquote>
+<p><code>EMxDQM[x:0]</code>实际上是数据掩码信号,用于实现仅对数据的高半截和低半截的操作，例如<br>
+对于16 bit宽的数据总线，使用<code>EMxDQM[1:0]</code>，<br>
+EM1DQM[0] = 0 和 EM1DQM[1] = 1 表示只操作高8 bit。<br>
+EM1DQM[0] = 1 和 EM1DQM[1] = 0 表示只操作低8 bit。</p>
+<p>对于32 bit宽的数据总线，使用<code>EMxDQM[3:0]</code>，<br>
+EM1DQM[0] 控制最低有效字节（通常是字节0）。<br>
+EM1DQM[1] 控制第二个字节（字节1）。<br>
+EM1DQM[2] 控制第三个字节（字节2）。<br>
+EM1DQM[3] 控制最高字节（字节3）。</p>
+</blockquote>
+<p>异步访问有两种模式：</p>
+<h2 id="普通模式（默认）">普通模式（默认）</h2>
+<p>在访问异步设备期间器件片选<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">C</mi><mi mathvariant="normal">S</mi></mrow><mo stretchy="true">‾</mo></mover><mo stretchy="false">[</mo><mi mathvariant="normal">x</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">\mathrm{\overline{EMxCS}[x]}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1333em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">EMxCS</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span><span class="mopen">[</span><span class="mord mathrm">x</span><span class="mclose">]</span></span></span></span></span>始终有效。</p>
+<p><img src="./EMIF_%E5%BC%82%E6%AD%A5_%E6%99%AE%E9%80%9A%E6%A8%A1%E5%BC%8F%E8%AF%BB%E6%97%B6%E5%BA%8F.png" alt="EMIF_异步_普通模式读时序"></p>
+<blockquote>
+<p>图中可见，data实际上在strobe后半段才有效，这是为了能采样到数据总线的稳定状态。</p>
+</blockquote>
+<br>
+<br>
+<br>
+<br>
+<p><img src="./EMIF_%E5%BC%82%E6%AD%A5_%E6%99%AE%E9%80%9A%E6%A8%A1%E5%BC%8F%E5%86%99%E6%97%B6%E5%BA%8F.png" alt="EMIF_异步_普通模式写时序"></p>
+<h2 id="选择选通模式">选择选通模式</h2>
+<p>仅在STROBE期间<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">C</mi><mi mathvariant="normal">S</mi></mrow><mo stretchy="true">‾</mo></mover><mo stretchy="false">[</mo><mn>4</mn><mo>:</mo><mn>2</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">\mathrm{\overline{EMxCS}[4:2]}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1333em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">EMxCS</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span><span class="mopen">[</span><span class="mord mathrm">4</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathrm">2</span><span class="mclose">]</span></span></span></span></span>有效。</p>
+<p><img src="./EMIF_%E5%BC%82%E6%AD%A5_%E9%80%89%E9%80%9A%E6%A8%A1%E5%BC%8F%E8%AF%BB%E6%97%B6%E5%BA%8F.png" alt="EMIF_异步_选通模式读时序"></p>
+<p><img src="./EMIF_%E5%BC%82%E6%AD%A5_%E9%80%89%E9%80%9A%E6%A8%A1%E5%BC%8F%E5%86%99%E6%97%B6%E5%BA%8F.png" alt="EMIF_异步_选通模式写时序"></p>
+<h2 id="扩展等待模式">扩展等待模式</h2>
+<p>此模式下EMIF会在strobe期间等待，<br>
+直到外部设备不驱动<code>EM1WAIT</code>引脚（即通知EMIF停止等待）或等待超时。</p>
+<p><code>EM1WAIT</code>引脚的有效极性可配置，超时等待时间也可配置。</p>
+<h1>EMIF地址空间</h1>
+<p><img src="./2837xD_EMIF%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4.png" alt="2837xD_EMIF地址空间"></p>
+<h1>数据总线驻留</h1>
+<p>当 EMIF 处于空闲状态时，EMIF 始终将数据总线驱动到上一个写入数据值。<br>
+这一功能称为<strong>数据总线驻留</strong>。</p>
+<p>只有当 EMIF 向外部存储器发出读取命令时，EMIF 才会停止驱动数据总线。<br>
+在 EMIF 锁存最后一个读取数据后，EMIF 会立即再次驻留数据总线。</p>
+<p>这种行为的一个例外是，当 EMIF 处于自刷新状态时，执行异步读取操作。<br>
+在这种情况下，读取操作之后，EMIF 不会停顿数据总线。</p>
+<p>相反，EMIF 会对数据总线进行三态处理。</p>
+<p>因此，不建议在 EMIF 处于自刷新状态时执行异步读操作，以防止数据总线上出现浮动输入。</p>
+<p>如果需要在这种情况下执行读取操作，<br>
+则必须在 16 个 EMIF 数据总线引脚（没有内部上拉电阻）上放置外部上拉电阻，如 10 千欧电阻。</p>
+<p>必须选择精确的电阻值，使最坏情况下的组合关态漏电流不会导致相关引脚上的电压水平降至高电平输入电压要求以下。</p>
+<h1>重置与初始化注意事项</h1>
+<p>EMIF 存储器控制器有两个低电平有效复位信号，即 <code>CHIP_RST_n</code> 和 <code>MOD_G_RST_n</code>。<br>
+这两个复位信号均由器件系统复位信号驱动。</p>
+<p>该器件必须同时复位 EMIF 控制器的内存映射寄存器。</p>
+<p>一旦器件系统复位上升沿，EMIF 存储器控制器就会立即开始初始化。<br>
+存储在 EMIF 存储控制器 FIFO 中的命令和数据将丢失。</p>
+<h1>中断支持</h1>
+<p>有三种情况可能导致EMIF对CPU产生中断：</p>
+<ul>
+<li><code>EMxWAIT</code>上升沿：<br>
+当检测到 EM1WAIT 信号的上升沿时，就会发生等待上升中断。<br>
+该中断的产生不受异步等待周期配置寄存器 (ASYNC_WCCR) 中 WPn 位的影响。</li>
+</ul>
+<br>
+<ul>
+<li>异步超时：<br>
+当所连接的异步设备未能在 AWCC 中 MAX_EXT_WAIT 位定义的周期数内取消 EM1WAIT 引脚的置位时，<br>
+就会发生异步超时中断（仅在扩展等待模式下发生）。</li>
+</ul>
+<br>
+<ul>
+<li>使用不支持的寻址模式：<br>
+EMIF 仅支持线性递增和高速缓存行包络寻址模式。<br>
+如果收到不支持的寻址模式的访问请求，<br>
+EMIF 会设置 AWCC 中的 LT 位、EMIF 会设置 EMIF 中断原始寄存器 (INT_RAW) 中的 LT 位，并将该请求视为线性递增请求。</li>
+</ul>
+<br>
+<p>只有通过将 EMIF 中断屏蔽设置寄存器 (INT_MSK_SET) 中的相应位 (WR_MASK_SET/AT_MASK_SET/LT_MASK_SET) 设置为 1 来启用中断时，<br>
+才会向 CPU 发送中断。</p>
+<p>一旦启用，可通过向 EMIF 中断屏蔽清除寄存器（INT_MSK_CLR）中的相应位写 1 来禁用中断。<br>
+INT_MSK_SET 和 INT_MSK_CLR 中的位字段可用于指示中断是否已启用。<br>
+启用中断时，INT_MSK_SET 和 INT_MSK_CLR 中的相应位字段值均为 1；<br>
+当中断被禁用时，相应位字段的值为 0。</p>
+<h1>仲裁</h1>
+<p>EMIF 每次只能收到一个请求。<br>
+一旦 EMIF 完成一个请求，外部仲裁器就会向 EMIF 提供下一个待处理请求。<br>
+在内部，EMIF 根据严格的优先级方案执行内存设备事务。</p>
+<p>优先级最高的事件是</p>
+<ul>
+<li>设备复位。</li>
+<li>对 SDRAM 配置寄存器（SDRAM_CR）三个最小有效字节中任何一个的写入。</li>
+</ul>
+<p>上述任一事件都会导致 EMIF 立即开始第 25.2.5.4 节所述的初始化序列。</p>
+<p>一旦 EMIF 完成初始化，EMIF 将按照以下优先级方案执行内存事务（最高优先级列在前面）：</p>
+<ol>
+<li>如果 EMIF 的积压刷新计数器处于 &quot;必须刷新 &quot;紧急级别，EMIF 会执行多个 SDRAM 自动刷新周期，直到达到 &quot;释放刷新 &quot;紧急级别。</li>
+<li>如果已请求 SDRAM 或异步读取，EMIF 将执行读取操作。</li>
+<li>如果 EMIF 的积压刷新计数器处于 &quot;需要刷新 &quot;紧急级别，EMIF 将执行一个 SDRAM 自动刷新周期。</li>
+<li>如果已请求 SDRAM 或异步写入，EMIF 将执行写入操作。</li>
+<li>如果 EMIF 的积压刷新计数器处于 &quot;刷新 5 月 &quot;或 &quot;刷新释放 &quot;紧急级别，EMIF 将执行 SDRAM 自动刷新周期。</li>
+<li>如果 SDRAM_CR 中 SR 位的值被设置为 1，则 EMIF 进入第 25.2.5.7 节所述的自刷新状态。</li>
+</ol>
+<p>在执行上述操作之一后，EMIF 会返回优先级列表的顶部，以确定下一步操作。<br>
+由于 EMIF 在自刷新状态下不会发出自动刷新周期，因此上述优先级方案在此状态下不适用。</p>
+<h1>系统考虑因素</h1>
+<blockquote>
+<p>与SDRAM相关部分省略。</p>
+</blockquote>
+<h2 id="布线">布线</h2>
+<p>由于EMIF属于高速信号，因此PCB板上布线对信号质量影响很大。<br>
+以下是良好的PCB层级划分：（四层板和6层板）<br>
+<img src="./EMIF_PCB%E6%9D%BF%E6%8E%A8%E8%8D%90%E5%B1%82%E7%BA%A7%E5%88%92%E5%88%86.png" alt="EMIF_PCB板推荐层级划分"></p>
+<h1>应用</h1>
+<p>主要关注sysconfig工具对EMIF模块的配置。<br>
+以下仅从异步访问考虑。</p>
+<p>截止至C2000Ware_5_03_00_00，<br>
+对于28377D，sysconfig工具仅支持在CPU1中配置EMIF模块。</p>
+<h2 id="访问保护">访问保护</h2>
+<p>截止至C2000Ware_5_03_00_00，<br>
+sysconfig工具强制要求设置Access Protection，<br>
+该项实际上是调用<code>EMIF_setAccessProtection()</code>函数设置以下寄存器：<br>
+<img src="./EMIF1%E8%AE%BF%E9%97%AE%E4%BF%9D%E6%8A%A4%E5%AF%84%E5%AD%98%E5%99%A8.png" alt="EMIF1访问保护寄存器"></p>
+<p>因此DMA写、CPU写、CPU取指这三个操作总有一个不能使用。</p>
+<p>但是在官方的双核EMIF例程中并未强制调用此函数，推测是sysconfig的bug。</p>
+<h2 id="EMIF控制权">EMIF控制权</h2>
+<p>EMIF1可由CPU1或CPU2控制。<br>
+在官方的双核EMIF例程中，展示了两核之间如何交接EMIF的控制权：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//EMIF1初始化部分省略</span></span><br><span class="line"><span class="comment">//EMIF1可由CPU2初始化，但是引脚分配仍需由CPU1实现</span></span><br><span class="line"></span><br><span class="line"><span class="comment">////////////////////////////////////////////////////////////////////////</span></span><br><span class="line"><span class="comment">/*******************************CPU1操作*******************************/</span></span><br><span class="line">        </span><br><span class="line"><span class="comment">// 获取EMIF1控制权</span></span><br><span class="line"> <span class="keyword">while</span>(HWREGH(EMIF1CONFIG_BASE + MEMCFG_O_EMIF1MSEL) != EMIF_MASTER_CPU1_G)</span><br><span class="line">  &#123;</span><br><span class="line">      EMIF_selectMaster(EMIF1CONFIG_BASE, EMIF_MASTER_CPU1_G);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//......</span></span><br><span class="line"><span class="comment">// CPU1对EMIF进行写入或读取</span></span><br><span class="line"><span class="comment">//......</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 释放EMIF控制权</span></span><br><span class="line">EMIF_selectMaster(EMIF1CONFIG_BASE, EMIF_MASTER_CPU1_NG);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////</span></span><br><span class="line"><span class="comment">/*******************************CPU2操作*******************************/</span></span><br><span class="line">        </span><br><span class="line"><span class="comment">// 获取EMIF1控制权</span></span><br><span class="line"> <span class="keyword">while</span>(HWREGH(EMIF1CONFIG_BASE + MEMCFG_O_EMIF1MSEL) != EMIF_MASTER_CPU2_G)</span><br><span class="line">  &#123;</span><br><span class="line">      EMIF_selectMaster(EMIF1CONFIG_BASE, EMIF_MASTER_CPU2_G);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//......</span></span><br><span class="line"><span class="comment">// CPU2对EMIF进行写入或读取</span></span><br><span class="line"><span class="comment">//......</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 释放EMIF控制权</span></span><br><span class="line">EMIF_selectMaster(EMIF1CONFIG_BASE, EMIF_MASTER_CPU1_NG);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>如上，EMIF的控制权有三种状态：（虽然有四个值，但有两个值含义一样）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> EMIF_MASTER_CPU1_NG             EMIF_CONTROLLER_CPU1_NG  <span class="comment">//cpu1是主控但不占有EMIF</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EMIF_MASTER_CPU1_G              EMIF_CONTROLLER_CPU1_G   <span class="comment">//cpu1是主控且占有EMIF</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EMIF_MASTER_CPU2_G              EMIF_CONTROLLER_CPU2_G   <span class="comment">//cpu2是主控且占有EMIF</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EMIF_MASTER_CPU1_NG2            EMIF_CONTROLLER_CPU1_NG2 <span class="comment">//cpu1是主控但不占有EMIF</span></span></span><br></pre></td></tr></table></figure>
+<p>实际上这个操作是在配置以下寄存器：<br>
+<img src="./EMIF1_msel%E5%AF%84%E5%AD%98%E5%99%A8.png" alt="EMIF1_msel寄存器"></p>
+<blockquote>
+<p>在sysconfig工具中EMIF模块的<code>Controller Select</code>选项就是选择此内容的。</p>
+</blockquote>
+<h2 id="接口时序与位宽配置">接口时序与位宽配置</h2>
+<p>sysconfig工具的EMIF模块中有<code>CS0</code>、<code>CS2~CS4</code>四个子栏目用于配置接口的时序和位宽，<br>
+其中<code>CS0</code>对应同步访问接口，<code>CS2~CS4</code>对应异步访问接口。</p>
+<p>以EMIF CS2 接口为例，<br>
+官方例程中使用SRAM CY7C1041CV33，<br>
+设置的时序为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">tparam.rSetup = <span class="number">0</span>;</span><br><span class="line">tparam.rStrobe = <span class="number">3</span>;</span><br><span class="line">tparam.rHold = <span class="number">0</span>;</span><br><span class="line">tparam.turnArnd = <span class="number">0</span>;</span><br><span class="line">tparam.wSetup = <span class="number">0</span>;</span><br><span class="line">tparam.wStrobe = <span class="number">1</span>;</span><br><span class="line">tparam.wHold = <span class="number">0</span>;</span><br><span class="line">EMIF_setAsyncTimingParams(EMIF1_BASE, EMIF_ASYNC_CS2_OFFSET, &amp;tparam);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>要注意的是，实际时序是设定值 + 1,<br>
+比如上例中tparam.rSetup = 0，实际设置的Setup时长为1(cycle)。<br>
+这个cycle指的是EMIF模块的时钟周期，<br>
+假设SYSCLK = 200MHZ，EMIF时钟分频器为2，则EMIFCLK = 100MHZ。<br>
+此时Setup时长为1 ÷ 100MHZ = 10ns 。</p>
+</blockquote>
+<p>sysconfig工具中配置EMIF时序时，会自动计算实际时长：<br>
+<img src="./EMIF_sysconfig%E8%AE%BE%E7%BD%AE%E6%97%B6%E5%BA%8F.png" alt="EMIF_sysconfig设置时序"></p>
+<p>根据需要配置位宽、可访问地址空间（地址线最高位）、选择选通模式、扩展等待模式：<br>
+<img src="./EMIF_sysconfig%E6%8E%A5%E5%8F%A3%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AE.png" alt="EMIF_sysconfig接口模式配置"></p>
+<blockquote>
+<p>注意引脚冲突的问题。</p>
+</blockquote>
+<h2 id="引脚分配">引脚分配</h2>
+<p><code>Pinmux Use Case</code>可以选择接口配置的位宽，<br>
+用以检查在<code>PinMux</code>中分配的引脚是否有冲突、未分配的情况。</p>
+<h1>BUG(?)情况声明</h1>
+<h2 id="EMIF异步访问时序问题">EMIF异步访问时序问题</h2>
+<p><a target="_blank" rel="noopener" href="https://e2echina.ti.com/support/microcontrollers/c2000/f/c2000-microcontrollers-forum/957986/tms320f28377d-sysconfig-emif-emif">相关提问链接</a></p>
+<p>仅使用CS2接口进行异步访问时，当执行<code>读-写-读</code>的操作，如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">xxx = *(<span class="type">unsigned</span> <span class="type">int</span>*)(<span class="number">0x100002</span>);</span><br><span class="line">      </span><br><span class="line">*(<span class="type">unsigned</span> <span class="type">int</span>*)(<span class="number">0x100002</span>) = <span class="number">0x1111</span>;</span><br><span class="line"></span><br><span class="line">xxx = *(<span class="type">unsigned</span> <span class="type">int</span>*)(<span class="number">0x100004</span>);</span><br></pre></td></tr></table></figure>
+<p>实际录制到的时序是<code>读-读-写</code>，尚不清楚这是什么原因造成的。</p>
+<p>通过在<code>读-写</code>操作中间执行其它指令（不能少于两个，注意操作不要被编译器优化了）可以让时序变回正常：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">xxx = *(<span class="type">unsigned</span> <span class="type">int</span>*)(<span class="number">0x100002</span>);</span><br><span class="line">      </span><br><span class="line"><span class="comment">// do something before write</span></span><br><span class="line">arr[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">*(<span class="type">unsigned</span> <span class="type">int</span>*)(<span class="number">0x100002</span>) = <span class="number">0x1111</span>;</span><br><span class="line"></span><br><span class="line">xxx = *(<span class="type">unsigned</span> <span class="type">int</span>*)(<span class="number">0x100004</span>);</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="YILON">YILON</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/12/16/TI_DSP_TMS320F28377D_EMIF/">http://example.com/2024/12/16/TI_DSP_TMS320F28377D_EMIF/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">YILON</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><a class="post-meta__tags" href="/tags/DSP/">DSP</a><a class="post-meta__tags" href="/tags/TMS320F28377D/">TMS320F28377D</a></div><div class="post-share"><div class="social-share" data-image="/private_img/cover.svg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2024/12/13/TI_DSP_TMS320F28377D_IPC/" title="TI_DSP_TMS320F28377D_IPC"><img class="cover" src="/private_img/cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">TI_DSP_TMS320F28377D_IPC</div></div><div class="info-2"><div class="info-item-1">基本架构  功能组成 Message RAMs 有两个 2KByte 的消息RAM， 分别为由CPU1 -&gt; CPU2 和 CPU2 -&gt; CPU1。 具体控制情况如下：   对Message RAM进行读写不会触发远程CPU的任何事件。  IPC 标志和中断 每个通信方向有 32 个IPC事件信号。  CPUx 可以通过写入 IPCSET 寄存器 32 位中的任意一位来引发 IPC 事件。 这将设置 CPUx IPCFLG 寄存器和 CPUy IPCSTS 寄存器中的相应位。  CPUy 可以通过设置 IPCACK 寄存器中的相应位来发出响应事件的信号。 这将清除 CPUx IPCFLG 寄存器和 CPUy IPCSTS 寄存器中的相应位。  如果 CPUx 需要取消事件，可设置 IPCCLR 寄存器中的相应位。 这与 CPUy 写入 IPCACK 的效果相同。  标志 0-3（使用 IPCSET[3:0]设置）向远程 CPU 发射中断。 远程 CPU 必须正确配置 ePIE 模块才能接收 IPC 中断。 标志 4-31（使用 IPCSET[31:4]...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/09/19/TI_DSP_C2000_driverlib%E4%B8%8ESysconfig/" title="TI_DSP_C2000_driverlib与Sysconfig"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-19</div><div class="info-item-2">TI_DSP_C2000_driverlib与Sysconfig</div></div><div class="info-2"><div class="info-item-1">driverlib 简述 driverLib是德州仪器为C2000微控制器提供的一个驱动库，它包含了大量的硬件抽象层（HAL）函数，用于简化微控制器的编程过程。 driverlib 库的代码组织通常遵循模块化设计，每个模块对应一个微控制器外设或功能模块。 每个模块都提供初始化函数、配置函数以及操作函数。开发者只需调用这些函数即可完成外设的配置和操作，避免手动处理低级别的寄存器操作。 由于 driverlib 提供了对硬件寄存器的抽象层，代码在不同的 C2000 器件之间的移植变得更容易。  TI通常将项目架构称为基于bit-filed的或基于driverlib的， 前者即所谓的“操作寄存器”式设计，是C2000Ware/device_support中的例程形式。   driverlib包含在C2000 Ware中，要使用此库，必须安装C2000 Ware。  driverlib的文件结构 默认位置安装C2000...</div></div></div></a><a class="pagination-related" href="/2024/10/21/TI_DSP_TMS320F28377D_DMA/" title="TI_DSP_TMS320F28377D_DMA"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-21</div><div class="info-item-2">TI_DSP_TMS320F28377D_DMA</div></div><div class="info-2"><div class="info-item-1">概述  六个具有独立 PIE 中断的通道 每个 DMA 通道可由多个外设触发源独立触发 数据源和目标：  GSx RAM CPU 消息RAM (IPC RAM) ADC存储器总线映射结果寄存器 ePWMx SPI, McBSP, EMIF   字长:16-bit或 32-bit(SPI和 McBSP 限制为 16-bit) 吞吐量：4 cycles/word 无仲裁    DMA总线由32位地址总线、32位数据读总线、32位数据写总线组成。   明确一点，挂载在DMA总线上的内部存储空间只有GS RAM和MSG RAM， 因此DMA可以访问的内部空间指针（地址）必须分配在这两类空间中。 一般地，如果使用数组作为源或目标地址， 可使用如下方式将该数组分配在GS RAM或MSG RAM中：   首先在CMD文件中定义相应的段； 注意，CPU2要使用GS RAM或MSG RAM，必须先在CPU1中进行分配。 具体分配方式见文末例程。  1234567// 在数组定义之前声明// 假设定义的段的名字是“ramgs0”，代表其占用RAM GS0的空间。 #pragma...</div></div></div></a><a class="pagination-related" href="/2024/11/21/TI_DSP_TMS320F28377D_GPIO%E3%80%81SCI%E3%80%81I2C%E4%B8%8ESPI/" title="TI_DSP_TMS320F28377D_GPIO、SCI、I2C与SPI"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-21</div><div class="info-item-2">TI_DSP_TMS320F28377D_GPIO、SCI、I2C与SPI</div></div><div class="info-2"><div class="info-item-1">GPIO 除了 CPU 控制的 I/O 功能外，单个 GPIO 引脚可复用多达12个独立的外设信号。 每个引脚输出既可由外设控制，也可由四个master控制：  CPU1 CPU1.CLA CPU2 CPU2.CLA  最高有8个 IO 端口: • Port A ： GPIO0-GPIO31 • Port B ： GPIO32-GPIO63 • Port C ： GPIO64-GPIO95 • Port D ： GPIO96-GPIO127 • Port E ： GPIO128-GPIO159 • Port F ： GPIO160-GPIO191 • Port G ： GPIO192-GPIO223 • Port H ： GPIO224-GPIO255  首先，输入和输出路径完全分开，只在引脚处连接。其次，外设复用远离引脚。 因此，CPU 和 CLA 都可以读取引脚的物理状态，而不受master设置和外设复用的影响。 同样的，外部中断也可以从外设活动中产生。 开漏输出等所有引脚选项对所有主设备和外设都有效。  注意，外设复用、master 设置和引脚配置只能由 CPU1...</div></div></div></a><a class="pagination-related" href="/2024/12/13/TI_DSP_TMS320F28377D_IPC/" title="TI_DSP_TMS320F28377D_IPC"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-13</div><div class="info-item-2">TI_DSP_TMS320F28377D_IPC</div></div><div class="info-2"><div class="info-item-1">基本架构  功能组成 Message RAMs 有两个 2KByte 的消息RAM， 分别为由CPU1 -&gt; CPU2 和 CPU2 -&gt; CPU1。 具体控制情况如下：   对Message RAM进行读写不会触发远程CPU的任何事件。  IPC 标志和中断 每个通信方向有 32 个IPC事件信号。  CPUx 可以通过写入 IPCSET 寄存器 32 位中的任意一位来引发 IPC 事件。 这将设置 CPUx IPCFLG 寄存器和 CPUy IPCSTS 寄存器中的相应位。  CPUy 可以通过设置 IPCACK 寄存器中的相应位来发出响应事件的信号。 这将清除 CPUx IPCFLG 寄存器和 CPUy IPCSTS 寄存器中的相应位。  如果 CPUx 需要取消事件，可设置 IPCCLR 寄存器中的相应位。 这与 CPUy 写入 IPCACK 的效果相同。  标志 0-3（使用 IPCSET[3:0]设置）向远程 CPU 发射中断。 远程 CPU 必须正确配置 ePIE 模块才能接收 IPC 中断。 标志 4-31（使用 IPCSET[31:4]...</div></div></div></a><a class="pagination-related" href="/2024/09/26/TI_DSP_TMS320F28377D_%E4%B8%AD%E6%96%AD/" title="TI_DSP_TMS320F28377D_中断"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-26</div><div class="info-item-2">TI_DSP_TMS320F28377D_中断</div></div><div class="info-2"><div class="info-item-1">中断  外设中断 C28xCPU有14个外设中断线。其中两个（INT13和INT14）分别直接连接到CPU定时器Timer 1和Timer...</div></div></div></a><a class="pagination-related" href="/2024/09/25/TI_DSP_TMS320F28377D_%E5%A4%8D%E4%BD%8D%E6%9C%BA%E5%88%B6/" title="TI_DSP_TMS320F28377D_复位机制"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-25</div><div class="info-item-2">TI_DSP_TMS320F28377D_复位机制</div></div><div class="info-2"><div class="info-item-1">设备标识 器件识别寄存器提供有关器件类别，器件系列，版本，器件编号，引脚数，工作温度范围，封装类型，引脚数和器件验证状态的信息。 所有器件信息都是 DEV_CFG_REGS空间的一部分，只能由 CPU1子系统上运行的软件访间。 UIDREGS中提供256位唯一ID（UID）。256位分为以下寄存器：  UID_PSRAND0-5：192位伪随机数据 UID_UNIQUE：32位唯一数据，该寄存器中的值在具有相同PARTIDH的所有器件中将是唯一的 UID_CHECKSUM: 前两者 的 32 位 fletcher...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/private_img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YILON</div><div class="author-info-description">YILON的技术小窝</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">91</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">25</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YILON"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">相关概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">时钟</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">接口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#EMIF%E5%BC%95%E8%84%9A%E5%86%B2%E7%AA%81%E6%83%85%E5%86%B5"><span class="toc-number">4.1.</span> <span class="toc-text">EMIF引脚冲突情况</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">EMIF异步访问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">5.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E6%A8%A1%E5%BC%8F%EF%BC%88%E9%BB%98%E8%AE%A4%EF%BC%89"><span class="toc-number">5.2.</span> <span class="toc-text">普通模式（默认）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E9%80%89%E9%80%9A%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.3.</span> <span class="toc-text">选择选通模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E7%AD%89%E5%BE%85%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.4.</span> <span class="toc-text">扩展等待模式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">EMIF地址空间</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">数据总线驻留</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">8.</span> <span class="toc-text">重置与初始化注意事项</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">9.</span> <span class="toc-text">中断支持</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">10.</span> <span class="toc-text">仲裁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">11.</span> <span class="toc-text">系统考虑因素</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%83%E7%BA%BF"><span class="toc-number">11.1.</span> <span class="toc-text">布线</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">12.</span> <span class="toc-text">应用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E4%BF%9D%E6%8A%A4"><span class="toc-number">12.1.</span> <span class="toc-text">访问保护</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EMIF%E6%8E%A7%E5%88%B6%E6%9D%83"><span class="toc-number">12.2.</span> <span class="toc-text">EMIF控制权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E6%97%B6%E5%BA%8F%E4%B8%8E%E4%BD%8D%E5%AE%BD%E9%85%8D%E7%BD%AE"><span class="toc-number">12.3.</span> <span class="toc-text">接口时序与位宽配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%84%9A%E5%88%86%E9%85%8D"><span class="toc-number">12.4.</span> <span class="toc-text">引脚分配</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">13.</span> <span class="toc-text">BUG(?)情况声明</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#EMIF%E5%BC%82%E6%AD%A5%E8%AE%BF%E9%97%AE%E6%97%B6%E5%BA%8F%E9%97%AE%E9%A2%98"><span class="toc-number">13.1.</span> <span class="toc-text">EMIF异步访问时序问题</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/12/16/TI_DSP_TMS320F28377D_EMIF/" title="TI_DSP_TMS320F28377D_EMIF"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F28377D_EMIF"/></a><div class="content"><a class="title" href="/2024/12/16/TI_DSP_TMS320F28377D_EMIF/" title="TI_DSP_TMS320F28377D_EMIF">TI_DSP_TMS320F28377D_EMIF</a><time datetime="2024-12-16T03:10:24.000Z" title="发表于 2024-12-16 11:10:24">2024-12-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/13/TI_DSP_TMS320F28377D_IPC/" title="TI_DSP_TMS320F28377D_IPC"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F28377D_IPC"/></a><div class="content"><a class="title" href="/2024/12/13/TI_DSP_TMS320F28377D_IPC/" title="TI_DSP_TMS320F28377D_IPC">TI_DSP_TMS320F28377D_IPC</a><time datetime="2024-12-13T07:10:44.000Z" title="发表于 2024-12-13 15:10:44">2024-12-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/10/FT4222H%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" title="FT4222H使用说明"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FT4222H使用说明"/></a><div class="content"><a class="title" href="/2024/12/10/FT4222H%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" title="FT4222H使用说明">FT4222H使用说明</a><time datetime="2024-12-10T06:00:44.000Z" title="发表于 2024-12-10 14:00:44">2024-12-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/private_img/Top.svg);"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By YILON</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

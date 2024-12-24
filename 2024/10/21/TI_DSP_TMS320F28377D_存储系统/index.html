@@ -1,0 +1,502 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>TI_DSP_TMS320F28377D_存储系统 | YILON</title><meta name="author" content="YILON"><meta name="copyright" content="YILON"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="RAM 对于2837xD，RAM可分为不同几部分：  RAM的分类 专用RAM 每个CPU子系统有四个专用的RAM，只有对应的CPU可以访问这些RAM：  M0、M1： D0、D1：是安全存储器，具有访问保护功能，可为其分别配置不同类型的访问保护。  Local Share RAM（LSx RAM） 只能由对应CPU及其CLA访问的RAM。 这些RAM都是安全存储器，具有访问保护功能，可为其分别配">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TI_DSP_TMS320F28377D_存储系统">
+<meta property="og:url" content="http://example.com/2024/10/21/TI_DSP_TMS320F28377D_%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="YILON">
+<meta property="og:description" content="RAM 对于2837xD，RAM可分为不同几部分：  RAM的分类 专用RAM 每个CPU子系统有四个专用的RAM，只有对应的CPU可以访问这些RAM：  M0、M1： D0、D1：是安全存储器，具有访问保护功能，可为其分别配置不同类型的访问保护。  Local Share RAM（LSx RAM） 只能由对应CPU及其CLA访问的RAM。 这些RAM都是安全存储器，具有访问保护功能，可为其分别配">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/private_img/cover.svg">
+<meta property="article:published_time" content="2024-10-21T06:00:32.000Z">
+<meta property="article:modified_time" content="2024-12-24T00:49:40.960Z">
+<meta property="article:author" content="YILON">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="DSP">
+<meta property="article:tag" content="TMS320F28377D">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/private_img/cover.svg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/10/21/TI_DSP_TMS320F28377D_%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'TI_DSP_TMS320F28377D_存储系统',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-color: #4582A0;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/private_img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">91</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">25</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/private_img/cover.svg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">YILON</span></a><a class="nav-page-title" href="/"><span class="site-name">TI_DSP_TMS320F28377D_存储系统</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">TI_DSP_TMS320F28377D_存储系统</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-10-21T06:00:32.000Z" title="发表于 2024-10-21 14:00:32">2024-10-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-12-24T00:49:40.960Z" title="更新于 2024-12-24 08:49:40">2024-12-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>RAM</h1>
+<p>对于2837xD，RAM可分为不同几部分：<br>
+<img src="./2837xD_RAM%E6%9E%B6%E6%9E%84.png" alt="2837xD_RAM架构"></p>
+<h2 id="RAM的分类">RAM的分类</h2>
+<h3 id="专用RAM">专用RAM</h3>
+<p>每个CPU子系统有四个专用的RAM，只有对应的CPU可以访问这些RAM：</p>
+<ul>
+<li>M0、M1：</li>
+<li>D0、D1：是安全存储器，具有访问保护功能，可为其分别配置不同类型的访问保护。</li>
+</ul>
+<h3 id="Local-Share-RAM（LSx-RAM）">Local Share RAM（LSx RAM）</h3>
+<p>只能由对应CPU及其CLA访问的RAM。<br>
+这些RAM都是安全存储器，具有访问保护功能，可为其分别配置不同类型的访问保护。<br>
+具有奇偶校验特性。<br>
+默认情况下，仅专用于CPU，CLA想要访问需要进行配置。</p>
+<h3 id="Global-Share-RAM（GSx-RAM）">Global Share RAM（GSx RAM）</h3>
+<p>每个共享RAM可设置为由一CPU拥有，该CPU及其DMA对此RAM具有完全的读写访问权，<br>
+此时另一CPU只允许进行读取。</p>
+<p>这些RAM是安全存储器，具有访问保护功能，可为其分别配置不同类型的访问保护。</p>
+<p>每个GSx RAM模块的主机选择和访问保护配置可通过程序单独锁定，<br>
+此情况下一旦为其提交配置，在发出CPUx.SYSRS（复位）之间都不能更改配置。<br>
+只有CPU1 SW可通过写入映射在CPU1上的GSxMSEL寄存器来更改主机选择配置。</p>
+<p>映射到CPU2的GSxMSEL寄存器是一个状态寄存器，只用于CPU2 SW用以获知各GSx RAM的所有权。</p>
+<h3 id="CPU-message-RAM（CPU-MSG-RAM-IPC-RAM）">CPU message RAM（CPU MSG RAM/IPC RAM）</h3>
+<p>用于CPU1与CPU2之间共享数据，其所有权是固定的。<br>
+CPU（及其DMA）对属于自己的CPU MSG RAM拥有读/写权限，<br>
+对不属于自己的CPU MSG RAM只拥有读权限。</p>
+<p>该类型RAM有奇偶校验。</p>
+<h3 id="CLA-message-RAM（CLA-MSG-RAM）">CLA message RAM（CLA MSG RAM）</h3>
+<p>用于CPU与对应的CLA之间共享数据，其所有权是固定的。<br>
+CPU对<code>CPU TO CLA MSG RAM</code>拥有读/写权限，<br>
+对<code>CLA TO CPU MSG RAM</code>只拥有读权限。</p>
+<p>CLA对属于自己的<code>CLA TO CPU MSG RAM</code>拥有读/写权限，<br>
+对<code>CPU TO CLA MSG RAM</code>只拥有读权限。</p>
+<p>该类型RAM有奇偶校验。</p>
+<h2 id="访问仲裁">访问仲裁</h2>
+<p>对于共享RAM，在给定时间可以发生多个访问。<br>
+在任意给定时间对任意共享RAM的最大访问次数取决于共享RAM的类型。</p>
+<p>在该设备上，遵循固定和循环方案的组合：</p>
+<ul>
+<li>来自相同主设备的访问以固定优先级方式仲裁，</li>
+<li>来自不同设备的访问使用循环优先级来仲裁。</li>
+</ul>
+<h3 id="CPU访问的固定优先级顺序">CPU访问的固定优先级顺序</h3>
+<blockquote>
+<p>1：数据写入程序写入<br>
+2．数据读取<br>
+3．程序读取程序读取</p>
+</blockquote>
+<h3 id="CLA访问的固定优先级的顺序">CLA访问的固定优先级的顺序</h3>
+<blockquote>
+<p>1．数据写入<br>
+2．数据读取/程序读取</p>
+</blockquote>
+<h3 id="GSx-RAM的循环仲裁方案">GSx RAM的循环仲裁方案</h3>
+<p><img src="./GS_RAM%E5%BE%AA%E7%8E%AF%E4%BB%B2%E8%A3%81.png" alt="GS_RAM循环仲裁"></p>
+<p>举例说明此图：</p>
+<blockquote>
+<p>比如当CPU1访问此GS RAM，若没有其它部件访问，则CPU1可以正常访问，<br>
+此时CPU2也申请访问此GS RAM，由于其在仲裁链中处于CPU1后，因此必须等CPU1和CPU1.DMA都访问完才轮到CPU2访问；<br>
+当CPU2访问此GS RAM时，CPU1又想访问，此时CPU1也必须等待。（因为CPU1在仲裁链中处于CPU2后）</p>
+</blockquote>
+<p>如此能确保GS RAM不会一直被某器件占用（除非该器件一直不停止访问此RAM）</p>
+<h3 id="LSx-RAM的循环仲裁方案">LSx RAM的循环仲裁方案</h3>
+<p><img src="./LS_RAM%E5%BE%AA%E7%8E%AF%E4%BB%B2%E8%A3%81.png" alt="LS_RAM循环仲裁"></p>
+<br>
+<h1>FLASH</h1>
+<p><img src="./Flash%E6%A8%A1%E5%9D%97%E6%9E%B6%E6%9E%84.png" alt="Flash模块架构"></p>
+<p>在F28379D、F28378D、F28377D、F28375D上，每个CPU都具有专用的FLASH Bank（512KB）以及对应的Flash控制器（FMC），即芯片总FLASH大小为1MB。</p>
+<p>各FMC通过获取泵信号量（pump Semaphore）来占用共享泵（pump），从而实现访问自己的Bank。</p>
+<p>因此一次只能对一个FLASH Bank进行编程或擦除，并且对FLASH进行编程的代码应在RAM中执行。</p>
+<h2 id="默认（器件上电时）Flash配置">默认（器件上电时）Flash配置</h2>
+<ul>
+<li>各Flash bank处于睡眠模式</li>
+<li>pump处于睡眠模式</li>
+<li>启用ECC</li>
+<li>等待状态设置为最大（0xF）</li>
+<li>在两个FMC中禁用代码预取机制和高速数据缓存</li>
+</ul>
+<h2 id="OTP">OTP</h2>
+<p>OTP即一次性可编程存储器，即编程后无法擦除，只能进行读取。<br>
+CPU1有一个USER OTP；<br>
+CPU1和CPU2都有一个已被编程的TI-OTP，包含制造信息。</p>
+<h2 id="Flash与OTP读取-取指性能">Flash与OTP读取/取指性能</h2>
+<p>CPU对Flash的读取与取值统一归类为<code>访问</code>。</p>
+<p>当CPU访问Flash，在<code>RWAIT+1个SYSCLK</code>后Flash返回数据；<br>
+当CPU1对USER OTP访问，将在<code>11个SYSCLK</code>周期后Flash返回数据。</p>
+<p><code>RWAIT</code>可通过配置<code>FRDCNTL寄存器</code>的RWAIT位字段进行配置。<br>
+在复位时，<code>RWAIT</code>默认为最差情况：<code>0xF</code><br>
+为优化读取性能，在配置Flash时都会适当配置<code>RWAIT</code>。</p>
+<p>对于给定的系统时钟频率，</p>
+<blockquote>
+<pre><code>      RWAIT = 向上取整[(SYSCLK/FCLK) - 1]
+</code></pre>
+</blockquote>
+<p><code>FCLK</code>是闪存时钟频率。<br>
+显然当FCLK = SYSCLK时，可以做到零等待访问。（RWAIT = 0）<br>
+但注意，FLASH不一定能达到SYSCLK的频率，要根据系统特性来确定。</p>
+<blockquote>
+<p>当使用寄存器式编程时，<br>
+在官方例程的<code>F2837xD_SysCtrl.c-&gt;SysCtrl()-&gt;InitFlash()</code>中，<br>
+已经为不同的系统频率配置了不同的RWAIT。<br>
+只要定义<code>_FLASH</code>的预编译宏就可启用。</p>
+</blockquote>
+<blockquote>
+<p>当使用driverlib库时，<br>
+在<code>device.c-&gt;Device_init()</code>中也有InitFlash()，<br>
+只要定义<code>_FLASH</code>的预编译宏就可启用。</p>
+</blockquote>
+<h2 id="FMC仲裁方案">FMC仲裁方案</h2>
+<p>采用固定优先级：</p>
+<ol>
+<li>数据读取</li>
+<li>程序空间读取</li>
+<li>程序取指/程序预取指</li>
+</ol>
+<h2 id="Flash读取模式">Flash读取模式</h2>
+<h3 id="标准读取模式">标准读取模式</h3>
+<p>复位后默认读取模式。</p>
+<p>此时从Flash获取的数据直接被CPU使用。</p>
+<p>对于较低的SYSCLK，推荐使用此模式，<br>
+此时可设置<code>RWAIT = 0</code>实现单周期访问。</p>
+<p>Flash时钟有上限。<br>
+对于较高的SYSCLK，<br>
+<code>RWAIT</code>不为零，<br>
+即CPU需要多个系统周期才能访问Flash。</p>
+<h3 id="预读取模式">预读取模式</h3>
+<p><img src="./Flash%E9%A2%84%E8%AF%BB%E5%8F%96%E6%A8%A1%E5%BC%8F.png" alt="Flash预读取模式"></p>
+<h4 id="指令预存机制">指令预存机制</h4>
+<p>Flash通常用于存储应用代码。<br>
+在代码执行期间，指令从Flash按顺序地址地取出，<br>
+除非发生不连续（比如循环、中断）。</p>
+<p>为了避免CPU访问flash等待，<br>
+可以启用<kbd>指令预存机制</kbd>，<br>
+通过先将Flash特定一段连续地址的指令加载到缓存区，<br>
+CPU访问时便可直接取走，<br>
+实现高速访问。</p>
+<p>从闪存或 OTP 取指令时，每次读取 128 位。<br>
+从Flash读取的 128 位数据将存储在一个 128 位宽、2 级深的指令预取缓冲区中。<br>
+然后，该预取缓冲区的内容会根据需要发送到 CPU 进行处理。</p>
+<p>在一次 128 位访问中最多可容纳 4 条 32 位或 8 条 16 位指令。<br>
+大多数 C28x 指令都是 16 位的，<br>
+因此每从闪存库中获取，预取缓冲区中就可能有多达 8 条指令可供 CPU 处理。<br>
+在处理这些指令的过程中，闪存预取机制会自动启动对闪存库的另一次访问，<br>
+以预取下一个 128 位。<br>
+通过这种方式，闪存预取机制在后台工作，以保持指令预取缓冲区尽可能满。<br>
+利用这种技术，从闪存或 OTP 执行顺序代码的整体效率得到显著提高。</p>
+<p>在执行分支、BANZ、调用或循环等指令导致 PC 中断时，<br>
+闪存预取指会中止，预取缓冲区的内容会被刷新。<br>
+有两种情况：</p>
+<ul>
+<li>新目标地址仍在Flash或OTP内，此时预取指逻辑会恢复；</li>
+<li>新目标地址在Flash或OTP外，则预取会终止，<br>
+直至重新读取Flash或OTP内的地址。</li>
+</ul>
+<blockquote>
+<p>当<code>RWAIT</code>配置为0时，预取机制被绕过。</p>
+</blockquote>
+<blockquote>
+<p>如果启用了预取机制，则不应使用Flash的最后256 位，<br>
+因为预取逻辑会尝试从存储体之外进行预取，从而导致 ECC 错误。</p>
+</blockquote>
+<h4 id="数据缓存机制">数据缓存机制</h4>
+<blockquote>
+<p>指令预存机制仅适用于从程序空间取指令。<br>
+从数据空间读数据或从程序空间读数据不使用该机制。</p>
+</blockquote>
+<p>因此，另外还存在一个数据缓存机制，<br>
+当CPU从bank读取数据空间或程序空间读取数据时，<br>
+如果此时指定地址的数据不在Data Cache中，<br>
+则将从指定地址连续读取 128 bit数据并加载至Data Cache中，<br>
+并将CPU需要的部分发送给CPU；<br>
+如果指定地址的数据在Data Cache中，则直接返回给CPU。</p>
+<p>该机制能加快CPU对于Flash的连续地址读取。</p>
+<blockquote>
+<p>同样的如果启用了此机制，则不应使用Flash的最后256 位，<br>
+因为预取逻辑会尝试从存储体之外进行预取，从而导致 ECC 错误。</p>
+</blockquote>
+<blockquote>
+<p>若启用此机制，在线调试观察Flash/OTP的相应地址空间时将Data Cache。<br>
+因此，在对代码进行性能基准测试时不应在线调试观察此部分地址空间。</p>
+</blockquote>
+<h1>地址空间分配</h1>
+<p>除非另有注明，否则两个CPU具有相同的存储器映射。</p>
+<h2 id="RAM">RAM</h2>
+<p>GSx RAM由<code>GSxMSEL</code>寄存器分配给任一CPU。<br>
+可由CLA或DMA访问的存储器也被注明。</p>
+<p><img src="./2837xD%E7%9A%84RAM%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4.png" alt="2837xD的RAM地址空间"></p>
+<blockquote>
+<p>图中上标(2)表示仅在F28379D、F28378D、F28377D、F28375D可用。</p>
+</blockquote>
+<h2 id="FLASH">FLASH</h2>
+<p>在F28379D、F28378D、F28377D、F28375D上，每个CPU都具有自身的FLASH库（512KB），即芯片总FLASH大小为1MB。<br>
+一次只能对一个FLASH库进行编程或擦除，并且对FLASH进行编程的代码应在RAM中执行。</p>
+<p><img src="./28377D%E7%9A%84FLASH%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4.png" alt="28377D的FLASH地址空间"></p>
+<h2 id="EMIF（外部存储器接口）">EMIF（外部存储器接口）</h2>
+<p>EMIF1接口对于两个CPU子系统是相同的。<br>
+EMIF2接口仅对于CPU1可用。</p>
+<p><img src="./2837xD_EMIF%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4.png" alt="2837xD_EMIF地址空间"></p>
+<h1>官方例程CMD文件对地址空间的分配</h1>
+<h2 id="RAM-2">RAM</h2>
+<p>2837xD_RAM_lnk_cpu1.cmd</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">MEMORY</span><br><span class="line">&#123;</span><br><span class="line">PAGE <span class="number">0</span> :</span><br><span class="line">   <span class="comment">/* BEGIN is used for the &quot;boot to SARAM&quot; bootloader mode   */</span></span><br><span class="line"></span><br><span class="line">   BEGIN            : origin = <span class="number">0x000000</span>, length = <span class="number">0x000002</span></span><br><span class="line">   RAMM0            : origin = <span class="number">0x000123</span>, length = <span class="number">0x0002DD</span></span><br><span class="line">   RAMD0            : origin = <span class="number">0x00B000</span>, length = <span class="number">0x000800</span></span><br><span class="line">   RAMLS0           : origin = <span class="number">0x008000</span>, length = <span class="number">0x000800</span></span><br><span class="line">   RAMLS1           : origin = <span class="number">0x008800</span>, length = <span class="number">0x000800</span></span><br><span class="line">   RAMLS2           : origin = <span class="number">0x009000</span>, length = <span class="number">0x000800</span></span><br><span class="line">   RAMLS3           : origin = <span class="number">0x009800</span>, length = <span class="number">0x000800</span></span><br><span class="line">   RAMLS4           : origin = <span class="number">0x00A000</span>, length = <span class="number">0x000800</span></span><br><span class="line">   RESET            : origin = <span class="number">0x3FFFC0</span>, length = <span class="number">0x000002</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Flash sectors */</span></span><br><span class="line">   FLASHA           : origin = <span class="number">0x080002</span>, length = <span class="number">0x001FFE</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHB           : origin = <span class="number">0x082000</span>, length = <span class="number">0x002000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHC           : origin = <span class="number">0x084000</span>, length = <span class="number">0x002000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHD           : origin = <span class="number">0x086000</span>, length = <span class="number">0x002000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHE           : origin = <span class="number">0x088000</span>, length = <span class="number">0x008000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHF           : origin = <span class="number">0x090000</span>, length = <span class="number">0x008000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHG           : origin = <span class="number">0x098000</span>, length = <span class="number">0x008000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHH           : origin = <span class="number">0x0A0000</span>, length = <span class="number">0x008000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHI           : origin = <span class="number">0x0A8000</span>, length = <span class="number">0x008000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHJ           : origin = <span class="number">0x0B0000</span>, length = <span class="number">0x008000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHK           : origin = <span class="number">0x0B8000</span>, length = <span class="number">0x002000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHL           : origin = <span class="number">0x0BA000</span>, length = <span class="number">0x002000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHM           : origin = <span class="number">0x0BC000</span>, length = <span class="number">0x002000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHN           : origin = <span class="number">0x0BE000</span>, length = <span class="number">0x001FF0</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line"> </span><br><span class="line"> <span class="comment">/* 保留,并不用于程序空间 &quot;Memory: Prefetching Beyond Valid Memory&quot; */</span></span><br><span class="line"><span class="comment">//   FLASHN_RSVD     : origin = 0x0BFFF0, length = 0x000010   </span></span><br><span class="line"></span><br><span class="line">PAGE <span class="number">1</span> :</span><br><span class="line"></span><br><span class="line">   BOOT_RSVD       : origin = <span class="number">0x000002</span>, length = <span class="number">0x000121</span>     <span class="comment">/* Part of M0, BOOT rom will use this for stack */</span></span><br><span class="line">   RAMM1           : origin = <span class="number">0x000400</span>, length = <span class="number">0x0003F8</span>     <span class="comment">/* on-chip RAM block M1 */</span></span><br><span class="line"> <span class="comment">/* 保留,并不用于程序空间 &quot;Memory: Prefetching Beyond Valid Memory&quot; */</span></span><br><span class="line"><span class="comment">//   RAMM1_RSVD      : origin = 0x0007F8, length = 0x000008    </span></span><br><span class="line">   RAMD1           : origin = <span class="number">0x00B800</span>, length = <span class="number">0x000800</span></span><br><span class="line"></span><br><span class="line">   RAMLS5      : origin = <span class="number">0x00A800</span>, length = <span class="number">0x000800</span></span><br><span class="line"></span><br><span class="line">   RAMGS0      : origin = <span class="number">0x00C000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS1      : origin = <span class="number">0x00D000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS2      : origin = <span class="number">0x00E000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS3      : origin = <span class="number">0x00F000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS4      : origin = <span class="number">0x010000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS5      : origin = <span class="number">0x011000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS6      : origin = <span class="number">0x012000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS7      : origin = <span class="number">0x013000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS8      : origin = <span class="number">0x014000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS9      : origin = <span class="number">0x015000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS10     : origin = <span class="number">0x016000</span>, length = <span class="number">0x001000</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 对 F28374D、F28376D 设备未注释此项 */</span></span><br><span class="line"><span class="comment">//   RAMGS11     : origin = 0x017000, length = 0x000FF8   </span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 保留,并不用于程序空间 &quot;Memory: Prefetching Beyond Valid Memory&quot; */</span></span><br><span class="line"><span class="comment">//   RAMGS11_RSVD : origin = 0x017FF8, length = 0x000008    </span></span><br><span class="line"></span><br><span class="line">   RAMGS11     : origin = <span class="number">0x017000</span>, length = <span class="number">0x001000</span>     <span class="comment">/* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */</span></span><br><span class="line">   RAMGS12     : origin = <span class="number">0x018000</span>, length = <span class="number">0x001000</span>     <span class="comment">/* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */</span></span><br><span class="line">   RAMGS13     : origin = <span class="number">0x019000</span>, length = <span class="number">0x001000</span>     <span class="comment">/* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */</span></span><br><span class="line">   RAMGS14     : origin = <span class="number">0x01A000</span>, length = <span class="number">0x001000</span>     <span class="comment">/* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */</span></span><br><span class="line">   RAMGS15     : origin = <span class="number">0x01B000</span>, length = <span class="number">0x000FF8</span>     <span class="comment">/* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */</span></span><br><span class="line">   </span><br><span class="line"><span class="comment">/* 保留,并不用于程序空间 &quot;Memory: Prefetching Beyond Valid Memory&quot; */</span>   </span><br><span class="line"><span class="comment">/* Only on F28379D, F28377D, F28375D devices. Remove line on other devices. */</span></span><br><span class="line"><span class="comment">//   RAMGS15_RSVD : origin = 0x01BFF8, length = 0x000008    </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   CPU2TOCPU1RAM   : origin = <span class="number">0x03F800</span>, length = <span class="number">0x000400</span></span><br><span class="line">   CPU1TOCPU2RAM   : origin = <span class="number">0x03FC00</span>, length = <span class="number">0x000400</span></span><br><span class="line"></span><br><span class="line">   CANA_MSG_RAM     : origin = <span class="number">0x049000</span>, length = <span class="number">0x000800</span></span><br><span class="line">   CANB_MSG_RAM     : origin = <span class="number">0x04B000</span>, length = <span class="number">0x000800</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">   codestart        : &gt; BEGIN,     PAGE = <span class="number">0</span></span><br><span class="line">   .text            : &gt;&gt; RAMD0 |  RAMLS0 | RAMLS1 | RAMLS2 | RAMLS3 | RAMLS4,   PAGE = <span class="number">0</span></span><br><span class="line">   .cinit           : &gt; RAMM0,     PAGE = <span class="number">0</span></span><br><span class="line">   .<span class="keyword">switch</span>          : &gt; RAMM0,     PAGE = <span class="number">0</span></span><br><span class="line">   .reset           : &gt; RESET,     PAGE = <span class="number">0</span>, TYPE = DSECT <span class="comment">/* not used, */</span></span><br><span class="line">   .<span class="built_in">stack</span>           : &gt; RAMM1,     PAGE = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> defined(__TI_EABI__)</span></span><br><span class="line">   .bss             : &gt; RAMLS5,    PAGE = <span class="number">1</span></span><br><span class="line">   .bss:output      : &gt; RAMLS3,    PAGE = <span class="number">0</span></span><br><span class="line">   .init_array      : &gt; RAMM0,     PAGE = <span class="number">0</span></span><br><span class="line">   .<span class="type">const</span>           : &gt; RAMLS5,    PAGE = <span class="number">1</span></span><br><span class="line">   .data            : &gt; RAMLS5,    PAGE = <span class="number">1</span></span><br><span class="line">   .sysmem          : &gt; RAMLS5,    PAGE = <span class="number">1</span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">   .pinit           : &gt; RAMM0,     PAGE = <span class="number">0</span></span><br><span class="line">   .ebss            : &gt; RAMLS5,    PAGE = <span class="number">1</span></span><br><span class="line">   .econst          : &gt; RAMLS5,    PAGE = <span class="number">1</span></span><br><span class="line">   .esysmem         : &gt; RAMLS5,    PAGE = <span class="number">1</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">   Filter_RegsFile  : &gt; RAMGS0,    PAGE = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   ramgs0           : &gt; RAMGS0,    PAGE = <span class="number">1</span></span><br><span class="line">   ramgs1           : &gt; RAMGS1,    PAGE = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __TI_COMPILER_VERSION__</span></span><br><span class="line">   <span class="meta">#<span class="keyword">if</span> __TI_COMPILER_VERSION__ &gt;= 15009000</span></span><br><span class="line">    .TI.ramfunc : &#123;&#125; &gt; RAMM0,      PAGE = <span class="number">0</span></span><br><span class="line">   <span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">    ramfuncs    : &gt; RAMM0      PAGE = <span class="number">0</span>   </span><br><span class="line">   <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">   <span class="comment">/* The following section definitions are required when using the IPC API Drivers */</span></span><br><span class="line">    GROUP : &gt; CPU1TOCPU2RAM, PAGE = <span class="number">1</span></span><br><span class="line">    &#123;</span><br><span class="line">        PUTBUFFER</span><br><span class="line">        PUTWRITEIDX</span><br><span class="line">        GETREADIDX</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    GROUP : &gt; CPU2TOCPU1RAM, PAGE = <span class="number">1</span></span><br><span class="line">    &#123;</span><br><span class="line">        GETBUFFER :    TYPE = DSECT</span><br><span class="line">        GETWRITEIDX :  TYPE = DSECT</span><br><span class="line">        PUTREADIDX :   TYPE = DSECT</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* The following section definition are for SDFM examples */</span></span><br><span class="line">   Filter1_RegsFile : &gt; RAMGS1, PAGE = <span class="number">1</span>, fill=<span class="number">0x1111</span></span><br><span class="line">   Filter2_RegsFile : &gt; RAMGS2, PAGE = <span class="number">1</span>, fill=<span class="number">0x2222</span></span><br><span class="line">   Filter3_RegsFile : &gt; RAMGS3, PAGE = <span class="number">1</span>, fill=<span class="number">0x3333</span></span><br><span class="line">   Filter4_RegsFile : &gt; RAMGS4, PAGE = <span class="number">1</span>, fill=<span class="number">0x4444</span></span><br><span class="line">   Difference_RegsFile : &gt;RAMGS5,   PAGE = <span class="number">1</span>, fill=<span class="number">0x3333</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">//===========================================================================</span></span><br><span class="line"><span class="comment">// End of file.</span></span><br><span class="line"><span class="comment">//===========================================================================</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="FLASH-2">FLASH</h2>
+<p>2837xD_FLASH_lnk_cpu1.cmd</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">MEMORY</span><br><span class="line">&#123;</span><br><span class="line">PAGE <span class="number">0</span> :  <span class="comment">/* Program Memory */</span></span><br><span class="line">          <span class="comment">/* Memory (RAM/FLASH) blocks can be moved to PAGE1 for data allocation */</span></span><br><span class="line">          <span class="comment">/* BEGIN is used for the &quot;boot to Flash&quot; bootloader mode   */</span></span><br><span class="line"></span><br><span class="line">   BEGIN           	: origin = <span class="number">0x080000</span>, length = <span class="number">0x000002</span></span><br><span class="line">   RAMM0           	: origin = <span class="number">0x000123</span>, length = <span class="number">0x0002DD</span></span><br><span class="line">   RAMD0           	: origin = <span class="number">0x00B000</span>, length = <span class="number">0x000800</span></span><br><span class="line">   RAMLS0          	: origin = <span class="number">0x008000</span>, length = <span class="number">0x000800</span></span><br><span class="line">   RAMLS1          	: origin = <span class="number">0x008800</span>, length = <span class="number">0x000800</span></span><br><span class="line">   RAMLS2      		: origin = <span class="number">0x009000</span>, length = <span class="number">0x000800</span></span><br><span class="line">   RAMLS3      		: origin = <span class="number">0x009800</span>, length = <span class="number">0x000800</span></span><br><span class="line">   RAMLS4      		: origin = <span class="number">0x00A000</span>, length = <span class="number">0x000800</span></span><br><span class="line">   RAMGS14          : origin = <span class="number">0x01A000</span>, length = <span class="number">0x001000</span>     <span class="comment">/* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */</span></span><br><span class="line">   RAMGS15          : origin = <span class="number">0x01B000</span>, length = <span class="number">0x000FF8</span>     <span class="comment">/* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//   RAMGS15_RSVD     : origin = 0x01BFF8, length = 0x000008    /* Reserve and do not use for code as per the errata advisory &quot;Memory: Prefetching Beyond Valid Memory&quot; */</span></span><br><span class="line"></span><br><span class="line">   RESET           	: origin = <span class="number">0x3FFFC0</span>, length = <span class="number">0x000002</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">/* Flash sectors */</span></span><br><span class="line">   FLASHA           : origin = <span class="number">0x080002</span>, length = <span class="number">0x001FFE</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHB           : origin = <span class="number">0x082000</span>, length = <span class="number">0x002000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHC           : origin = <span class="number">0x084000</span>, length = <span class="number">0x002000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHD           : origin = <span class="number">0x086000</span>, length = <span class="number">0x002000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHE           : origin = <span class="number">0x088000</span>, length = <span class="number">0x008000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHF           : origin = <span class="number">0x090000</span>, length = <span class="number">0x008000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHG           : origin = <span class="number">0x098000</span>, length = <span class="number">0x008000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHH           : origin = <span class="number">0x0A0000</span>, length = <span class="number">0x008000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHI           : origin = <span class="number">0x0A8000</span>, length = <span class="number">0x008000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHJ           : origin = <span class="number">0x0B0000</span>, length = <span class="number">0x008000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHK           : origin = <span class="number">0x0B8000</span>, length = <span class="number">0x002000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHL           : origin = <span class="number">0x0BA000</span>, length = <span class="number">0x002000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHM           : origin = <span class="number">0x0BC000</span>, length = <span class="number">0x002000</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line">   FLASHN           : origin = <span class="number">0x0BE000</span>, length = <span class="number">0x001FF0</span>	<span class="comment">/* on-chip Flash */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//   FLASHN_RSVD     : origin = 0x0BFFF0, length = 0x000010    /* Reserve and do not use for code as per the errata advisory &quot;Memory: Prefetching Beyond Valid Memory&quot; */</span></span><br><span class="line"></span><br><span class="line">PAGE <span class="number">1</span> : <span class="comment">/* Data Memory */</span></span><br><span class="line">         <span class="comment">/* Memory (RAM/FLASH) blocks can be moved to PAGE0 for program allocation */</span></span><br><span class="line"></span><br><span class="line">   BOOT_RSVD       : origin = <span class="number">0x000002</span>, length = <span class="number">0x000121</span>     <span class="comment">/* Part of M0, BOOT rom will use this for stack */</span></span><br><span class="line">   RAMM1           : origin = <span class="number">0x000400</span>, length = <span class="number">0x0003F8</span>     <span class="comment">/* on-chip RAM block M1 */</span></span><br><span class="line"><span class="comment">//   RAMM1_RSVD      : origin = 0x0007F8, length = 0x000008     /* Reserve and do not use for code as per the errata advisory &quot;Memory: Prefetching Beyond Valid Memory&quot; */</span></span><br><span class="line">   RAMD1           : origin = <span class="number">0x00B800</span>, length = <span class="number">0x000800</span></span><br><span class="line"></span><br><span class="line">   RAMLS5      : origin = <span class="number">0x00A800</span>, length = <span class="number">0x000800</span></span><br><span class="line"></span><br><span class="line">   RAMGS0      : origin = <span class="number">0x00C000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS1      : origin = <span class="number">0x00D000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS2      : origin = <span class="number">0x00E000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS3      : origin = <span class="number">0x00F000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS4      : origin = <span class="number">0x010000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS5      : origin = <span class="number">0x011000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS6      : origin = <span class="number">0x012000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS7      : origin = <span class="number">0x013000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS8      : origin = <span class="number">0x014000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS9      : origin = <span class="number">0x015000</span>, length = <span class="number">0x001000</span></span><br><span class="line">   RAMGS10     : origin = <span class="number">0x016000</span>, length = <span class="number">0x001000</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//   RAMGS11     : origin = 0x017000, length = 0x000FF8   /* Uncomment for F28374D, F28376D devices */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//   RAMGS11_RSVD : origin = 0x017FF8, length = 0x000008    /* Reserve and do not use for code as per the errata advisory &quot;Memory: Prefetching Beyond Valid Memory&quot; */</span></span><br><span class="line"></span><br><span class="line">   RAMGS11     : origin = <span class="number">0x017000</span>, length = <span class="number">0x001000</span>     <span class="comment">/* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */</span></span><br><span class="line">   RAMGS12     : origin = <span class="number">0x018000</span>, length = <span class="number">0x001000</span>     <span class="comment">/* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */</span></span><br><span class="line">   RAMGS13     : origin = <span class="number">0x019000</span>, length = <span class="number">0x001000</span>     <span class="comment">/* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */</span></span><br><span class="line"></span><br><span class="line">   CPU2TOCPU1RAM   : origin = <span class="number">0x03F800</span>, length = <span class="number">0x000400</span></span><br><span class="line">   CPU1TOCPU2RAM   : origin = <span class="number">0x03FC00</span>, length = <span class="number">0x000400</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">   <span class="comment">/* Allocate program areas: */</span></span><br><span class="line">   .cinit              : &gt; FLASHB      PAGE = <span class="number">0</span>, ALIGN(<span class="number">8</span>)</span><br><span class="line">   .text               : &gt;&gt; FLASHB | FLASHC | FLASHD | FLASHE      PAGE = <span class="number">0</span>, ALIGN(<span class="number">8</span>)</span><br><span class="line">   codestart           : &gt; BEGIN       PAGE = <span class="number">0</span>, ALIGN(<span class="number">8</span>)</span><br><span class="line">   <span class="comment">/* Allocate uninitalized data sections: */</span></span><br><span class="line">   .<span class="built_in">stack</span>              : &gt; RAMM1       PAGE = <span class="number">1</span></span><br><span class="line">   .<span class="keyword">switch</span>             : &gt; FLASHB      PAGE = <span class="number">0</span>, ALIGN(<span class="number">8</span>)</span><br><span class="line">   .reset              : &gt; RESET,      PAGE = <span class="number">0</span>, TYPE = DSECT <span class="comment">/* not used, */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> defined(__TI_EABI__)</span></span><br><span class="line">   .init_array         : &gt; FLASHB,       PAGE = <span class="number">0</span>,       ALIGN(<span class="number">8</span>)</span><br><span class="line">   .bss                : &gt; RAMLS5,       PAGE = <span class="number">1</span></span><br><span class="line">   .bss:output         : &gt; RAMLS3,       PAGE = <span class="number">0</span></span><br><span class="line">   .bss:cio            : &gt; RAMLS5,       PAGE = <span class="number">1</span></span><br><span class="line">   .data               : &gt; RAMLS5,       PAGE = <span class="number">1</span></span><br><span class="line">   .sysmem             : &gt; RAMLS5,       PAGE = <span class="number">1</span></span><br><span class="line">   <span class="comment">/* Initalized sections go in Flash */</span></span><br><span class="line">   .<span class="type">const</span>              : &gt; FLASHF,       PAGE = <span class="number">0</span>,       ALIGN(<span class="number">8</span>)</span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">   .pinit              : &gt; FLASHB,       PAGE = <span class="number">0</span>,       ALIGN(<span class="number">8</span>)</span><br><span class="line">   .ebss               : &gt;&gt; RAMLS5 | RAMGS0 | RAMGS1,    PAGE = <span class="number">1</span></span><br><span class="line">   .esysmem            : &gt; RAMLS5,       PAGE = <span class="number">1</span></span><br><span class="line">   .cio                : &gt; RAMLS5,       PAGE = <span class="number">1</span></span><br><span class="line">   <span class="comment">/* Initalized sections go in Flash */</span></span><br><span class="line">   .econst             : &gt;&gt; FLASHF      PAGE = <span class="number">0</span>, ALIGN(<span class="number">8</span>)</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">   Filter_RegsFile     : &gt; RAMGS0,	   PAGE = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">   SHARERAMGS0		: &gt; RAMGS0,		PAGE = <span class="number">1</span></span><br><span class="line">   SHARERAMGS1		: &gt; RAMGS1,		PAGE = <span class="number">1</span></span><br><span class="line">   SHARERAMGS2		: &gt; RAMGS2,		PAGE = <span class="number">1</span></span><br><span class="line">   ramgs0           : &gt; RAMGS0,     PAGE = <span class="number">1</span></span><br><span class="line">   ramgs1           : &gt; RAMGS1,     PAGE = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __TI_COMPILER_VERSION__</span></span><br><span class="line">    <span class="meta">#<span class="keyword">if</span> __TI_COMPILER_VERSION__ &gt;= 15009000</span></span><br><span class="line">        <span class="meta">#<span class="keyword">if</span> defined(__TI_EABI__)</span></span><br><span class="line">            .TI.ramfunc : &#123;&#125; LOAD = FLASHD,</span><br><span class="line">                                 RUN = RAMLS0,</span><br><span class="line">                                 LOAD_START(RamfuncsLoadStart),</span><br><span class="line">                                 LOAD_SIZE(RamfuncsLoadSize),</span><br><span class="line">                                 LOAD_END(RamfuncsLoadEnd),</span><br><span class="line">                                 RUN_START(RamfuncsRunStart),</span><br><span class="line">                                 RUN_SIZE(RamfuncsRunSize),</span><br><span class="line">                                 RUN_END(RamfuncsRunEnd),</span><br><span class="line">                                 PAGE = <span class="number">0</span>, ALIGN(<span class="number">8</span>)</span><br><span class="line">        <span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">            .TI.ramfunc : &#123;&#125; LOAD = FLASHD,</span><br><span class="line">                             RUN = RAMLS0,</span><br><span class="line">                             LOAD_START(_RamfuncsLoadStart),</span><br><span class="line">                             LOAD_SIZE(_RamfuncsLoadSize),</span><br><span class="line">                             LOAD_END(_RamfuncsLoadEnd),</span><br><span class="line">                             RUN_START(_RamfuncsRunStart),</span><br><span class="line">                             RUN_SIZE(_RamfuncsRunSize),</span><br><span class="line">                             RUN_END(_RamfuncsRunEnd),</span><br><span class="line">                             PAGE = <span class="number">0</span>, ALIGN(<span class="number">8</span>)</span><br><span class="line">        <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">    <span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">   ramfuncs            : LOAD = FLASHD,</span><br><span class="line">                         RUN = RAMLS0,</span><br><span class="line">                         LOAD_START(_RamfuncsLoadStart),</span><br><span class="line">                         LOAD_SIZE(_RamfuncsLoadSize),</span><br><span class="line">                         LOAD_END(_RamfuncsLoadEnd),</span><br><span class="line">                         RUN_START(_RamfuncsRunStart),</span><br><span class="line">                         RUN_SIZE(_RamfuncsRunSize),</span><br><span class="line">                         RUN_END(_RamfuncsRunEnd),</span><br><span class="line">                         PAGE = <span class="number">0</span>, ALIGN(<span class="number">8</span>)</span><br><span class="line">    <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">   <span class="comment">/* The following section definitions are required when using the IPC API Drivers */</span></span><br><span class="line">    GROUP : &gt; CPU1TOCPU2RAM, PAGE = <span class="number">1</span></span><br><span class="line">    &#123;</span><br><span class="line">        PUTBUFFER</span><br><span class="line">        PUTWRITEIDX</span><br><span class="line">        GETREADIDX</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    GROUP : &gt; CPU2TOCPU1RAM, PAGE = <span class="number">1</span></span><br><span class="line">    &#123;</span><br><span class="line">        GETBUFFER :    TYPE = DSECT</span><br><span class="line">        GETWRITEIDX :  TYPE = DSECT</span><br><span class="line">        PUTREADIDX :   TYPE = DSECT</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/* The following section definition are for SDFM examples */</span></span><br><span class="line">   Filter1_RegsFile : &gt; RAMGS1,	PAGE = <span class="number">1</span>, fill=<span class="number">0x1111</span></span><br><span class="line">   Filter2_RegsFile : &gt; RAMGS2,	PAGE = <span class="number">1</span>, fill=<span class="number">0x2222</span></span><br><span class="line">   Filter3_RegsFile : &gt; RAMGS3,	PAGE = <span class="number">1</span>, fill=<span class="number">0x3333</span></span><br><span class="line">   Filter4_RegsFile : &gt; RAMGS4,	PAGE = <span class="number">1</span>, fill=<span class="number">0x4444</span></span><br><span class="line">   Difference_RegsFile : &gt;RAMGS5, 	PAGE = <span class="number">1</span>, fill=<span class="number">0x3333</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">//===========================================================================</span></span><br><span class="line"><span class="comment">// End of file.</span></span><br><span class="line"><span class="comment">//===========================================================================</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1>使用Sysconfig自动生成的CMD文件</h1>
+<p>在Sysconfig中可以图形化配置CMD文件。</p>
+<p>要实现这个目的，按如下进行配置：<br>
+<img src="./Sysconfig%E9%85%8D%E7%BD%AECMD.png" alt="Sysconfig配置CMD"></p>
+<p>接着把原工程中使用的cmd文件删除或右键<code>Exclude</code>。</p>
+<p>完成上述步骤后编译工程，此时本工程使用的就是Sysconfig自动生成的cmd文件。</p>
+<hr>
+<hr>
+<hr>
+<hr>
+<h1>RAM访问保护</h1>
+<blockquote>
+<p>如果能确保各器件不会访问不应访问的地址，可以忽略此部分不看。</p>
+</blockquote>
+<p>2837xD除了两个子系统的M0、M1外所有RAM都有不同的保护等级。<br>
+可以通过程序允许或禁止指定器件对指定RAM的访问。</p>
+<blockquote>
+<p>RAM的所有者对其读（read）操作无法禁止。<br>
+对于调试访问，将禁止所有保护。</p>
+</blockquote>
+<h3 id="CPU取指保护">CPU取指保护</h3>
+<p>只有在该内存专用于 此CPU 或 此CPU的子系统是此内存的所有者时，此CPU 才有从此内存执行的权限（或者说取指的权限）。</p>
+<p>当允许根据内存主控权进行fetch访问时，<br>
+可通过将特定寄存器的 FETCHPROTx 位设置为 &quot;1 &quot;来进一步保护，<br>
+此时即使是指定内存的所有者，对其进行取指也会违规。</p>
+<p>如果发生取值保护违规，则会导致 CPU ITRAP。<br>
+在相应的访问违规标志寄存器中设置一个标志，发生访问违规的内存地址被锁存到相应的 CPU 取回访问违规地址寄存器中。</p>
+<h3 id="CPU写保护">CPU写保护</h3>
+<p>只有在该内存专用于 此CPU 或 此CPU的子系统是此内存的所有者时，此CPU 才有从此内存写入的权限。</p>
+<p>当允许根据主控权进行写入访问时，<br>
+可通过将特定寄存器的 CPUWRPROTx 位设置为 &quot;1 &quot;来进一步保护。<br>
+此时即使是指定内存的所有者，对其进行写入也会违规。</p>
+<p>如果发生写保护违规，则忽略此写操作，并会导致 CPU ITRAP。<br>
+在相应的访问违规标志寄存器中设置一个标志，发生访问违规的内存地址被锁存到相应的 CPU 取回访问违规地址寄存器中。<br>
+此外，如果在中断使能寄存器中启用，则会产生访问违规中断。</p>
+<h3 id="CPU读保护">CPU读保护</h3>
+<p>对于LS RAM，如果 CPU 与 CLA 共享此内存，<br>
+CPU 只有在将此内存配置为 CLA 的Data RAM 时才能访问。</p>
+<p>如果被编程为Program RAM，<br>
+CPU 的所有访问（包括读取）都将被阻止，违规行为将被视为非主访问违规行为。</p>
+<p>如发生读保护违规，则会在相应的违规访问标志寄存器中设置一个标志，<br>
+并将发生违规访问的内存地址锁存到相应的 CPU 读违规访问地址寄存器中。<br>
+此外，如果在中断使能寄存器中启用，则会产生访问违规中断。</p>
+<h3 id="CLA取指保护-写保护-读保护">CLA取指保护/写保护/读保护</h3>
+<blockquote>
+<p>如果LS RAM 被配置为 CPU 的专用 RAM，<br>
+或者被配置为 CLA 的Data RAM，<br>
+则 CLA 对特定 LSx RAM 的任何取指（fetch）都会导致 CLA 取回&gt; 保护违规，即非主控访问违规。</p>
+<p>如果发生 CLA 取保护违规，就会导致 MSTOP，一个标志会被设置到相应的访问违规标志寄存器中，<br>
+发生访问违规的内存地址会被锁存到相应的 CLA 取访问违规地址寄存器中。<br>
+此外，如果在中断使能寄存器中启用，则会向主 CPU 发出访问违规中断。</p>
+</blockquote>
+<blockquote>
+<p>如果LS RAM 被配置为 CPU 的专用 RAM，<br>
+或者被配置为 CLA 的Program RAM，<br>
+则 CLA 对特定 LSx RAM 的任何数据写入都会导致 CLA 写保护违规，<br>
+即非主控访问违规。</p>
+<p>如果发生 CLA 写保护违规，写入将被忽略，一个标志将被设置到相应的违规访问标志寄存器中，<br>
+而发生违规访问的内存地址将被锁存到相应的 CLA 写访问违规地址寄存器中。<br>
+此外，如果在中断使能寄存器中启用，则会向主 CPU 发出访问违规中断。</p>
+</blockquote>
+<blockquote>
+<p>如果LS RAM 被配置为 CPU 的专用 RAM，<br>
+或者被配置为 CLA 的Program RAM，<br>
+则 CLA 对特定 LSx RAM 的任何数据读取访问都会导致 CLA 读保护违规，<br>
+即非主控访问违规。</p>
+<p>如果发生 CLA 读保护违规，则会在相应的访问违规标志寄存器中设置一个标志，<br>
+并将发生违规访问的内存地址锁存到相应的 CLA 读访问违规地址寄存器中。<br>
+此外，如果在中断使能寄存器中启用，则会向主 CPU 发出访问违规中断。</p>
+</blockquote>
+<p>总结：</p>
+<blockquote>
+<p>在LS RAM 的情况下，如果 CPU 与 CLA 共享内存，CPU 只有在将内存配置为 CLA 的Data RAM 时才能访问。<br>
+如果被编程为Program RAM，CPU 的所有访问（包括读取）和 CLA 的数据访问都将被阻止，违规行为将被视为非主访问违规。<br>
+如果内存被配置为 CPU 专用，则来自 CLA 的所有访问都将被阻止，违规行为将被视为非主访问违规行为。</p>
+</blockquote>
+<h3 id="DMA写保护">DMA写保护</h3>
+<p>CPU1或CPU2只有在其是 GSx RAM的所有者时，<br>
+其DMA才有写入该内存的权限。</p>
+<p>当允许根据主控权对 DMA 进行写入访问时，可通过将特定寄存器的 DMAWRPROTx 位设置为 &quot;1 &quot;来进一步保护它。</p>
+<p>如果写保护违规发生在 CPU1 上，写操作将被忽略并产生 DMAERR 中断；</p>
+<p>而在 CPU2 上，写操作将被忽略，如果中断使能寄存器中启用，则会产生访问违规中断。  DMA 访问违规标志寄存器中会设置一个标志，发生违规的内存地址会被锁存在 DMA 取回访问违规地址寄存器中。 这些是每个子系统的专用寄存器。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="YILON">YILON</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/10/21/TI_DSP_TMS320F28377D_%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/">http://example.com/2024/10/21/TI_DSP_TMS320F28377D_%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">YILON</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><a class="post-meta__tags" href="/tags/DSP/">DSP</a><a class="post-meta__tags" href="/tags/TMS320F28377D/">TMS320F28377D</a></div><div class="post-share"><div class="social-share" data-image="/private_img/cover.svg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/09/26/TI_DSP_TMS320F28377D_%E6%97%B6%E9%92%9F%E3%80%81CPU%E5%AE%9A%E6%97%B6%E5%99%A8%E4%B8%8E%E7%9C%8B%E9%97%A8%E7%8B%97/" title="TI_DSP_TMS320F28377D_时钟、CPU定时器与看门狗"><img class="cover" src="/private_img/cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">TI_DSP_TMS320F28377D_时钟、CPU定时器与看门狗</div></div><div class="info-2"><div class="info-item-1">时钟 TMS320F28377D的时钟树如下：   如果将 PLLSYSCLK 配置为高于 194 MHz 的频率，则内部振荡器不能用作 PLL 源。  外设与时钟域  主外部振荡时钟源的输入方式 主外部振荡时钟源(XTAL)由片上专用的X1、X2引脚提供输入。 有这么几种连接方式： 外部3.3V外部时钟  外部晶振  外部谐振器  辅助时钟输入 GPIO133（AUXCLKIN）支持附加的外部时钟源。 这必须是单端3.3V外部时钟。 它可以用作USB和CAN时钟的源。  Sysconfig配置时钟 系统时钟： 在基于Driverlib开发的程序中， 系统时钟相关参数定义在device.h中，配置函数则在device.c中， 涉及的寄存器与函数较多，要更改时钟配置较为麻烦。 如果使用Sysconfig工具配置时钟则很简单。 当启用Sysconfig-&gt;SOFTWARE-&gt;Device Support后，将可通过图形化界面的clock tree工具配置系统时钟。 （相关注意事项见前文关于Sysconfig的使用）   配置好clock...</div></div></div></a><a class="pagination-related" href="/2024/10/21/TI_DSP_TMS320F28377D_DMA/" title="TI_DSP_TMS320F28377D_DMA"><img class="cover" src="/private_img/cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">TI_DSP_TMS320F28377D_DMA</div></div><div class="info-2"><div class="info-item-1">概述  六个具有独立 PIE 中断的通道 每个 DMA 通道可由多个外设触发源独立触发 数据源和目标：  GSx RAM CPU 消息RAM (IPC RAM) ADC存储器总线映射结果寄存器 ePWMx SPI, McBSP, EMIF   字长:16-bit或 32-bit(SPI和 McBSP 限制为 16-bit) 吞吐量：4 cycles/word 无仲裁    DMA总线由32位地址总线、32位数据读总线、32位数据写总线组成。   明确一点，挂载在DMA总线上的内部存储空间只有GS RAM和MSG RAM， 因此DMA可以访问的内部空间指针（地址）必须分配在这两类空间中。 一般地，如果使用数组作为源或目标地址， 可使用如下方式将该数组分配在GS RAM或MSG RAM中：   首先在CMD文件中定义相应的段； 注意，CPU2要使用GS RAM或MSG RAM，必须先在CPU1中进行分配。 具体分配方式见文末例程。  1234567// 在数组定义之前声明// 假设定义的段的名字是“ramgs0”，代表其占用RAM GS0的空间。 #pragma...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/09/19/TI_DSP_C2000_driverlib%E4%B8%8ESysconfig/" title="TI_DSP_C2000_driverlib与Sysconfig"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-19</div><div class="info-item-2">TI_DSP_C2000_driverlib与Sysconfig</div></div><div class="info-2"><div class="info-item-1">driverlib 简述 driverLib是德州仪器为C2000微控制器提供的一个驱动库，它包含了大量的硬件抽象层（HAL）函数，用于简化微控制器的编程过程。 driverlib 库的代码组织通常遵循模块化设计，每个模块对应一个微控制器外设或功能模块。 每个模块都提供初始化函数、配置函数以及操作函数。开发者只需调用这些函数即可完成外设的配置和操作，避免手动处理低级别的寄存器操作。 由于 driverlib 提供了对硬件寄存器的抽象层，代码在不同的 C2000 器件之间的移植变得更容易。  TI通常将项目架构称为基于bit-filed的或基于driverlib的， 前者即所谓的“操作寄存器”式设计，是C2000Ware/device_support中的例程形式。   driverlib包含在C2000 Ware中，要使用此库，必须安装C2000 Ware。  driverlib的文件结构 默认位置安装C2000...</div></div></div></a><a class="pagination-related" href="/2024/10/21/TI_DSP_TMS320F28377D_DMA/" title="TI_DSP_TMS320F28377D_DMA"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-21</div><div class="info-item-2">TI_DSP_TMS320F28377D_DMA</div></div><div class="info-2"><div class="info-item-1">概述  六个具有独立 PIE 中断的通道 每个 DMA 通道可由多个外设触发源独立触发 数据源和目标：  GSx RAM CPU 消息RAM (IPC RAM) ADC存储器总线映射结果寄存器 ePWMx SPI, McBSP, EMIF   字长:16-bit或 32-bit(SPI和 McBSP 限制为 16-bit) 吞吐量：4 cycles/word 无仲裁    DMA总线由32位地址总线、32位数据读总线、32位数据写总线组成。   明确一点，挂载在DMA总线上的内部存储空间只有GS RAM和MSG RAM， 因此DMA可以访问的内部空间指针（地址）必须分配在这两类空间中。 一般地，如果使用数组作为源或目标地址， 可使用如下方式将该数组分配在GS RAM或MSG RAM中：   首先在CMD文件中定义相应的段； 注意，CPU2要使用GS RAM或MSG RAM，必须先在CPU1中进行分配。 具体分配方式见文末例程。  1234567// 在数组定义之前声明// 假设定义的段的名字是“ramgs0”，代表其占用RAM GS0的空间。 #pragma...</div></div></div></a><a class="pagination-related" href="/2024/11/21/TI_DSP_TMS320F28377D_GPIO%E3%80%81SCI%E3%80%81I2C%E4%B8%8ESPI/" title="TI_DSP_TMS320F28377D_GPIO、SCI、I2C与SPI"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-21</div><div class="info-item-2">TI_DSP_TMS320F28377D_GPIO、SCI、I2C与SPI</div></div><div class="info-2"><div class="info-item-1">GPIO 除了 CPU 控制的 I/O 功能外，单个 GPIO 引脚可复用多达12个独立的外设信号。 每个引脚输出既可由外设控制，也可由四个master控制：  CPU1 CPU1.CLA CPU2 CPU2.CLA  最高有8个 IO 端口: • Port A ： GPIO0-GPIO31 • Port B ： GPIO32-GPIO63 • Port C ： GPIO64-GPIO95 • Port D ： GPIO96-GPIO127 • Port E ： GPIO128-GPIO159 • Port F ： GPIO160-GPIO191 • Port G ： GPIO192-GPIO223 • Port H ： GPIO224-GPIO255  首先，输入和输出路径完全分开，只在引脚处连接。其次，外设复用远离引脚。 因此，CPU 和 CLA 都可以读取引脚的物理状态，而不受master设置和外设复用的影响。 同样的，外部中断也可以从外设活动中产生。 开漏输出等所有引脚选项对所有主设备和外设都有效。  注意，外设复用、master 设置和引脚配置只能由 CPU1...</div></div></div></a><a class="pagination-related" href="/2024/12/16/TI_DSP_TMS320F28377D_EMIF/" title="TI_DSP_TMS320F28377D_EMIF"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-16</div><div class="info-item-2">TI_DSP_TMS320F28377D_EMIF</div></div><div class="info-2"><div class="info-item-1">相关概念   SRAM(Static Random-Access Memory)：这种存储器只要保持通电，里面储存的数据就可以恒常保持。 DRAM(Dynamic Random-Access Memory)：里面所储存的数据就需要周期性地刷新充电。功耗较SRAM要小；集成度比SRAM要高，因此价格更便宜。   SDRAM（Synchronous Dynamic Random Access Memory）是一种同步动态随机存取存储器。 SDRAM的“同步”指的是它的操作是与系统时钟同步的， 这意味着数据传输的时序受到系统时钟信号的控制，使得数据访问和处理更为高效。 主要特点：  同步时序：SDRAM的所有操作都与外部时钟信号同步，保证数据传输的准确性和一致性。 动态存储：和传统的静态RAM（SRAM）相比，SDRAM是动态的，需要定期刷新才能保持数据。否则，存储的数据会丢失。 高性能：SDRAM通过使用流水线技术（pipelining）来提高数据处理速度，通常具有更高的带宽和更低的延迟。 三级寻址：先选择Bank，再选择行地址，最后再选择列地址。   第一代SDRAM(SDR...</div></div></div></a><a class="pagination-related" href="/2024/12/13/TI_DSP_TMS320F28377D_IPC/" title="TI_DSP_TMS320F28377D_IPC"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-13</div><div class="info-item-2">TI_DSP_TMS320F28377D_IPC</div></div><div class="info-2"><div class="info-item-1">基本架构  功能组成 Message RAMs 有两个 2KByte 的消息RAM， 分别为由CPU1 -&gt; CPU2 和 CPU2 -&gt; CPU1。 具体控制情况如下：   对Message RAM进行读写不会触发远程CPU的任何事件。  IPC 标志和中断 每个通信方向有 32 个IPC事件信号。  CPUx 可以通过写入 IPCSET 寄存器 32 位中的任意一位来引发 IPC 事件。 这将设置 CPUx IPCFLG 寄存器和 CPUy IPCSTS 寄存器中的相应位。  CPUy 可以通过设置 IPCACK 寄存器中的相应位来发出响应事件的信号。 这将清除 CPUx IPCFLG 寄存器和 CPUy IPCSTS 寄存器中的相应位。  如果 CPUx 需要取消事件，可设置 IPCCLR 寄存器中的相应位。 这与 CPUy 写入 IPCACK 的效果相同。  标志 0-3（使用 IPCSET[3:0]设置）向远程 CPU 发射中断。 远程 CPU 必须正确配置 ePIE 模块才能接收 IPC 中断。 标志 4-31（使用 IPCSET[31:4]...</div></div></div></a><a class="pagination-related" href="/2024/09/26/TI_DSP_TMS320F28377D_%E4%B8%AD%E6%96%AD/" title="TI_DSP_TMS320F28377D_中断"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-26</div><div class="info-item-2">TI_DSP_TMS320F28377D_中断</div></div><div class="info-2"><div class="info-item-1">中断  外设中断 C28xCPU有14个外设中断线。其中两个（INT13和INT14）分别直接连接到CPU定时器Timer 1和Timer...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/private_img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YILON</div><div class="author-info-description">YILON的技术小窝</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">91</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">25</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YILON"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">RAM</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#RAM%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-number">1.1.</span> <span class="toc-text">RAM的分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%93%E7%94%A8RAM"><span class="toc-number">1.1.1.</span> <span class="toc-text">专用RAM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Local-Share-RAM%EF%BC%88LSx-RAM%EF%BC%89"><span class="toc-number">1.1.2.</span> <span class="toc-text">Local Share RAM（LSx RAM）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Global-Share-RAM%EF%BC%88GSx-RAM%EF%BC%89"><span class="toc-number">1.1.3.</span> <span class="toc-text">Global Share RAM（GSx RAM）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU-message-RAM%EF%BC%88CPU-MSG-RAM-IPC-RAM%EF%BC%89"><span class="toc-number">1.1.4.</span> <span class="toc-text">CPU message RAM（CPU MSG RAM&#x2F;IPC RAM）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CLA-message-RAM%EF%BC%88CLA-MSG-RAM%EF%BC%89"><span class="toc-number">1.1.5.</span> <span class="toc-text">CLA message RAM（CLA MSG RAM）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E4%BB%B2%E8%A3%81"><span class="toc-number">1.2.</span> <span class="toc-text">访问仲裁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU%E8%AE%BF%E9%97%AE%E7%9A%84%E5%9B%BA%E5%AE%9A%E4%BC%98%E5%85%88%E7%BA%A7%E9%A1%BA%E5%BA%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">CPU访问的固定优先级顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CLA%E8%AE%BF%E9%97%AE%E7%9A%84%E5%9B%BA%E5%AE%9A%E4%BC%98%E5%85%88%E7%BA%A7%E7%9A%84%E9%A1%BA%E5%BA%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">CLA访问的固定优先级的顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GSx-RAM%E7%9A%84%E5%BE%AA%E7%8E%AF%E4%BB%B2%E8%A3%81%E6%96%B9%E6%A1%88"><span class="toc-number">1.2.3.</span> <span class="toc-text">GSx RAM的循环仲裁方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LSx-RAM%E7%9A%84%E5%BE%AA%E7%8E%AF%E4%BB%B2%E8%A3%81%E6%96%B9%E6%A1%88"><span class="toc-number">1.2.4.</span> <span class="toc-text">LSx RAM的循环仲裁方案</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">FLASH</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%EF%BC%88%E5%99%A8%E4%BB%B6%E4%B8%8A%E7%94%B5%E6%97%B6%EF%BC%89Flash%E9%85%8D%E7%BD%AE"><span class="toc-number">2.1.</span> <span class="toc-text">默认（器件上电时）Flash配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OTP"><span class="toc-number">2.2.</span> <span class="toc-text">OTP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Flash%E4%B8%8EOTP%E8%AF%BB%E5%8F%96-%E5%8F%96%E6%8C%87%E6%80%A7%E8%83%BD"><span class="toc-number">2.3.</span> <span class="toc-text">Flash与OTP读取&#x2F;取指性能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FMC%E4%BB%B2%E8%A3%81%E6%96%B9%E6%A1%88"><span class="toc-number">2.4.</span> <span class="toc-text">FMC仲裁方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Flash%E8%AF%BB%E5%8F%96%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.5.</span> <span class="toc-text">Flash读取模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E8%AF%BB%E5%8F%96%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.5.1.</span> <span class="toc-text">标准读取模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E8%AF%BB%E5%8F%96%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.5.2.</span> <span class="toc-text">预读取模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E9%A2%84%E5%AD%98%E6%9C%BA%E5%88%B6"><span class="toc-number">2.5.2.1.</span> <span class="toc-text">指令预存机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6"><span class="toc-number">2.5.2.2.</span> <span class="toc-text">数据缓存机制</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">地址空间分配</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#RAM"><span class="toc-number">3.1.</span> <span class="toc-text">RAM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FLASH"><span class="toc-number">3.2.</span> <span class="toc-text">FLASH</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EMIF%EF%BC%88%E5%A4%96%E9%83%A8%E5%AD%98%E5%82%A8%E5%99%A8%E6%8E%A5%E5%8F%A3%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">EMIF（外部存储器接口）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">官方例程CMD文件对地址空间的分配</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#RAM-2"><span class="toc-number">4.1.</span> <span class="toc-text">RAM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FLASH-2"><span class="toc-number">4.2.</span> <span class="toc-text">FLASH</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">使用Sysconfig自动生成的CMD文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">RAM访问保护</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU%E5%8F%96%E6%8C%87%E4%BF%9D%E6%8A%A4"><span class="toc-number">6.0.1.</span> <span class="toc-text">CPU取指保护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU%E5%86%99%E4%BF%9D%E6%8A%A4"><span class="toc-number">6.0.2.</span> <span class="toc-text">CPU写保护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU%E8%AF%BB%E4%BF%9D%E6%8A%A4"><span class="toc-number">6.0.3.</span> <span class="toc-text">CPU读保护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CLA%E5%8F%96%E6%8C%87%E4%BF%9D%E6%8A%A4-%E5%86%99%E4%BF%9D%E6%8A%A4-%E8%AF%BB%E4%BF%9D%E6%8A%A4"><span class="toc-number">6.0.4.</span> <span class="toc-text">CLA取指保护&#x2F;写保护&#x2F;读保护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DMA%E5%86%99%E4%BF%9D%E6%8A%A4"><span class="toc-number">6.0.5.</span> <span class="toc-text">DMA写保护</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/12/16/TI_DSP_TMS320F28377D_EMIF/" title="TI_DSP_TMS320F28377D_EMIF"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F28377D_EMIF"/></a><div class="content"><a class="title" href="/2024/12/16/TI_DSP_TMS320F28377D_EMIF/" title="TI_DSP_TMS320F28377D_EMIF">TI_DSP_TMS320F28377D_EMIF</a><time datetime="2024-12-16T03:10:24.000Z" title="发表于 2024-12-16 11:10:24">2024-12-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/13/TI_DSP_TMS320F28377D_IPC/" title="TI_DSP_TMS320F28377D_IPC"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F28377D_IPC"/></a><div class="content"><a class="title" href="/2024/12/13/TI_DSP_TMS320F28377D_IPC/" title="TI_DSP_TMS320F28377D_IPC">TI_DSP_TMS320F28377D_IPC</a><time datetime="2024-12-13T07:10:44.000Z" title="发表于 2024-12-13 15:10:44">2024-12-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/10/FT4222H%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" title="FT4222H使用说明"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FT4222H使用说明"/></a><div class="content"><a class="title" href="/2024/12/10/FT4222H%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" title="FT4222H使用说明">FT4222H使用说明</a><time datetime="2024-12-10T06:00:44.000Z" title="发表于 2024-12-10 14:00:44">2024-12-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/private_img/Top.svg);"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By YILON</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

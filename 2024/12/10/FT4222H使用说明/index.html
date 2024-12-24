@@ -1,0 +1,326 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>FT4222H使用说明 | YILON</title><meta name="author" content="YILON"><meta name="copyright" content="YILON"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="概述 FT4222H是一款采用紧凑型32引脚QFN封装的高速&#x2F;全速USB2.0至四路SPI &#x2F; I2C器件控制器。 该器件需要一个12MHz的外部晶体。 支持多电压IO：1.8 &#x2F; 2.5和3.3V。 特点  整个USB协议在芯片上处理,不需要USB特定的固件编程。 可配置的工业标准SPI主&#x2F;从接口控制器  SPI主器件支持单，双，四数据宽度传输模式下的可配置数据宽度 在SPI主控制器应用中最多支">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FT4222H使用说明">
+<meta property="og:url" content="http://example.com/2024/12/10/FT4222H%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/index.html">
+<meta property="og:site_name" content="YILON">
+<meta property="og:description" content="概述 FT4222H是一款采用紧凑型32引脚QFN封装的高速&#x2F;全速USB2.0至四路SPI &#x2F; I2C器件控制器。 该器件需要一个12MHz的外部晶体。 支持多电压IO：1.8 &#x2F; 2.5和3.3V。 特点  整个USB协议在芯片上处理,不需要USB特定的固件编程。 可配置的工业标准SPI主&#x2F;从接口控制器  SPI主器件支持单，双，四数据宽度传输模式下的可配置数据宽度 在SPI主控制器应用中最多支">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/private_img/cover.svg">
+<meta property="article:published_time" content="2024-12-10T06:00:44.000Z">
+<meta property="article:modified_time" content="2024-12-24T00:42:31.975Z">
+<meta property="article:author" content="YILON">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="IC">
+<meta property="article:tag" content="FT4222H">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/private_img/cover.svg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/12/10/FT4222H%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'FT4222H使用说明',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-color: #4582A0;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/private_img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">91</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">25</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/private_img/cover.svg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">YILON</span></a><a class="nav-page-title" href="/"><span class="site-name">FT4222H使用说明</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">FT4222H使用说明</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-10T06:00:44.000Z" title="发表于 2024-12-10 14:00:44">2024-12-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-12-24T00:42:31.975Z" title="更新于 2024-12-24 08:42:31">2024-12-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/IC/">IC</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>概述</h1>
+<p><a target="_blank" rel="noopener" href="https://www.ftdichip.cn/Products/ICs/FT4222H.html">FT4222H</a>是一款采用紧凑型32引脚QFN封装的高速/全速USB2.0至四路SPI / I2C器件控制器。<br>
+该器件需要一个12MHz的外部晶体。<br>
+支持多电压IO：1.8 / 2.5和3.3V。</p>
+<h2 id="特点">特点</h2>
+<ul>
+<li>整个USB协议在芯片上处理,不需要USB特定的固件编程。</li>
+<li>可配置的工业标准SPI主/从接口控制器
+<ul>
+<li>SPI主器件支持单，双，四数据宽度传输模式下的可配置数据宽度</li>
+<li>在SPI主控制器应用中最多支持4个通道从控选择控制引脚</li>
+<li>在SPI主机模式最高支持30MHz时钟</li>
+<li>在SPI从模式支持最高20MHz时钟。</li>
+<li>采用四模式传输的SPI主器件的数据传输速率高达28Mbps</li>
+</ul>
+</li>
+</ul>
+<br>
+<ul>
+<li>符合I2C v2.1和v3.0规范的可配置I2C主/从接口控制器</li>
+<li>支持100kbit/s标准模式（SM），400 kbit/s快速模式（FM），1 Mbit/s快速模式加（FM +）和3.4 Mbi/s高速模式（HS）</li>
+<li>可配置的GPIO可以通过USB总线由软件应用程序轻松控制</li>
+</ul>
+<br>
+<ul>
+<li>USB电池充电器检测。 允许USB外围设备检测到更高电流电源的存在，以实现更快速的充电</li>
+<li>提供的器件预编程有唯一的USB序列号</li>
+<li>USB电源配置; 通过电源开关支持总线供电，自供电和总线供电</li>
+<li>
+<ul>
+<li>5V USB VBUS检测引擎</li>
+</ul>
+</li>
+<li>真正的3.3V CMOS驱动器输出和TTL输入。（通过外部上拉电阻工作到1V8）</li>
+<li>可配置的I/O引脚输出驱动强度; 4毫安（最小）和16毫安（最大）</li>
+<li>UHCI/OHCI/EHCI主机控制器兼容</li>
+<li>工作温度范围; -40°C 至 85°C</li>
+<li>采用紧凑型无铅32引脚VQFN封装（符合RoHS）。</li>
+</ul>
+<h2 id="典型应用">典型应用</h2>
+<ul>
+<li>USB到单模SPI主控制器</li>
+<li>USB到双模式SPI主控制器</li>
+<li>USB到四通道模式的SPI主控制器</li>
+<li>USB到单个SPI从属控制器</li>
+</ul>
+<br>
+<ul>
+<li>USB到I2C主控接口控制器</li>
+<li>USB到I2C从属控制器</li>
+</ul>
+<br>
+<ul>
+<li>软件/硬件加密和无线模块的USB加密狗实现</li>
+<li>检测USB专用充电端口，以便在便携式设备中进行高电流电池充电。</li>
+</ul>
+<h2 id="官方开发模块UMFT4222EV">官方开发模块UMFT4222EV</h2>
+<p><a target="_blank" rel="noopener" href="https://www.ftdichip.cn/Support/Documents/DataSheets/Modules/DS_UMFT4222EV.pdf">模块文档</a><br>
+电商平台上第三方仿制版60元左右。 （2024.12.1）</p>
+<h2 id="芯片相关资料">芯片相关资料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.ftdichip.cn/Support/Documents/DataSheets/ICs/DS_FT4222H.pdf">FT4222H 数据表</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ftdichip.cn/Support/Documents/TechnicalNotes/TN_161_FT4222H%20Errata%20Technical%20Note.pdf">FT4222H 勘误表技术说明</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ftdichip.cn/Support/Documents/TechnicalNotes/TN_175_FT4222H%20Rev.D%20Technical%20Note.pdf">FT4222H Rev.D 技术说明</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ftdichip.cn/Support/Documents/AppNotes/AN_357%20Android%20Java%20D2xx%20Demo%20Application%20for%20FT4222.pdf">AN_357 Android D2XX Demo Application for FT4222H</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ftdichip.com/Support/Documents/AppNotes/AN_329_User_Guide_for_LibFT4222.pdf">AN_329 User Guide for LibFT4222</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ftdichip.cn/Support/Documents/AppNotes/AN_184%20FTDI%20Device%20Input%20Output%20Pin%20States.pdf">引脚说明AN_184</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ftdichip.com/Support/SoftwareExamples/LibFT4222-v1.4.4.zip">LibFT4222 Windows Library (v1.4.4) and Examples</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ftdichip.com/Support/SoftwareExamples/libft4222-linux-1.4.4.44.tgz">LibFT4222 Linux Library (v1.4.4.44) and Examples</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ftdichip.com/Support/SoftwareExamples/LibFT4222-mac-v1.4.4.48.zip">LibFT4222 MAC OSX Library (v1.4.4.48) and Examples</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ftdichip.cn/Drivers/D2XX.html">D2xx驱动程序</a></li>
+</ul>
+<h1>开发示例</h1>
+<p>以在windows平台下开发，使用此模块作为SPI从机为例。</p>
+<p>相关资料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.ftdichip.cn/Drivers/D2XX.html">D2xx驱动程序</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ftdichip.com/Support/Documents/AppNotes/AN_329_User_Guide_for_LibFT4222.pdf">AN_329 User Guide for LibFT4222</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ftdichip.cn/Support/Documents/AppNotes/AN_184%20FTDI%20Device%20Input%20Output%20Pin%20States.pdf">引脚说明AN_184</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ftdichip.com/Support/SoftwareExamples/LibFT4222-v1.4.4.zip">LibFT4222 Windows Library (v1.4.4) and Examples</a></li>
+<li><a target="_blank" rel="noopener" href="https://ftdichip.com/wp-content/uploads/2023/09/D2XX_Programmers_Guide.pdf">D2XX Programmer’s Guide</a></li>
+</ul>
+<h2 id="配置工程">配置工程</h2>
+<p>先安装驱动。</p>
+<p>安装完驱动后，解压<code>LibFT4222 Windows Library (v1.4.4) and Examples</code>，<br>
+取 ：</p>
+<ul>
+<li><code>\imports\ftd2xx\ftd2xx.h</code>、</li>
+<li><code>\imports\ftd2xx\dll\amd64\ftd2xx.lib</code></li>
+<li><code>\imports\LIBFT4222\inc\ftd2xx.h</code>、</li>
+<li><code>\imports\LIBFT4222\dll\amd64\LibFT4222-64.lib</code></li>
+<li><code>\imports\LIBFT4222\dll\amd64\LibFT4222-64.dll</code></li>
+</ul>
+<p>以上就是开发此模块所需的动态库。</p>
+<h2 id="基本工作流">基本工作流</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//设备枚举</span></span><br><span class="line"><span class="function"><span class="type">long</span> <span class="type">long</span> <span class="title">Device_Check</span><span class="params">()</span></span>&#123;</span><br><span class="line">    DWORD Devices_num;</span><br><span class="line">    FT_STATUS ftStatus;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 枚举设备并检查 FT4222H 设备数量</span></span><br><span class="line">    ftStatus = <span class="built_in">FT_CreateDeviceInfoList</span>(&amp;Devices_num);</span><br><span class="line">    <span class="keyword">if</span> (ftStatus != FT_OK || Devices_num == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;  <span class="comment">//表示没有设备</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (DWORD i = <span class="number">0</span>; i &lt; Devices_num; i++) &#123;</span><br><span class="line">            FT_DEVICE_LIST_INFO_NODE devInfo;</span><br><span class="line">            ftStatus = <span class="built_in">FT_GetDeviceInfoDetail</span>(i, &amp;devInfo.Flags, &amp;devInfo.Type, &amp;devInfo.ID, &amp;devInfo.LocId,</span><br><span class="line">                                              devInfo.SerialNumber, devInfo.Description, &amp;devInfo.ftHandle);</span><br><span class="line">            <span class="keyword">if</span> (ftStatus == FT_OK) &#123;</span><br><span class="line">                <span class="comment">// 区分设备</span></span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">strstr</span>(devInfo.Description, <span class="string">&quot;FT4222&quot;</span>) != <span class="literal">NULL</span>) &#123;</span><br><span class="line">                    <span class="comment">// 只返回第一个接入上位机的FT4222H设备</span></span><br><span class="line">                    <span class="keyword">return</span> i;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;  <span class="comment">//表示没有设备</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//打开USB</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">Device_Open</span><span class="params">(FT_HANDLE ftHandle)</span></span>&#123;</span><br><span class="line">    FT_STATUS ftStatus;</span><br><span class="line">    ftStatus  = <span class="built_in">FT_Open</span>(m_device_id, &amp;ftHandle);</span><br><span class="line">    <span class="keyword">if</span> (ftStatus != FT_OK) &#123;</span><br><span class="line">        std::cout&lt;&lt;<span class="string">&quot;Open Device Fail\n&quot;</span>;</span><br><span class="line">        ftHandle = <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        std::cout&lt;&lt;<span class="string">&quot;Open Device Success\n&quot;</span>;</span><br><span class="line">        <span class="comment">//检查设备模式</span></span><br><span class="line">        uint8 ChipMode;</span><br><span class="line">        ftStatus = <span class="built_in">FT4222_GetChipMode</span>(ftHandle, &amp;ChipMode);</span><br><span class="line">        std::cout&lt;&lt;<span class="string">&quot;Current Mode of Device is:   &quot;</span>&lt;&lt;ChipMode;</span><br><span class="line">        <span class="keyword">if</span>(ftStatus != FT_OK || (ChipMode !=<span class="number">0</span> &amp;&amp; ChipMode!=<span class="number">3</span>))&#123;   <span class="comment">//如果不是SPI模式</span></span><br><span class="line">            std::cout&lt;&lt;<span class="string">&quot;Current Mode of Device is not SPI Mode!\n&quot;</span>;</span><br><span class="line">            <span class="built_in">FT_Close</span>(ftHandle);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置轮询间隔为 2 ms (默认是 16 ms)</span></span><br><span class="line">        <span class="built_in">FT_SetLatencyTimer</span>(ftHandle, <span class="number">2</span>);</span><br><span class="line">        <span class="built_in">FT_SetUSBParameters</span>(ftHandle, <span class="number">64</span> * <span class="number">1024</span>, <span class="number">64</span> * <span class="number">1024</span>); <span class="comment">// 设置USB缓冲区为最大的大小</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置SPI</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">Device_Spi_Slave_Init</span><span class="params">(FT_HANDLE ftHandle)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置超时时间</span></span><br><span class="line">    <span class="comment">//FT_SetTimeouts(ftHandle,6000,6000);</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//无协议传输，实现直接流式传输或私有协议传输</span></span><br><span class="line">    FT4222_STATUS Spi_Init_Status = <span class="built_in">FT4222_SPISlave_InitEx</span>(ftHandle,SPI_SLAVE_NO_PROTOCOL);</span><br><span class="line">    <span class="comment">//配置SPI的时钟与采样模式</span></span><br><span class="line">    FT4222_STATUS Spi_Setmode_Status = <span class="built_in">FT4222_SPISlave_SetMode</span>(ftHandle,CLK_IDLE_LOW,CLK_TRAILING);</span><br><span class="line">    <span class="built_in">FT4222_SPI_Reset</span>(ftHandle);</span><br><span class="line">    <span class="keyword">if</span> (Spi_Init_Status != FT4222_OK || Spi_Setmode_Status!= FT4222_OK) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Initlize SPI Fail\n&quot;</span>);</span><br><span class="line">        <span class="built_in">FT_Close</span>(ftHandle);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        std::cout&lt;&lt;<span class="string">&quot;Initlize SPI Success\n&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//读取缓存区</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">Device_SPI_Slave_Read</span><span class="params">(std::vector&lt;UINT8&gt;&amp; Rxbuf,uint16* SizeOfRead)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    uint16 Rxbuf_Size=<span class="number">0</span>;</span><br><span class="line">    FT4222_STATUS Spi_read_Status;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//该函数用于获取缓冲区中的数据量</span></span><br><span class="line">    Spi_read_Status = <span class="built_in">FT4222_SPISlave_GetRxStatus</span>(ftHandle,&amp;Rxbuf_Size);</span><br><span class="line">    <span class="keyword">if</span>(Spi_read_Status != FT4222_OK) &#123;</span><br><span class="line">        std::cout&lt;&lt;<span class="string">&quot;SPI Receive data Error!\n&quot;</span>;</span><br><span class="line">        <span class="built_in">FT4222_SPI_ResetTransaction</span>(ftHandle, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(Rxbuf_Size &lt;= <span class="number">256</span>) &#123;  <span class="comment">//当缓存区有一定数量时才进行读取，优化读取速率</span></span><br><span class="line">        *SizeOfRead = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(Rxbuf_Size &gt; Rxbuf.<span class="built_in">size</span>())  Rxbuf.<span class="built_in">resize</span>(Rxbuf_Size);</span><br><span class="line"></span><br><span class="line">    Spi_read_Status = <span class="built_in">FT4222_SPISlave_Read</span>(ftHandle, &amp;Rxbuf[<span class="number">0</span>], Rxbuf_Size, SizeOfRead);</span><br><span class="line">    <span class="keyword">if</span>(Spi_read_Status != FT4222_OK || (*SizeOfRead != Rxbuf_Size)) &#123;</span><br><span class="line"></span><br><span class="line">        std::cout&lt;&lt;<span class="string">&quot;SPI Receive data Error!\n&quot;</span>;</span><br><span class="line">        <span class="built_in">FT4222_SPI_ResetTransaction</span>(ftHandle, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//关闭USB</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Device_Close</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(ftHandle != <span class="literal">NULL</span>)&#123;</span><br><span class="line">        <span class="built_in">FT4222_UnInitialize</span>(ftHandle);</span><br><span class="line">        <span class="built_in">FT_Close</span>(ftHandle);</span><br><span class="line">        ftHandle = <span class="literal">NULL</span>;</span><br><span class="line">        std::cout&lt;&lt;<span class="string">&quot;Close Device\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="硬件设计">硬件设计</h2>
+<p>硬件参考官方开发模块<a target="_blank" rel="noopener" href="https://www.ftdichip.cn/Support/Documents/DataSheets/Modules/DS_UMFT4222EV.pdf">UMFT4222EV</a>即可。<br>
+原理图：<br>
+<img src="./UMFT4222EV%E5%8E%9F%E7%90%86%E5%9B%BE.png" alt="UMFT4222EV原理图"></p>
+<blockquote>
+<p>当使用USB的VBUS进行供电时，将<code>VBUS</code>与<code>VCCIN</code>短接、<code>VCCIO</code>与<code>VOUT3V3</code>短接；<br>
+仅使用SPI模式时，将<code>DCNF1</code>与<code>DCNF0</code>通过10KΩ的上拉电阻置高即可。<br>
+如果使用<code>VOUT3V3</code>作为其它设备的电源，最大电流不能超过<code>25mA</code>。</p>
+</blockquote>
+<br>
+<br>
+<p>官方开发模块使用MICRO USB接口比较老旧，<br>
+这里提供Type-C 16P（仅支持USB2.0）的原理图：<br>
+<img src="./type-c_16P%E5%8E%9F%E7%90%86%E5%9B%BE.png" alt="type-c_16P原理图"></p>
+<h3 id="SPI端口进行电气隔离">SPI端口进行电气隔离</h3>
+<p>可以选择数字隔离器<a target="_blank" rel="noopener" href="https://www.ti.com/product/ISO7741#support-training">ISO7741</a><br>
+作为隔离器,<br>
+该隔离器特别适合于SPI接口的隔离，<br>
+具体型号ISO7741DWR的隔离等级为<code>5000 Vrms / 8000 Vpeak</code>。</p>
+<p><img src="./ISO7741_Top_View.png" alt="ISO7741_Top_View"></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.ti.com/lit/ds/symlink/iso7741.pdf?ts=1732851818792&amp;ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FISO7741">ISO7741Data Sheet</a><br>
+<a target="_blank" rel="noopener" href="https://e2e.ti.com/support/isolation-group/isolation/f/isolation-forum/991536/faq-how-to-calculate-the-maximum-spi-speed-supported-by-a-digital-isolator">数字隔离器支持的最高SPI时钟频率</a></p>
+</blockquote>
+<p>该隔离器在5V供电时支持的最大SPI时钟频率为15.6MHz，<br>
+根据计算在3.3V供电时最大SPI时钟频率最好不要超过13MHz。</p>
+<p>当ISO7741的工作在3.3V时，<br>
+信号输出侧（对应连接SPI从机）的电源电流最大值为18.6 mA，<br>
+因此可以直接用FT4222H的VOUT3V3作为其电源。</p>
+<p><img src="./ISO7741_3.3V%E6%97%B6%E7%94%B5%E6%BA%90%E7%94%B5%E6%B5%81.png" alt="ISO7741_3.3V时电源电流"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="YILON">YILON</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/12/10/FT4222H%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/">http://example.com/2024/12/10/FT4222H%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">YILON</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><a class="post-meta__tags" href="/tags/IC/">IC</a><a class="post-meta__tags" href="/tags/FT4222H/">FT4222H</a></div><div class="post-share"><div class="social-share" data-image="/private_img/cover.svg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/11/29/Qt5%E7%9B%B8%E5%85%B3%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" title="Qt5相关注意事项"><img class="cover" src="/private_img/cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Qt5相关注意事项</div></div><div class="info-2"><div class="info-item-1">本文基于Qt5最后一个可离线安装的5.14.2版本。 Qt Creator与MSVC编译器 Qt Creator要使用MSVC编译器必须要安装VS或相应的MSVC工具包。 一个注意点是，Qt 5.14.2最高只支持MSVC 2017版本的编译器， 因此在安装VS 2022 或更高版本的安装工具中， 需要手动添加MSVC 2017 或 MSVC 2017的套件。 并且此时Qt 默认检测到的仍是最新版的MSVC的， 需要手动配置构建套件（Kit）。 打开Qt，选择上方工具栏的工具-&gt;选项， 在弹出来的窗口中选择Kits -&gt; 编译器， 如果有，点击右侧的添加-&gt;MSVC-&gt;C++，否则点击右侧的添加-&gt;Custom-&gt;C++， 在新建的栏目中如下配置： （初始化文件的路径在VS的安装目录下，如下是默认安装路径的情况）   然后点击构建套件(Kits)， 选择Destop Qt 5.14.2 MSVC2017 64bit（或者32 bit）， 在 compiler 中选择刚刚新建的编译器配置， 点击保存即可。 此时要求使用 windows...</div></div></div></a><a class="pagination-related" href="/2024/12/13/TI_DSP_TMS320F28377D_IPC/" title="TI_DSP_TMS320F28377D_IPC"><img class="cover" src="/private_img/cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">TI_DSP_TMS320F28377D_IPC</div></div><div class="info-2"><div class="info-item-1">基本架构  功能组成 Message RAMs 有两个 2KByte 的消息RAM， 分别为由CPU1 -&gt; CPU2 和 CPU2 -&gt; CPU1。 具体控制情况如下：   对Message RAM进行读写不会触发远程CPU的任何事件。  IPC 标志和中断 每个通信方向有 32 个IPC事件信号。  CPUx 可以通过写入 IPCSET 寄存器 32 位中的任意一位来引发 IPC 事件。 这将设置 CPUx IPCFLG 寄存器和 CPUy IPCSTS 寄存器中的相应位。  CPUy 可以通过设置 IPCACK 寄存器中的相应位来发出响应事件的信号。 这将清除 CPUx IPCFLG 寄存器和 CPUy IPCSTS 寄存器中的相应位。  如果 CPUx 需要取消事件，可设置 IPCCLR 寄存器中的相应位。 这与 CPUy 写入 IPCACK 的效果相同。  标志 0-3（使用 IPCSET[3:0]设置）向远程 CPU 发射中断。 远程 CPU 必须正确配置 ePIE 模块才能接收 IPC 中断。 标志 4-31（使用 IPCSET[31:4]...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/03/09/CPLD_%E6%A6%82%E8%BF%B0/" title="CPLD_概述"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-09</div><div class="info-item-2">CPLD_概述</div></div><div class="info-2"><div class="info-item-1">...</div></div></div></a><a class="pagination-related" href="/2023/10/21/DSP%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="DSP基本概念"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-21</div><div class="info-item-2">DSP基本概念</div></div><div class="info-2"><div class="info-item-1">流水线操作与系统架构 CPU的执行指令可分为四步：...</div></div></div></a><a class="pagination-related" href="/2024/02/24/Flash%E8%8A%AF%E7%89%87AT45D161D/" title="Flash芯片AT45D161D"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-24</div><div class="info-item-2">Flash芯片AT45D161D</div></div><div class="info-2"><div class="info-item-1">...</div></div></div></a><a class="pagination-related" href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E5%88%9B%E5%BB%BAC%E8%AF%AD%E8%A8%80_%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Simulink模型创建C语言_数据类型"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-21</div><div class="info-item-2">Simulink模型创建C语言_数据类型</div></div><div class="info-2"><div class="info-item-1">参考链接 Simulink数据类型    flowchart LR Root[Simulink数据] --- L1_1[基本类型] &amp; L1_2[存储类型] &amp; L1_3[数据组织] L1_1 --- L2_1_1[浮点型] &amp; L2_1_2[整型] &amp; L2_1_3[定点型] L1_2 --- L2_2_1[外部] &amp; L2_2_2[内部] L1_3 --- L2_3_1[标量] &amp; L2_3_2[矢量] &amp; L2_3_3[Bus总线] L2_1_1 --- L3_1_1_1[double（64bits）、single（32bits）] L2_1_2 --- L3_1_2_1[无符号整型数 \n uint64_T，uint32_T，uint16_T，uint8_T，boolean_T，char_T] &amp; L3_1_2_2[有符号整型数 \n int64_T，int32_T，int16_T，int8_T] L2_1_3 --- L3_1_3_1[用户自定义] L2_2_2 ---L3_2_2_1[局部] &amp;...</div></div></div></a><a class="pagination-related" href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E5%88%9B%E5%BB%BAC%E8%AF%AD%E8%A8%80_%E5%87%BD%E6%95%B0%E5%8E%9F%E5%9E%8B%E4%B8%8E%E4%BC%A0%E5%8F%82%E6%8E%A7%E5%88%B6/" title="Simulink模型创建C语言_函数原型与传参控制"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-21</div><div class="info-item-2">Simulink模型创建C语言_函数原型与传参控制</div></div><div class="info-2"><div class="info-item-1">函数原型 由Simulink模型默认创建的C代码函数原型为： 1234/* 算法相关函数原型，“model”表示模型名 */void model_initialize(void);void model_step(void);void model_terminate(void); 可以发现没有参数输入与返回值，算法实现是通过调用全局变量实现的。 在实际工程中，可能会带来冲突与不必要的静态存储区空间浪费。 Code Mappings 打开Embedded Coder工具，在界面左下方点击“Code Mappings - C”按钮。 修改函数名 在Code Mappings窗口点击Functions标签页， 在“Function Name”中可修改算法函数名：  修改函数传参  同上一节界面，点击_step函数的“Function Preview”， 勾选&quot;Configure arguments for Step function prototype&quot; 点击&quot;Get default&quot;，得到函数传参的配置信息：   “C Identifier...</div></div></div></a><a class="pagination-related" href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90C%E8%AF%AD%E8%A8%80_%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" title="Simulink模型生成C语言_基础概念"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-21</div><div class="info-item-2">Simulink模型生成C语言_基础概念</div></div><div class="info-2"><div class="info-item-1">参考链接 基本概念 MATLAB/Simulink中一共提供三个代码生成的工具：  MATLAB Coder——用于m脚本生成C/C++代码 Simulink Coder——用于模型、Stateflow等生成C/C++代码 Embedded Coder——用于模型生成嵌入式代码  要调用模型生成的C语言函数，则模型中要定义接口：  输入接口——即input port模块 输出接口——即output port模块  同时模型要满足：  模型是离散的（即各模块都是离散的） 求解器为定步长(Fixed-step)  代码生成设置 点击上方栏：建模(MODELING)-&gt;模型设置(Model Settings) -&gt;代码生成(Code Generation) 系统目标文件选择erl.tlc便可使用Embedded...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/private_img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YILON</div><div class="author-info-description">YILON的技术小窝</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">91</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">25</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YILON"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E7%82%B9"><span class="toc-number">1.1.</span> <span class="toc-text">特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">典型应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E5%BC%80%E5%8F%91%E6%A8%A1%E5%9D%97UMFT4222EV"><span class="toc-number">1.3.</span> <span class="toc-text">官方开发模块UMFT4222EV</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8A%AF%E7%89%87%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99"><span class="toc-number">1.4.</span> <span class="toc-text">芯片相关资料</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">开发示例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%B7%A5%E7%A8%8B"><span class="toc-number">2.1.</span> <span class="toc-text">配置工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="toc-number">2.2.</span> <span class="toc-text">基本工作流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.3.</span> <span class="toc-text">硬件设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SPI%E7%AB%AF%E5%8F%A3%E8%BF%9B%E8%A1%8C%E7%94%B5%E6%B0%94%E9%9A%94%E7%A6%BB"><span class="toc-number">2.3.1.</span> <span class="toc-text">SPI端口进行电气隔离</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/12/16/TI_DSP_TMS320F28377D_EMIF/" title="TI_DSP_TMS320F28377D_EMIF"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F28377D_EMIF"/></a><div class="content"><a class="title" href="/2024/12/16/TI_DSP_TMS320F28377D_EMIF/" title="TI_DSP_TMS320F28377D_EMIF">TI_DSP_TMS320F28377D_EMIF</a><time datetime="2024-12-16T03:10:24.000Z" title="发表于 2024-12-16 11:10:24">2024-12-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/13/TI_DSP_TMS320F28377D_IPC/" title="TI_DSP_TMS320F28377D_IPC"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F28377D_IPC"/></a><div class="content"><a class="title" href="/2024/12/13/TI_DSP_TMS320F28377D_IPC/" title="TI_DSP_TMS320F28377D_IPC">TI_DSP_TMS320F28377D_IPC</a><time datetime="2024-12-13T07:10:44.000Z" title="发表于 2024-12-13 15:10:44">2024-12-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/10/FT4222H%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" title="FT4222H使用说明"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FT4222H使用说明"/></a><div class="content"><a class="title" href="/2024/12/10/FT4222H%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" title="FT4222H使用说明">FT4222H使用说明</a><time datetime="2024-12-10T06:00:44.000Z" title="发表于 2024-12-10 14:00:44">2024-12-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/private_img/Top.svg);"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By YILON</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

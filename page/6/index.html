@@ -8,16 +8,105 @@
 <meta property="og:image" content="http://example.com/private_img/avatar.jpg">
 <meta property="article:author" content="YILON">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/private_img/avatar.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/page/6/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+<meta name="twitter:image" content="http://example.com/private_img/avatar.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/page/6/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
   root: '/',
   algolia: undefined,
-  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
-  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
-  noticeOutdate: undefined,
-  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300},
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":false},
   copy: {
     success: '复制成功',
-    error: '复制错误',
+    error: '复制失败',
     noSupport: '浏览器不支持'
   },
   relativeDate: {
@@ -33,7 +122,7 @@
     month: '个月前'
   },
   copyright: undefined,
-  lightbox: 'fancybox',
+  lightbox: 'null',
   Snackbar: undefined,
   infinitegrid: {
     js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
@@ -53,380 +142,124 @@
   isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2024-11-29 10:19:52'
-}</script><script>(win=>{
-      win.saveToLocal = {
-        set: (key, value, ttl) => {
-          if (ttl === 0) return
-          const now = Date.now()
-          const expiry = now + ttl * 86400000
-          const item = {
-            value,
-            expiry
-          }
-          localStorage.setItem(key, JSON.stringify(item))
-        },
-      
-        get: key => {
-          const itemStr = localStorage.getItem(key)
-      
-          if (!itemStr) {
-            return undefined
-          }
-          const item = JSON.parse(itemStr)
-          const now = Date.now()
-      
-          if (now > item.expiry) {
-            localStorage.removeItem(key)
-            return undefined
-          }
-          return item.value
-        }
-      }
-    
-      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
-        const script = document.createElement('script')
-        script.src = url
-        script.async = true
-        script.onerror = reject
-        script.onload = script.onreadystatechange = function() {
-          const loadState = this.readyState
-          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-          script.onload = script.onreadystatechange = null
-          resolve()
-        }
-
-        Object.keys(attr).forEach(key => {
-          script.setAttribute(key, attr[key])
-        })
-
-        document.head.appendChild(script)
-      })
-    
-      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
-        const link = document.createElement('link')
-        link.rel = 'stylesheet'
-        link.href = url
-        if (id) link.id = id
-        link.onerror = reject
-        link.onload = link.onreadystatechange = function() {
-          const loadState = this.readyState
-          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-          link.onload = link.onreadystatechange = null
-          resolve()
-        }
-        document.head.appendChild(link)
-      })
-    
-      win.activateDarkMode = () => {
-        document.documentElement.setAttribute('data-theme', 'dark')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
-        }
-      }
-      win.activateLightMode = () => {
-        document.documentElement.setAttribute('data-theme', 'light')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
-        }
-      }
-      const t = saveToLocal.get('theme')
-    
-        if (t === 'dark') activateDarkMode()
-        else if (t === 'light') activateLightMode()
-      
-      const asideStatus = saveToLocal.get('aside-status')
-      if (asideStatus !== undefined) {
-        if (asideStatus === 'hide') {
-          document.documentElement.classList.add('hide-aside')
-        } else {
-          document.documentElement.classList.remove('hide-aside')
-        }
-      }
-    
-      const detectApple = () => {
-        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
-          document.documentElement.classList.add('apple')
-        }
-      }
-      detectApple()
-    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/private_img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">81</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">88</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/private_img/Top.svg')"><nav id="nav"><span id="blog-info"><a href="/" title="YILON"><span class="site-name">YILON</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">YILON</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2023/10/21/DSP%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="DSP基本概念"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="DSP基本概念"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/21/DSP%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="DSP基本概念">DSP基本概念</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-21T04:00:10.000Z" title="发表于 2023-10-21 12:00:10">2023-10-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">流水线操作与系统架构
-CPU的执行指令可分为四步： （实际可能有更多步）
-
-取指（从存储器中读取指令）
-译码（根据指令中的操作码确定要执行的操作）
-取数（如果操作需要数据，则从存储器中读取数据）
-执行
-
-
-对于冯·诺伊曼架构而言，执行指令时，便是按顺序执行这些操作（串行）。
-由于冯·诺伊曼架构的特点是程序与数据在同一存储空间中，使用同一段总线，
-因此读取指令时不能读入数据，读入数据时也不能读取指令，
-必须要等待前一步完成后才能进行下一步。
-而哈佛架构则不一样：
-
-哈佛架构把程序与数据分开存储，两部分使用单独的总线，
-因此，可以进行流水线操作：(以三级流水线为例)：
-
-一个时钟周期内，
-在对第M-2个指令进行执行时，
-可以同时对第M-1的指令进行译码，
-对第M个指令进行读取，（取值同时也可以读入操作数）
-那么三个时钟周期便可以执行三个指令（并行），
-而对于冯·诺依曼架构，则需要四个时钟周期才能执行一条指令。
-现代CPU运行程序时仍然将程序与数据都放进内存(Memory)中，但实际上在Cache层二者分开放置，因此同样能进行流水线执行。
-但是哈佛架构也并不是十全十美的。其结构复杂，对外围设 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E5%88%9B%E5%BB%BAC%E8%AF%AD%E8%A8%80_%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Simulink模型创建C语言_数据类型"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Simulink模型创建C语言_数据类型"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E5%88%9B%E5%BB%BAC%E8%AF%AD%E8%A8%80_%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Simulink模型创建C语言_数据类型">Simulink模型创建C语言_数据类型</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-21T03:11:10.000Z" title="发表于 2023-10-21 11:11:10">2023-10-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/">MATLAB</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/Simulink/">Simulink</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/Simulink/Embedded-Code/">Embedded Code</a></span></div><div class="content">参考链接
-Simulink数据类型
-
-  flowchart LR
-Root[Simulink数据] --- L1_1[基本类型] &amp; L1_2[存储类型] &amp; L1_3[数据组织]
-L1_1 --- L2_1_1[浮点型] &amp; L2_1_2[整型] &amp; L2_1_3[定点型]
-L1_2 --- L2_2_1[外部] &amp; L2_2_2[内部]
-L1_3 --- L2_3_1[标量] &amp; L2_3_2[矢量] &amp; L2_3_3[Bus总线]
-L2_1_1 --- L3_1_1_1[double（64bits）、single（32bits）]
-L2_1_2 --- L3_1_2_1[无符号整型数 \n uint64_T，uint32_T，uint16_T，uint8_T，boolean_T，char_T] &amp; L3_1_2_2[有符号整型数 \n int64_T，int32_T，int16_T，int8_T]
-L2_1_3 --- L3_1_3_1[用户自定义]
-L2_2_2 ---L3_2_2_1[局部] &amp; L3_ ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90C%E8%AF%AD%E8%A8%80_%E6%8E%A5%E5%8F%A3%E5%87%BD%E6%95%B0%E4%B8%8E%E4%BB%A3%E7%A0%81%E9%9B%86%E6%88%90/" title="Simulink模型生成C语言_接口函数与代码集成"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Simulink模型生成C语言_接口函数与代码集成"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90C%E8%AF%AD%E8%A8%80_%E6%8E%A5%E5%8F%A3%E5%87%BD%E6%95%B0%E4%B8%8E%E4%BB%A3%E7%A0%81%E9%9B%86%E6%88%90/" title="Simulink模型生成C语言_接口函数与代码集成">Simulink模型生成C语言_接口函数与代码集成</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-21T02:15:10.000Z" title="发表于 2023-10-21 10:15:10">2023-10-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/">MATLAB</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/Simulink/">Simulink</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/Simulink/Embedded-Code/">Embedded Code</a></span></div><div class="content">参考链接
-前述
-默认设置下，模型的输入与输出端口在C代码中表现为全局变量，
-当存在大量输入/输出端口时，一个个为此赋值或取值会很麻烦。
-当然可以自己定义get() set()函数，
-但这样很难与step函数中对应上。
-而Embedded Coder也提供了get/set函数与算法实现对应的设置。
-设置接口函数的头文件
-打开Embarrassing Coder，点击上方工具栏的Coder Interface的Individual Element Code Mappings选项：
-
-会出现Code Mapping -C窗口。
-将输入端口的存储类（Storage Class）设置为“GetSet”，  点击最右边铅笔按钮，
-配置Headerfile为构建的接口函数的头文件名，比如：
-
-注意每个端口都要配置一遍。
-输出端口也同样设置，注意输出端口的Identifier不能为空，需要设置一个合适的名字（可以与输出端口同名）。
-这样构建出来的step函数会自动使用get/set函数实现算法，
-而在模型名_private.h中include了上面设定的接口函数的头文件名。
-但是注意，接口函数的头文件 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90C%E8%AF%AD%E8%A8%80_%E5%AD%90%E7%B3%BB%E7%BB%9F/" title="Simulink模型生成C语言_子系统"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Simulink模型生成C语言_子系统"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90C%E8%AF%AD%E8%A8%80_%E5%AD%90%E7%B3%BB%E7%BB%9F/" title="Simulink模型生成C语言_子系统">Simulink模型生成C语言_子系统</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-21T02:15:07.000Z" title="发表于 2023-10-21 10:15:07">2023-10-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/">MATLAB</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/Simulink/">Simulink</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/Simulink/Embedded-Code/">Embedded Code</a></span></div><div class="content">参考链接
-虚拟子系统(Virtual Subsystem)
-在simulink建模时，为使视图简洁层次分明，可将特定功能的部分封装为一个虚拟的子系统。
-
-虚拟子系统不影响原模型的任何功能，不影响原模型的执行顺序，仅仅只是视觉上的子系统。
-因此虚拟子系统的的输入输出端口并不会真的在代码中定义，
-即将部分模型封装为虚拟子系统前后生成的C代码不会有变化。
-原子子系统
-点击虚拟子系统，在上方工具栏可将其转化为原子子系统：
-
-原子子系统可以通过配置相关属性，
-为子系统内部的模型生成单独的函数接口，
-可以生成inline函数或可重用函数，
-自定义函数接口形式、函数名称，甚至可以生成单独的源文件。
-右键选择查看原子子系统的模块参数，重点关注“代码生成”一栏：
-
-
-默认为自动(Auto)
-
-实际上为内联(inline)，此时该原子子系统的代码生成方式和虚拟子系统是相同的，即子系统内的模型会嵌在上层模型中，是上层模型代码的一部分；
-
-
-不可重用函数(Nonreusable function)
-
-会为原子子系统内的模型生成单独的函数，并且上层模型生成的代码是通过函数调用的方式使用原子子系统内的算法。但其参 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90C%E8%AF%AD%E8%A8%80_%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" title="Simulink模型生成C语言_基础概念"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Simulink模型生成C语言_基础概念"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90C%E8%AF%AD%E8%A8%80_%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" title="Simulink模型生成C语言_基础概念">Simulink模型生成C语言_基础概念</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-21T02:15:06.000Z" title="发表于 2023-10-21 10:15:06">2023-10-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/">MATLAB</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/Simulink/">Simulink</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/Simulink/Embedded-Code/">Embedded Code</a></span></div><div class="content">参考链接
-基本概念
-MATLAB/Simulink中一共提供三个代码生成的工具：
-
-MATLAB Coder——用于m脚本生成C/C++代码
-Simulink Coder——用于模型、Stateflow等生成C/C++代码
-Embedded Coder——用于模型生成嵌入式代码
-
-要调用模型生成的C语言函数，则模型中要定义接口：
-
-输入接口——即input port模块
-输出接口——即output port模块
-
-同时模型要满足：
-
-模型是离散的（即各模块都是离散的）
-求解器为定步长(Fixed-step)
-
-代码生成设置
-点击上方栏：建模(MODELING)-&gt;模型设置(Model Settings) -&gt;代码生成(Code Generation)
-系统目标文件选择erl.tlc便可使用Embedded Coder生成嵌入式C语言；
-编译过程中如果勾选&quot;仅生成代码&quot;与&quot;代码和工件打包&quot;可生成相关文件的压缩包(.zip):
-
-如果需要模块的参数以变量形式生成代码，在“优化”中将默认参数行为改为可调(tunable)
-
-对于接口选项，根 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/10/20/VS_code%E7%8E%AF%E5%A2%83%E7%BC%96%E5%86%99c_c++/" title="VS code环境编写c/c++"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VS code环境编写c/c++"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/20/VS_code%E7%8E%AF%E5%A2%83%E7%BC%96%E5%86%99c_c++/" title="VS code环境编写c/c++">VS code环境编写c/c++</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-20T02:15:05.000Z" title="发表于 2023-10-20 10:15:05">2023-10-20</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></span></div><div class="content">WIndows环境下VS Code部署C/C++
-
-
-安装Vscode
-下载编译器的压缩包，将解压得到的文件夹直接放进D盘中
-快捷键win + q打开搜索框，搜索环境变量，打开“编辑系统环境变量”，点击“环境变量(N)”，双击系统变量的path，添加编译器的bin文件夹(绝对路径)，比如D:\mingw-w64\mingw64\bin。
-
-
-完成后在cmd控制台输入
-1&gt;&gt;gcc -v
-即可验证是否添加成功。
-
-
-在VS Code中安装“C/C++”的插件，重启即可。
-
-
-c/c++编译设置（gcc/g++格式）
-创建一个文件夹作为工程文件夹，
-创建.vscode文件夹，在其中创建tasks.json、launch.json两个文件。
-tasks.json
-用以配置编译所需要的信息。
-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/10/20/makefile%E4%B8%8Ecmake%E7%AE%80%E8%A6%81%E6%95%99%E7%A8%8B/" title="makefile与cmake简要教程"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="makefile与cmake简要教程"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/20/makefile%E4%B8%8Ecmake%E7%AE%80%E8%A6%81%E6%95%99%E7%A8%8B/" title="makefile与cmake简要教程">makefile与cmake简要教程</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-20T02:15:04.000Z" title="发表于 2023-10-20 10:15:04">2023-10-20</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></span></div><div class="content">makefile
-参考链接1
-参考链接2
-参考链接3
-Makefile类似于一个Shell指令文件，只不过其使用&quot;make&quot;指令执行，并内置了一套逻辑规则。
-通过makefile可以规定哪些文件需要优先编译，哪些文件需要后编译，
-哪些文件在特定条件下需要重新编译。
-基本构成
-假设工程里有这些文件：（不展示对应头文件）
-1234main.csrc_1.csrc_2.csrc_3.c
-一般情况下编译这个工程指令为：
-12345gcc -c src_3.c -o src_3.ogcc -c src_2.c -o src_2.ogcc -c src_1.c -o src_1.ogcc -c main.c -o main.cgcc src_1.o src_2.o src_3.o -o main.exe
-这样每一次修改都会重新汇编所有文件，无疑会浪费很多时间。
-（即使直接从c文件编译到可执行文件，编译过程仍然要执行这个过程）
-我们期望，当c文件修改时，才重新生成汇编文件（.o），
-这样没改变的c文件就不需要重新编译，提升整个工程编译的速度。
-可如此编写makefile文件：
-1 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/10/20/gcc%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/" title="gcc编译过程"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="gcc编译过程"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/20/gcc%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/" title="gcc编译过程">gcc编译过程</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-20T02:15:03.000Z" title="发表于 2023-10-20 10:15:03">2023-10-20</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></span></div><div class="content">c语言编译过程
-参考链接
-
-预处理：处理C源程序中的预处理指令（将宏展开将#include的文件添加进来），删除注释。（.i）
-编译：将预处理文件翻译成汇编语言(.s)
-汇编：将汇编文件翻译成机器码，生成目标文件(.o/.obj)
-链接：将库与各目标文件合并成一个可执行文件(.out/.exe)
-
-
-静态链接库与动态链接库
-参考链接
-静态链接库
-静态链接库实现链接操作的方式很简单，即程序文件中哪里用到了库文件中的功能模块，
-GCC 编译器就会将该模板代码直接复制到程序文件的适当位置，最终生成可执行文件。
-使用静态库文件实现程序的链接操作，既有优势也有劣势：
-优势是，生成的可执行文件不再需要任何静态库文件的支持就可以独立运行（可移植性强）；
-劣势是，如果程序文件中多次调用库中的同一功能模块，则该模块代码势必就会被复制多次，生成的可执行文件中会包含多段完全相同的代码，造成代码的冗余。
-
-Linux 发行版系统中，静态链接库文件的后缀名通常用 .a 表示；
-在 Windows 系统中，静态链接库文件的后缀名为 .lib。
-
-动态链接库
-动态链接库，又称为共享链接库。
-和静态链接库不同，采用动 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/08/23/%E6%A0%91%E8%8E%93%E6%B4%BE4B%E5%BC%80%E7%AE%B1%E9%85%8D%E7%BD%AE/" title="树莓派4B开箱配置"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派4B开箱配置"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/08/23/%E6%A0%91%E8%8E%93%E6%B4%BE4B%E5%BC%80%E7%AE%B1%E9%85%8D%E7%BD%AE/" title="树莓派4B开箱配置">树莓派4B开箱配置</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-08-23T11:32:13.000Z" title="发表于 2023-08-23 19:32:13">2023-08-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a></span></div><div class="content">树莓派4B基本配置
-参考链接
-
-BCM2711B0 (ARM Cortex-A72)
-64 位 1.5GHz 四核
-内存的选择:1GB/5GB/4GB/8GB
-千兆以太网
-802.11ac 2.4GHz/5GHz 双频网卡
-蓝牙 5.0，BLE
-USB 3.0 x 2、USB 2.0 x 2
-微型 HDMI x 2（支持 4Kp60）
-PoE 头（支持 PoE HAT）
-MicroSD 插槽
-3.5 毫米音频插孔
-40PIN GPIO 接头
-CSI摄像头接口
-DSI显示接口
-USB Type C电源（5V/3A或以上）
-
-系统烧写
-准备好SD卡、读卡器。
-树莓派默认启动SD卡系统。
-初学者推荐使用官方、有GUI的系统Raspberry Pi OS。在官网可以下载系统镜像，
-也可以选择下载其下载&amp;烧录软件Raspberry Pi Imager。通过该软件可以方便地下载常见的系统、烧录系统（包括非官方系统，需要自备镜像）与格式化SD卡。
-基本设置
-要远程操控树莓派需要配置SSH、WALN，并获取树莓派的IP地址（远程主机与树莓派在同一局域网内）。
-如果使用官方系统，可以在烧写前通过 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/07/19/Maxwell%E6%96%B9%E7%A8%8B%E7%BB%84%E6%8E%A8%E5%AF%BC%E4%B8%8E%E7%90%86%E8%A7%A3/" title="Maxwell方程组推导与理解"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Maxwell方程组推导与理解"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/07/19/Maxwell%E6%96%B9%E7%A8%8B%E7%BB%84%E6%8E%A8%E5%AF%BC%E4%B8%8E%E7%90%86%E8%A7%A3/" title="Maxwell方程组推导与理解">Maxwell方程组推导与理解</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-07-19T11:25:58.000Z" title="发表于 2023-07-19 19:25:58">2023-07-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a></span></div><div class="content">前述
-参考与引用链接：1、2、3。
-加入了一些个人理解，有误请包含。
-前置知识
-引用链接：散度
-通量
-给定一个三维空间中的矢量场A⃗\vec{A}A以及一个简单有向曲面Σ\SigmaΣ，则矢量场A⃗\vec{A}A通过曲面Σ\SigmaΣ的通量，就是曲面每一点ppp上的场矢量A⃗(p)\vec{A}(p)A(p)在曲面法向方向上的分量的积分：
-ΦA⃗(p)(Σ)=∫ΣA⃗⋅dS⃗\Phi_{\vec{A}(p)} (\Sigma)={\int}_{\Sigma} \vec{A} \cdot \mathrm{d}\vec{S}
-ΦA(p)​(Σ)=∫Σ​A⋅dS
-其中dS⃗\mathrm{d}\vec{S}dS是积分的面积元，面方向是Σ\SigmaΣ在该点处的单位法矢量。
-如果曲面是封闭的，例如球面，那么通常约定法矢量是从里朝外的，所以这时候的通量是描述曲面上的场矢量朝外的程度。
-
-通量表征了垂直（或等效垂直）通过该曲面的场线的数量。
-对于封闭曲面，对于不穿过曲面或者穿入后又穿出的矢量线，其对整个曲面的通量贡献为零，可以忽略其影响。
-
-通量叠加定理
-对于封闭曲面Σ\SigmaΣ围成的空间 ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/5/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/#content-inner">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/#content-inner">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/#content-inner">9</a><a class="extend next" rel="next" href="/page/7/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/private_img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">YILON</div><div class="author-info__description">YILON的技术小窝</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">81</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">88</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YILON"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客！</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/10/20/VS_code%E7%8E%AF%E5%A2%83%E7%BC%96%E5%86%99c_c++/" title="VS code环境编写c/c++"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VS code环境编写c/c++"/></a><div class="content"><a class="title" href="/2023/10/20/VS_code%E7%8E%AF%E5%A2%83%E7%BC%96%E5%86%99c_c++/" title="VS code环境编写c/c++">VS code环境编写c/c++</a><time datetime="2024-11-29T02:14:58.828Z" title="更新于 2024-11-29 10:14:58">2024-11-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/11/TI_DSP_TMS320F2812_%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%8E%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" title="TI_DSP_TMS320F2812_存储空间与启动过程"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_存储空间与启动过程"/></a><div class="content"><a class="title" href="/2023/11/11/TI_DSP_TMS320F2812_%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%8E%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" title="TI_DSP_TMS320F2812_存储空间与启动过程">TI_DSP_TMS320F2812_存储空间与启动过程</a><time datetime="2024-11-29T02:14:31.876Z" title="更新于 2024-11-29 10:14:31">2024-11-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/20/makefile%E4%B8%8Ecmake%E7%AE%80%E8%A6%81%E6%95%99%E7%A8%8B/" title="makefile与cmake简要教程"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="makefile与cmake简要教程"/></a><div class="content"><a class="title" href="/2023/10/20/makefile%E4%B8%8Ecmake%E7%AE%80%E8%A6%81%E6%95%99%E7%A8%8B/" title="makefile与cmake简要教程">makefile与cmake简要教程</a><time datetime="2024-11-29T02:11:45.083Z" title="更新于 2024-11-29 10:11:45">2024-11-29</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-color: #4582A0;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/private_img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">91</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">25</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(/private_img/Top.svg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">YILON</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">YILON</h1><div id="site_social_icons"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/04/Q%E6%A0%BC%E5%BC%8F%E5%AE%9A%E7%82%B9%E6%95%B0/" title="Q格式定点数"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Q格式定点数"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/04/Q%E6%A0%BC%E5%BC%8F%E5%AE%9A%E7%82%B9%E6%95%B0/" title="Q格式定点数">Q格式定点数</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-04T01:00:10.000Z" title="发表于 2023-11-04 09:00:10">2023-11-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></span></div><div class="content">引用链接 概述 Q格式是二进制的定点数格式。 相对于浮点数，Q格式指定了相应的小数位数和整数位数。 在没有浮点运算的平台上，可以更快地对浮点数据进行处理， 以及应用在需要恒定分辨率的程序中（浮点数的精度是会变化的）。 Q数据的表示 记定点数格式为Qm,nQ_{m,n}Qm,n​， mmm为整数位数，nnn为小数位数， 对于有符号数，最高位为符号位并用补码形式存储。 假设某16位定点数XXX在Q9,7Q_{9,7}Q9,7​格式下为： X=1011011000011101X = 1011 \quad 0110 \quad 0001 \quad 1101 X=1011011000011101 如果X是无符号数 即整数部分为： 101101101101101101 101101101 小数部分为： 00111010011101 0011101 则整数部分： X1=1×28+0×27+1×26+1×25+0×24+1×23+1×22+0×21+1×20=365X_1 = 1 \times 2^{8} + 0 \times 2^{7} +  1 \times 2^{6} + 1...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/04/TI_DSP_TMS320F2812_%E4%BA%8B%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88%E4%B8%89%EF%BC%89__%E4%BA%8B%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%E4%B8%AD%E6%96%AD/" title="TI_DSP_TMS320F2812_事件管理器（三）__事件管理器中断"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_事件管理器（三）__事件管理器中断"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/04/TI_DSP_TMS320F2812_%E4%BA%8B%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88%E4%B8%89%EF%BC%89__%E4%BA%8B%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%E4%B8%AD%E6%96%AD/" title="TI_DSP_TMS320F2812_事件管理器（三）__事件管理器中断">TI_DSP_TMS320F2812_事件管理器（三）__事件管理器中断</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-04T00:00:10.000Z" title="发表于 2023-11-04 08:00:10">2023-11-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/10/28/TI_DSP_TMS320F2812_%E4%BA%8B%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88%E4%BA%8C%EF%BC%89__%E6%8D%95%E8%8E%B7%E5%8D%95%E5%85%83%E4%B8%8EQEP%E5%8D%95%E5%85%83/" title="TI_DSP_TMS320F2812_事件管理器（二）__捕获单元与QEP单元"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_事件管理器（二）__捕获单元与QEP单元"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/28/TI_DSP_TMS320F2812_%E4%BA%8B%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88%E4%BA%8C%EF%BC%89__%E6%8D%95%E8%8E%B7%E5%8D%95%E5%85%83%E4%B8%8EQEP%E5%8D%95%E5%85%83/" title="TI_DSP_TMS320F2812_事件管理器（二）__捕获单元与QEP单元">TI_DSP_TMS320F2812_事件管理器（二）__捕获单元与QEP单元</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-28T01:00:10.000Z" title="发表于 2023-10-28 09:00:10">2023-10-28</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/10/28/TI_DSP_TMS320F2812_%E4%BA%8B%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88%E4%B8%80%EF%BC%89__%E5%AE%9A%E6%97%B6%E5%99%A8GP%E4%B8%8E%E6%AF%94%E8%BE%83%E5%8D%95%E5%85%83/" title="TI_DSP_TMS320F2812_事件管理器（一）__定时器GP与比较单元"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_事件管理器（一）__定时器GP与比较单元"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/28/TI_DSP_TMS320F2812_%E4%BA%8B%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88%E4%B8%80%EF%BC%89__%E5%AE%9A%E6%97%B6%E5%99%A8GP%E4%B8%8E%E6%AF%94%E8%BE%83%E5%8D%95%E5%85%83/" title="TI_DSP_TMS320F2812_事件管理器（一）__定时器GP与比较单元">TI_DSP_TMS320F2812_事件管理器（一）__定时器GP与比较单元</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-28T00:00:10.000Z" title="发表于 2023-10-28 08:00:10">2023-10-28</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/10/28/TI_DSP_TMS320F2812_%E5%AE%9A%E6%97%B6%E5%99%A8/" title="TI_DSP_TMS320F2812_定时器"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_定时器"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/28/TI_DSP_TMS320F2812_%E5%AE%9A%E6%97%B6%E5%99%A8/" title="TI_DSP_TMS320F2812_定时器">TI_DSP_TMS320F2812_定时器</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-28T00:00:10.000Z" title="发表于 2023-10-28 08:00:10">2023-10-28</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">概述 F2810/F2812有3个32位CPU定时器(TIMER 0/1/2)  若系统时钟位150MHz， 则采用SYSCLKOUT为时钟的定时器频率也是150MHz。 注意定时器计数方式是递减计数。 定时器中断  如图，三个定时器中断对应的中断：  Timer 0中断：由PIE进行管理； Timer 1中断：与外部XNMI中断复用中断源INT13，不由PIE进行管理； Timer...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/10/22/TI_DSP_TMS320F2812_%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F/" title="TI_DSP_TMS320F2812_中断系统"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_中断系统"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/22/TI_DSP_TMS320F2812_%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F/" title="TI_DSP_TMS320F2812_中断系统">TI_DSP_TMS320F2812_中断系统</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-22T09:02:10.000Z" title="发表于 2023-10-22 17:02:10">2023-10-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">概述 C28x DSP内核有16个中断源， 2个不可屏蔽中断：复位中断RS与不可屏蔽中断NMI 14个可屏蔽中断： INTx。  不可屏蔽中断NMI： 外部不可屏蔽中断请求经由专门的CPU针脚NMI，通知CPU发生了灾难性事件，如电源掉电、总线奇偶位出错等。 内部不可屏蔽中断请求由CPU内部自发产生的，如存储器读写出错、溢出中断、除法出错中断等。NMI线上中断请求是不可屏蔽的（即无法禁止的）、而且立即被CPU锁存。因此NMI是边沿触发，不需要电平触发。 NMI的优先级也比INTx高。  这些又可分为外部中断源与内部中断源：  如图：   内部中断源：三个定时器中断以及外设中断，其中Timer 1、 Timer...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/10/22/TI_DSP_TMS320F2812_GPIO/" title="TI_DSP_TMS320F2812_GPIO"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812_GPIO"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/22/TI_DSP_TMS320F2812_GPIO/" title="TI_DSP_TMS320F2812_GPIO">TI_DSP_TMS320F2812_GPIO</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-22T02:30:10.000Z" title="发表于 2023-10-22 10:30:10">2023-10-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/10/21/TI_DSP_TMS320F2812%E7%9A%84%E7%9C%8B%E9%97%A8%E7%8B%97/" title="TI_DSP_TMS320F2812的看门狗"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812的看门狗"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/21/TI_DSP_TMS320F2812%E7%9A%84%E7%9C%8B%E9%97%A8%E7%8B%97/" title="TI_DSP_TMS320F2812的看门狗">TI_DSP_TMS320F2812的看门狗</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-21T11:51:10.000Z" title="发表于 2023-10-21 19:51:10">2023-10-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">看门狗 F2812/F2810 DSP上的看门狗与240x的基本相同。 正常运行时， 8位的看门狗计数器(WDCNTR)被激活后开始计数， 当数到最大值时， 看门狗模块产生一个输出脉冲(512个振荡器时钟宽度) ，使DSP复位。 通过对看门狗复位寄存器(WDKEY)写0x55+0xAA，可以使看门狗计数器清零。    通过设定预定标器改变看门狗的时钟频率，进而调节看门狗计数器的溢出时间；   逻辑校验位(WDCHK)是对写入WDKEY的值的检验要求： 如果写入WDKEY的值校验位不是101， 则WDKEY将拒绝访问并立即触发复位。   看门狗具体工作过程 在看门狗计数器(WDCNTR)溢出之前， 只有向WDKEY写入正确的值就可以使计数器复位。更具体的：  内核低功耗模式的唤醒 除了正常运行模式，TI...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E5%88%9B%E5%BB%BAC%E8%AF%AD%E8%A8%80_%E5%87%BD%E6%95%B0%E5%8E%9F%E5%9E%8B%E4%B8%8E%E4%BC%A0%E5%8F%82%E6%8E%A7%E5%88%B6/" title="Simulink模型创建C语言_函数原型与传参控制"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Simulink模型创建C语言_函数原型与传参控制"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/21/Simulink%E6%A8%A1%E5%9E%8B%E5%88%9B%E5%BB%BAC%E8%AF%AD%E8%A8%80_%E5%87%BD%E6%95%B0%E5%8E%9F%E5%9E%8B%E4%B8%8E%E4%BC%A0%E5%8F%82%E6%8E%A7%E5%88%B6/" title="Simulink模型创建C语言_函数原型与传参控制">Simulink模型创建C语言_函数原型与传参控制</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-21T11:15:10.000Z" title="发表于 2023-10-21 19:15:10">2023-10-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/">MATLAB</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/Simulink/">Simulink</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MATLAB/Simulink/Embedded-Code/">Embedded Code</a></span></div><div class="content">函数原型 由Simulink模型默认创建的C代码函数原型为： 1234/* 算法相关函数原型，“model”表示模型名 */void model_initialize(void);void model_step(void);void model_terminate(void); 可以发现没有参数输入与返回值，算法实现是通过调用全局变量实现的。 在实际工程中，可能会带来冲突与不必要的静态存储区空间浪费。 Code Mappings 打开Embedded Coder工具，在界面左下方点击“Code Mappings - C”按钮。 修改函数名 在Code Mappings窗口点击Functions标签页， 在“Function Name”中可修改算法函数名：  修改函数传参  同上一节界面，点击_step函数的“Function Preview”， 勾选&quot;Configure arguments for Step function prototype&quot; 点击&quot;Get default&quot;，得到函数传参的配置信息：   “C Identifier...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/10/21/TI_DSP_TMS320F2812%E7%9A%84%E6%97%B6%E9%92%9F/" title="TI_DSP_TMS320F2812的时钟"><img class="post-bg" src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F2812的时钟"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/10/21/TI_DSP_TMS320F2812%E7%9A%84%E6%97%B6%E9%92%9F/" title="TI_DSP_TMS320F2812的时钟">TI_DSP_TMS320F2812的时钟</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-21T07:51:10.000Z" title="发表于 2023-10-21 15:51:10">2023-10-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="content">TI_DSP_TMS320F2812的时钟单元 F2810和F2812内部的各种时钟和复位电路结构如下：  系统时钟电路 TMS320F2812的片上晶振和锁相环模块为内核与外设提供时钟信号。 可以通过两种方式为片上晶振提供时钟：  内部振荡器：  在X1/XCLKIN和X2两引脚连接一个30MHz的石英晶体   外部时钟源：  输入的时钟信号直接引到X1/XCLKIN引脚，X2悬空    而DSP引脚XPLLDIS‾\overline{XPLLDIS}XPLLDIS可以控制锁相环：  当为低电平时，PLL被禁止，系统直接采用XCLKIN作为系统时钟； 当为高电平时，XCLKIN经过PLL倍频后作为系统时钟。 ...</div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/5/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/#content-inner">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/#content-inner">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/#content-inner">10</a><a class="extend next" rel="next" href="/page/7/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/private_img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YILON</div><div class="author-info-description">YILON的技术小窝</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">91</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">25</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YILON"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/12/16/TI_DSP_TMS320F28377D_EMIF/" title="TI_DSP_TMS320F28377D_EMIF"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F28377D_EMIF"/></a><div class="content"><a class="title" href="/2024/12/16/TI_DSP_TMS320F28377D_EMIF/" title="TI_DSP_TMS320F28377D_EMIF">TI_DSP_TMS320F28377D_EMIF</a><time datetime="2024-12-16T03:10:24.000Z" title="发表于 2024-12-16 11:10:24">2024-12-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/13/TI_DSP_TMS320F28377D_IPC/" title="TI_DSP_TMS320F28377D_IPC"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TI_DSP_TMS320F28377D_IPC"/></a><div class="content"><a class="title" href="/2024/12/13/TI_DSP_TMS320F28377D_IPC/" title="TI_DSP_TMS320F28377D_IPC">TI_DSP_TMS320F28377D_IPC</a><time datetime="2024-12-13T07:10:44.000Z" title="发表于 2024-12-13 15:10:44">2024-12-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/10/FT4222H%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" title="FT4222H使用说明"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FT4222H使用说明"/></a><div class="content"><a class="title" href="/2024/12/10/FT4222H%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" title="FT4222H使用说明">FT4222H使用说明</a><time datetime="2024-12-10T06:00:44.000Z" title="发表于 2024-12-10 14:00:44">2024-12-10</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
             <i class="fas fa-folder-open"></i>
             <span>分类</span>
             
-            </div>
-            <ul class="card-category-list" id="aside-cat-list">
-            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="card-category-list-name">C语言</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/FPGA/"><span class="card-category-list-name">FPGA</span><span class="card-category-list-count">17</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/FPGA/VHDL/"><span class="card-category-list-name">VHDL</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/FPGA/verilog/"><span class="card-category-list-name">verilog</span><span class="card-category-list-count">11</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/"><span class="card-category-list-name">MATLAB</span><span class="card-category-list-count">8</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/App-Designer/"><span class="card-category-list-name">App Designer</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/Simulink/"><span class="card-category-list-name">Simulink</span><span class="card-category-list-count">5</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/Simulink/Embedded-Code/"><span class="card-category-list-name">Embedded Code</span><span class="card-category-list-count">5</span></a></li></ul></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/PCB%E8%AE%BE%E8%AE%A1/"><span class="card-category-list-name">PCB设计</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/"><span class="card-category-list-name">信号处理</span><span class="card-category-list-count">3</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/%E5%B0%8F%E6%B3%A2%E7%90%86%E8%AE%BA/"><span class="card-category-list-name">小波理论</span><span class="card-category-list-count">3</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86%E4%B8%8E%E6%BB%A4%E6%B3%A2/"><span class="card-category-list-name">信号处理与滤波</span><span class="card-category-list-count">2</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86%E4%B8%8E%E6%BB%A4%E6%B3%A2/%E6%9C%80%E4%BC%98%E4%BC%B0%E8%AE%A1/"><span class="card-category-list-name">最优估计</span><span class="card-category-list-count">2</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%8D%95%E7%89%87%E6%9C%BA/"><span class="card-category-list-name">单片机</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"><span class="card-category-list-name">博客搭建</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"><span class="card-category-list-name">嵌入式</span><span class="card-category-list-count">26</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/CPLD/"><span class="card-category-list-name">CPLD</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/"><span class="card-category-list-name">DSP</span><span class="card-category-list-count">24</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/IC/"><span class="card-category-list-name">IC</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/"><span class="card-category-list-name">数学基础</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%9D%82%E8%AE%B0/"><span class="card-category-list-name">杂记</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/"><span class="card-category-list-name">树莓派</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/"><span class="card-category-list-name">网络通信</span><span class="card-category-list-count">5</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/"><span class="card-category-list-name">通信基础概念</span><span class="card-category-list-count">5</span></a></li></ul></li>
-            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/Gerber%E6%96%87%E4%BB%B6/" style="font-size: 1.1em; color: #999">Gerber文件</a> <a href="/tags/TI-DSP-TMS320F2812/" style="font-size: 1.41em; color: #99a5b7">TI_DSP_TMS320F2812</a> <a href="/tags/Lattice-Diamond/" style="font-size: 1.1em; color: #999">Lattice Diamond</a> <a href="/tags/Raspberry-Pi-OS/" style="font-size: 1.1em; color: #999">Raspberry Pi OS</a> <a href="/tags/C2000/" style="font-size: 1.1em; color: #999">C2000</a> <a href="/tags/TI-DSP-C2000/" style="font-size: 1.1em; color: #999">TI_DSP_C2000</a> <a href="/tags/OSI%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B/" style="font-size: 1.1em; color: #999">OSI七层模型</a> <a href="/tags/makefile/" style="font-size: 1.1em; color: #999">makefile</a> <a href="/tags/%E7%9F%AD%E6%97%B6%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2STFT/" style="font-size: 1.1em; color: #999">短时傅里叶变换STFT</a> <a href="/tags/%E9%AB%98%E6%96%AF%E5%AE%9A%E7%90%86/" style="font-size: 1.1em; color: #999">高斯定理</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 1.32em; color: #99a2ae">C语言</a> <a href="/tags/Nabla%E7%AE%97%E5%AD%90/" style="font-size: 1.1em; color: #999">Nabla算子</a> <a href="/tags/%E5%AE%9A%E7%82%B9%E6%95%B0/" style="font-size: 1.14em; color: #999b9d">定点数</a> <a href="/tags/simulink/" style="font-size: 1.1em; color: #999">simulink</a> <a href="/tags/esp/" style="font-size: 1.1em; color: #999">esp</a> <a href="/tags/%E6%95%A3%E5%BA%A6/" style="font-size: 1.1em; color: #999">散度</a> <a href="/tags/markdown/" style="font-size: 1.19em; color: #999da1">markdown</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 1.1em; color: #999">个人博客</a> <a href="/tags/%E6%B3%A2%E7%89%B9%E7%8E%87/" style="font-size: 1.1em; color: #999">波特率</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 1.1em; color: #999">总结</a> <a href="/tags/TMS320F28377D/" style="font-size: 1.1em; color: #999">TMS320F28377D</a> <a href="/tags/PCB/" style="font-size: 1.28em; color: #99a0aa">PCB</a> <a href="/tags/%E6%AD%A3%E4%BA%A4%E5%B0%8F%E6%B3%A2/" style="font-size: 1.14em; color: #999b9d">正交小波</a> <a href="/tags/%E5%8E%9F%E7%90%86%E5%9B%BE%E5%BA%93/" style="font-size: 1.1em; color: #999">原理图库</a> <a href="/tags/%E4%B8%89%E7%9B%B8%E9%94%81%E7%9B%B8%E7%8E%AF/" style="font-size: 1.1em; color: #999">三相锁相环</a> <a href="/tags/%E5%8D%95-%E5%8F%8C%E5%B7%A5/" style="font-size: 1.1em; color: #999">单/双工</a> <a href="/tags/%E5%93%88%E4%BD%9B%E6%9E%B6%E6%9E%84/" style="font-size: 1.1em; color: #999">哈佛架构</a> <a href="/tags/C/" style="font-size: 1.14em; color: #999b9d">C</a> <a href="/tags/%E5%A4%9A%E5%88%86%E8%BE%A8%E7%8E%87%E8%A7%A3%E6%9E%90/" style="font-size: 1.1em; color: #999">多分辨率解析</a> <a href="/tags/%E6%8C%87%E9%92%88/" style="font-size: 1.1em; color: #999">指针</a> <a href="/tags/PCB%E5%9B%BE%E7%BA%B8/" style="font-size: 1.1em; color: #999">PCB图纸</a> <a href="/tags/TI-DSP-TMS320F28335/" style="font-size: 1.28em; color: #99a0aa">TI_DSP_TMS320F28335</a> <a href="/tags/c%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/" style="font-size: 1.1em; color: #999">c语言编译过程</a> <a href="/tags/gcc-g/" style="font-size: 1.1em; color: #999">gcc/g++</a> <a href="/tags/FPGA/" style="font-size: 1.46em; color: #99a7bb">FPGA</a> <a href="/tags/%E6%97%B6%E9%A2%91%E5%88%86%E6%9E%90/" style="font-size: 1.14em; color: #999b9d">时频分析</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 1.1em; color: #999">并行</a> <a href="/tags/%E6%AF%94%E7%89%B9%E7%8E%87/" style="font-size: 1.1em; color: #999">比特率</a> <a href="/tags/matlab/" style="font-size: 1.14em; color: #999b9d">matlab</a> <a href="/tags/butterfly%E4%B8%BB%E9%A2%98/" style="font-size: 1.19em; color: #999da1">butterfly主题</a> <a href="/tags/github-page/" style="font-size: 1.1em; color: #999">github page</a> <a href="/tags/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/" style="font-size: 1.14em; color: #999b9d">卡尔曼滤波</a> <a href="/tags/%E4%BF%A1%E5%8F%B7%E5%88%86%E7%B1%BB/" style="font-size: 1.1em; color: #999">信号分类</a> <a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/%E7%9B%B4%E5%92%8C/" style="font-size: 1.1em; color: #999">直和</a> <a href="/tags/%E4%B8%B2%E8%A1%8C/" style="font-size: 1.1em; color: #999">串行</a> <a href="/tags/verilog/" style="font-size: 1.37em; color: #99a4b2">verilog</a> <a href="/tags/IQ-math%E5%BA%93/" style="font-size: 1.1em; color: #999">IQ_math库</a> <a href="/tags/TI-DSP-TMS320X28xx%E7%B3%BB%E5%88%97/" style="font-size: 1.1em; color: #999">TI_DSP_TMS320X28xx系列</a> <a href="/tags/CPLD/" style="font-size: 1.1em; color: #999">CPLD</a> <a href="/tags/APP-Designer/" style="font-size: 1.1em; color: #999">APP Designer</a> <a href="/tags/BOM%E8%A1%A8/" style="font-size: 1.1em; color: #999">BOM表</a> <a href="/tags/Altium-Designer/" style="font-size: 1.23em; color: #999ea6">Altium Designer</a> <a href="/tags/%E7%A6%BB%E6%95%A3%E5%B0%8F%E6%B3%A2/" style="font-size: 1.1em; color: #999">离散小波</a> <a href="/tags/Cmake/" style="font-size: 1.14em; color: #999b9d">Cmake</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91/" style="font-size: 1.1em; color: #999">网络拓扑</a> <a href="/tags/MATLAB-Function%E6%A8%A1%E5%9D%97/" style="font-size: 1.1em; color: #999">MATLAB Function模块</a> <a href="/tags/%E6%97%B6%E5%BB%B6/" style="font-size: 1.1em; color: #999">时延</a> <a href="/tags/MATLAB/" style="font-size: 1.1em; color: #999">MATLAB</a> <a href="/tags/%E6%B3%9B%E5%87%BD%E7%A9%BA%E9%97%B4/" style="font-size: 1.1em; color: #999">泛函空间</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 1.1em; color: #999">动态链接库</a> <a href="/tags/Q%E6%A0%BC%E5%BC%8F/" style="font-size: 1.14em; color: #999b9d">Q格式</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E8%B0%83%E5%88%B6/" style="font-size: 1.1em; color: #999">数据调制</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 1.1em; color: #999">异步</a> <a href="/tags/VS-Code/" style="font-size: 1.1em; color: #999">VS Code</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 1.1em; color: #999">树莓派</a> <a href="/tags/%E5%8E%9F%E7%90%86%E5%9B%BE/" style="font-size: 1.1em; color: #999">原理图</a> <a href="/tags/DSP/" style="font-size: 1.5em; color: #99a9bf">DSP</a> <a href="/tags/VHDL/" style="font-size: 1.28em; color: #99a0aa">VHDL</a> <a href="/tags/%E6%AD%A3%E4%BA%A4/" style="font-size: 1.1em; color: #999">正交</a> <a href="/tags/Embedded-Code/" style="font-size: 1.28em; color: #99a0aa">Embedded Code</a> <a href="/tags/%E5%90%8C%E6%AD%A5/" style="font-size: 1.1em; color: #999">同步</a> <a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" style="font-size: 1.1em; color: #999">内存管理</a> <a href="/tags/PCB%E5%B0%81%E8%A3%85%E5%BA%93/" style="font-size: 1.1em; color: #999">PCB封装库</a> <a href="/tags/hexo/" style="font-size: 1.23em; color: #999ea6">hexo</a> <a href="/tags/mermaid/" style="font-size: 1.1em; color: #999">mermaid</a> <a href="/tags/%E9%BA%A6%E5%85%8B%E6%96%AF%E9%9F%A6%E6%96%B9%E7%A8%8B%E7%BB%84/" style="font-size: 1.1em; color: #999">麦克斯韦方程组</a> <a href="/tags/GUI/" style="font-size: 1.1em; color: #999">GUI</a> <a href="/tags/%E6%9C%80%E4%BC%98%E4%BC%B0%E8%AE%A1/" style="font-size: 1.14em; color: #999b9d">最优估计</a> <a href="/tags/%E5%86%AF%C2%B7%E8%AF%BA%E4%BC%8A%E6%9B%BC%E6%9E%B6%E6%9E%84/" style="font-size: 1.1em; color: #999">冯·诺伊曼架构</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
-    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/09/"><span class="card-archive-list-date">九月 2024</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/08/"><span class="card-archive-list-date">八月 2024</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">五月 2024</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/04/"><span class="card-archive-list-date">四月 2024</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/03/"><span class="card-archive-list-date">三月 2024</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/02/"><span class="card-archive-list-date">二月 2024</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/01/"><span class="card-archive-list-date">一月 2024</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/12/"><span class="card-archive-list-date">十二月 2023</span><span class="card-archive-list-count">8</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">81</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-11-29T02:19:51.737Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background: #20124d"><div id="footer-wrap"><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
-  init: (str) => {
-    window.typed = new Typed('#subtitle', Object.assign({
-      strings: str,
-      startDelay: 300,
-      typeSpeed: 150,
-      loop: true,
-      backSpeed: 50,
-    }, null))
-  },
-  run: (subtitleType) => {
-    if (true) {
-      if (typeof Typed === 'function') {
-        subtitleType()
-      } else {
-        getScript('https://cdn.jsdelivr.net/npm/typed.js/dist/typed.umd.min.js').then(subtitleType)
-      }
-    } else {
-      subtitleType()
-    }
-  }
-}
-</script><script>function subtitleType () {
-  if (true) {
-    typedJSFn.init("持续思考。")
-  } else {
-    document.getElementById("subtitle").textContent = "持"
-  }
-}
-typedJSFn.run(subtitleType)</script><script>(() => {
-  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
-  if ($mermaid.length === 0) return
-  const runMermaid = () => {
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="card-category-list-name">C语言</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/FPGA/"><span class="card-category-list-name">FPGA</span><span class="card-category-list-count">17</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/FPGA/VHDL/"><span class="card-category-list-name">VHDL</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/FPGA/verilog/"><span class="card-category-list-name">verilog</span><span class="card-category-list-count">11</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/"><span class="card-category-list-name">MATLAB</span><span class="card-category-list-count">8</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/App-Designer/"><span class="card-category-list-name">App Designer</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/Simulink/"><span class="card-category-list-name">Simulink</span><span class="card-category-list-count">5</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MATLAB/Simulink/Embedded-Code/"><span class="card-category-list-name">Embedded Code</span><span class="card-category-list-count">5</span></a></li></ul></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/PCB%E8%AE%BE%E8%AE%A1/"><span class="card-category-list-name">PCB设计</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Qt/"><span class="card-category-list-name">Qt</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/"><span class="card-category-list-name">信号处理</span><span class="card-category-list-count">3</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/%E5%B0%8F%E6%B3%A2%E7%90%86%E8%AE%BA/"><span class="card-category-list-name">小波理论</span><span class="card-category-list-count">3</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86%E4%B8%8E%E6%BB%A4%E6%B3%A2/"><span class="card-category-list-name">信号处理与滤波</span><span class="card-category-list-count">2</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86%E4%B8%8E%E6%BB%A4%E6%B3%A2/%E6%9C%80%E4%BC%98%E4%BC%B0%E8%AE%A1/"><span class="card-category-list-name">最优估计</span><span class="card-category-list-count">2</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%8D%95%E7%89%87%E6%9C%BA/"><span class="card-category-list-name">单片机</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"><span class="card-category-list-name">博客搭建</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"><span class="card-category-list-name">嵌入式</span><span class="card-category-list-count">36</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/CPLD/"><span class="card-category-list-name">CPLD</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/"><span class="card-category-list-name">DSP</span><span class="card-category-list-count">33</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/IC/"><span class="card-category-list-name">IC</span><span class="card-category-list-count">2</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/"><span class="card-category-list-name">数学基础</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%9D%82%E8%AE%B0/"><span class="card-category-list-name">杂记</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/"><span class="card-category-list-name">树莓派</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/"><span class="card-category-list-name">网络通信</span><span class="card-category-list-count">5</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/"><span class="card-category-list-name">通信基础概念</span><span class="card-category-list-count">5</span></a></li></ul></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/hexo/" style="font-size: 1.3em; color: #99a1ac">hexo</a> <a href="/tags/Nabla%E7%AE%97%E5%AD%90/" style="font-size: 1.1em; color: #999">Nabla算子</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" style="font-size: 1.1em; color: #999">动态链接库</a> <a href="/tags/%E5%8D%95-%E5%8F%8C%E5%B7%A5/" style="font-size: 1.1em; color: #999">单/双工</a> <a href="/tags/%E5%93%88%E4%BD%9B%E6%9E%B6%E6%9E%84/" style="font-size: 1.1em; color: #999">哈佛架构</a> <a href="/tags/IQ-math%E5%BA%93/" style="font-size: 1.1em; color: #999">IQ_math库</a> <a href="/tags/APP-Designer/" style="font-size: 1.1em; color: #999">APP Designer</a> <a href="/tags/markdown/" style="font-size: 1.23em; color: #999ea6">markdown</a> <a href="/tags/Lattice-Diamond/" style="font-size: 1.1em; color: #999">Lattice Diamond</a> <a href="/tags/VHDL/" style="font-size: 1.37em; color: #99a4b2">VHDL</a> <a href="/tags/%E9%BA%A6%E5%85%8B%E6%96%AF%E9%9F%A6%E6%96%B9%E7%A8%8B%E7%BB%84/" style="font-size: 1.1em; color: #999">麦克斯韦方程组</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 1.3em; color: #99a1ac">博客</a> <a href="/tags/linux/" style="font-size: 1.1em; color: #999">linux</a> <a href="/tags/gcc-g/" style="font-size: 1.1em; color: #999">gcc/g++</a> <a href="/tags/%E7%9B%B4%E5%92%8C/" style="font-size: 1.1em; color: #999">直和</a> <a href="/tags/matlab/" style="font-size: 1.17em; color: #999c9f">matlab</a> <a href="/tags/GUI/" style="font-size: 1.1em; color: #999">GUI</a> <a href="/tags/simulink/" style="font-size: 1.1em; color: #999">simulink</a> <a href="/tags/%E5%8E%9F%E7%90%86%E5%9B%BE/" style="font-size: 1.1em; color: #999">原理图</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E8%B0%83%E5%88%B6/" style="font-size: 1.1em; color: #999">数据调制</a> <a href="/tags/MATLAB/" style="font-size: 1.1em; color: #999">MATLAB</a> <a href="/tags/%E6%AD%A3%E4%BA%A4%E5%B0%8F%E6%B3%A2/" style="font-size: 1.17em; color: #999c9f">正交小波</a> <a href="/tags/Q%E6%A0%BC%E5%BC%8F/" style="font-size: 1.17em; color: #999c9f">Q格式</a> <a href="/tags/Raspberry-Pi-OS/" style="font-size: 1.1em; color: #999">Raspberry Pi OS</a> <a href="/tags/VS-Code/" style="font-size: 1.1em; color: #999">VS Code</a> <a href="/tags/%E4%BF%A1%E5%8F%B7%E5%88%86%E7%B1%BB/" style="font-size: 1.1em; color: #999">信号分类</a> <a href="/tags/TI-DSP-TMS320F2812/" style="font-size: 1.5em; color: #99a9bf">TI_DSP_TMS320F2812</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 1.1em; color: #999">树莓派</a> <a href="/tags/Gerber%E6%96%87%E4%BB%B6/" style="font-size: 1.1em; color: #999">Gerber文件</a> <a href="/tags/mermaid/" style="font-size: 1.1em; color: #999">mermaid</a> <a href="/tags/Embedded-Code/" style="font-size: 1.37em; color: #99a4b2">Embedded Code</a> <a href="/tags/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/" style="font-size: 1.17em; color: #999c9f">卡尔曼滤波</a> <a href="/tags/%E6%9C%80%E4%BC%98%E4%BC%B0%E8%AE%A1/" style="font-size: 1.17em; color: #999c9f">最优估计</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 1.1em; color: #999">个人博客</a> <a href="/tags/github-page/" style="font-size: 1.1em; color: #999">github page</a> <a href="/tags/%E5%90%8C%E6%AD%A5/" style="font-size: 1.1em; color: #999">同步</a> <a href="/tags/%E6%B3%9B%E5%87%BD%E7%A9%BA%E9%97%B4/" style="font-size: 1.1em; color: #999">泛函空间</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 1.43em; color: #99a6b9">C语言</a> <a href="/tags/%E5%86%AF%C2%B7%E8%AF%BA%E4%BC%8A%E6%9B%BC%E6%9E%B6%E6%9E%84/" style="font-size: 1.1em; color: #999">冯·诺伊曼架构</a> <a href="/tags/%E6%95%A3%E5%BA%A6/" style="font-size: 1.1em; color: #999">散度</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      <a class="card-more-btn" href="/archives/" title="查看更多"><i class="fas fa-angle-right"></i></a>
+    </div>
+    <ul class="card-archive-list">
+  
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/12/">
+          <span class="card-archive-list-date">十二月 2024</span>
+          <span class="card-archive-list-count">3</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/11/">
+          <span class="card-archive-list-date">十一月 2024</span>
+          <span class="card-archive-list-count">2</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/10/">
+          <span class="card-archive-list-date">十月 2024</span>
+          <span class="card-archive-list-count">2</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/09/">
+          <span class="card-archive-list-date">九月 2024</span>
+          <span class="card-archive-list-count">5</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/08/">
+          <span class="card-archive-list-date">八月 2024</span>
+          <span class="card-archive-list-count">2</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/05/">
+          <span class="card-archive-list-date">五月 2024</span>
+          <span class="card-archive-list-count">1</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/04/">
+          <span class="card-archive-list-date">四月 2024</span>
+          <span class="card-archive-list-count">3</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/03/">
+          <span class="card-archive-list-date">三月 2024</span>
+          <span class="card-archive-list-count">5</span>
+        </a>
+      </li>
+    </ul></div></div></div></main><footer id="footer" style="background-image: url(/private_img/Top.svg);"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By YILON</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
     window.loadMermaid = true
     const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
 
-    Array.from($mermaid).forEach((item, index) => {
+    ele.forEach((item, index) => {
       const mermaidSrc = item.firstElementChild
-      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
-      const mermaidID = 'mermaid-' + index
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
       const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
 
       const renderFn = mermaid.render(mermaidID, mermaidDefinition)
-
-      const renderV10 = () => {
-        renderFn.then(({svg}) => {
-          mermaidSrc.insertAdjacentHTML('afterend', svg)
-        })
-      }
-
-      const renderV9 = svg => {
+      const renderMermaid = svg => {
         mermaidSrc.insertAdjacentHTML('afterend', svg)
       }
 
-      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
     })
   }
 
   const loadMermaid = () => {
-    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
   }
 
-  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
-
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
   window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
-})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
