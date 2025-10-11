@@ -1,0 +1,339 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>FPGA[4]_跨时钟域CDC | YILON</title><meta name="author" content="YILON"><meta name="copyright" content="YILON"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="前言  可参考此文章  当信号跨时钟域时，通常采用缓冲避免亚稳态。 并在约束文件中set_false_path指示不需要同步的路径。 （该步骤有些繁琐，对于在vivado开发，可以在源码中使用(* ASYNC_REG &#x3D; &quot;TRUE&quot; *)直接指示异步信号）  单比特信号的CDC 对于单比特的跨时钟域电平信号， 即信号电平不管在原时钟域还是新时钟域维持的时间都足够长，以至于不用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FPGA[4]_跨时钟域CDC">
+<meta property="og:url" content="http://example.com/2025/10/10/FPGA[4]_%E8%B7%A8%E6%97%B6%E9%92%9F%E5%9F%9FCDC/index.html">
+<meta property="og:site_name" content="YILON">
+<meta property="og:description" content="前言  可参考此文章  当信号跨时钟域时，通常采用缓冲避免亚稳态。 并在约束文件中set_false_path指示不需要同步的路径。 （该步骤有些繁琐，对于在vivado开发，可以在源码中使用(* ASYNC_REG &#x3D; &quot;TRUE&quot; *)直接指示异步信号）  单比特信号的CDC 对于单比特的跨时钟域电平信号， 即信号电平不管在原时钟域还是新时钟域维持的时间都足够长，以至于不用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/private_img/cover.svg">
+<meta property="article:published_time" content="2025-10-10T03:00:11.000Z">
+<meta property="article:modified_time" content="2025-10-11T08:59:09.768Z">
+<meta property="article:author" content="YILON">
+<meta property="article:tag" content="FPGA">
+<meta property="article:tag" content="verilog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/private_img/cover.svg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2025/10/10/FPGA[4]_%E8%B7%A8%E6%97%B6%E9%92%9F%E5%9F%9FCDC/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'FPGA[4]_跨时钟域CDC',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-color: #4582A0;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/private_img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">90</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">93</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/private_img/cover.svg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">YILON</span></a><a class="nav-page-title" href="/"><span class="site-name">FPGA[4]_跨时钟域CDC</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">FPGA[4]_跨时钟域CDC</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-10-10T03:00:11.000Z" title="发表于 2025-10-10 11:00:11">2025-10-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-11T08:59:09.768Z" title="更新于 2025-10-11 16:59:09">2025-10-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/FPGA/">FPGA</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/FPGA/verilog/">verilog</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>前言</h1>
+<blockquote>
+<p>可参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/claylovetoo/article/details/129140192">此文章</a></p>
+</blockquote>
+<p>当信号跨时钟域时，通常采用缓冲避免亚稳态。<br>
+并在约束文件中<code>set_false_path</code>指示不需要同步的路径。<br>
+（该步骤有些繁琐，对于在vivado开发，可以在源码中使用<code>(* ASYNC_REG = &quot;TRUE&quot; *)</code>直接指示异步信号）</p>
+<br>
+<h1>单比特信号的CDC</h1>
+<p>对于<code>单比特</code>的跨时钟域<code>电平</code>信号，<br>
+即信号电平不管在原时钟域还是新时钟域维持的时间都足够长，以至于不用担心时钟频率和时钟相位的不同导致漏采样，<br>
+可以使用两级缓冲器避免亚稳态（会引入一定的延时）：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> bit_cdc(</span><br><span class="line">    <span class="keyword">input</span> reset_n,  <span class="comment">// 这也是电平信号，维持时间足够长</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">input</span>  bit_clka, <span class="comment">// from clk_a domain</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">input</span>  clkb,</span><br><span class="line">    <span class="keyword">output</span> bit_clkb</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">reg</span> sync_ff1 = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">reg</span> sync_ff2 = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clkb) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(!reset_n) <span class="keyword">begin</span></span><br><span class="line">        sync_ff1 &lt;= <span class="number">1&#x27;b0</span>;  </span><br><span class="line">        sync_ff2 &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">        sync_ff1 &lt;= bit_clka;  </span><br><span class="line">        sync_ff2 &lt;= sync_ff1;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">assign</span> bit_clkb = sync_ff2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<br>
+<br>
+<blockquote>
+<p>如果被采样信号先经过组合逻辑(combinatorial logic)处理，再在另一个时钟域中被采样，<br>
+那么被采样之前必须先经过一遍原时钟域的缓冲：</p>
+</blockquote>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> bit_cdc_after_CL(</span><br><span class="line">    <span class="keyword">input</span> reset_n,</span><br><span class="line"></span><br><span class="line">    <span class="keyword">input</span>  clka,</span><br><span class="line">    <span class="keyword">input</span>  bit_clka_after_CL, </span><br><span class="line"></span><br><span class="line">    <span class="keyword">input</span>  clk_b,</span><br><span class="line">    <span class="keyword">output</span> bit_clkb</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">reg</span> sync_ff = <span class="number">1&#x27;b0</span>;</span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clka) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(!reset_n)    sync_ff &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">    <span class="keyword">else</span>            sync_ff &lt;= bit_clka_after_CL; </span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">reg</span> sync_ff1 = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">reg</span> sync_ff2 = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clkb) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(!reset_n) <span class="keyword">begin</span></span><br><span class="line">        sync_ff1 &lt;= <span class="number">1&#x27;b0</span>;  </span><br><span class="line">        sync_ff2 &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">        sync_ff1 &lt;= sync_ff;  </span><br><span class="line">        sync_ff2 &lt;= sync_ff1;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">assign</span> bit_clkb = sync_ff2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<br>
+<br>
+<blockquote>
+<p>一个信号不应该多次跨越相同的时钟域（对于多比特信号也是如此），比如：</p>
+</blockquote>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">reg</span> bit_clka;</span><br><span class="line"></span><br><span class="line"><span class="keyword">reg</span> bit_clkb_1;</span><br><span class="line"><span class="keyword">reg</span> bit_clkb_2;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以下做法是错误的</span></span><br><span class="line">bit_cdc cdc1(</span><br><span class="line">    <span class="variable">.reset_n</span>(reset_n),</span><br><span class="line">    <span class="variable">.bit_clka</span>(bit_clka),</span><br><span class="line"></span><br><span class="line">    <span class="variable">.clkb</span>(clkb),</span><br><span class="line">    <span class="variable">.bit_clkb</span>(bit_clkb_1)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">bit_cdc cdc2(</span><br><span class="line">    <span class="variable">.reset_n</span>(reset_n),</span><br><span class="line">    <span class="variable">.bit_clka</span>(bit_clka),</span><br><span class="line"></span><br><span class="line">    <span class="variable">.clkb</span>(clkb),</span><br><span class="line">    <span class="variable">.bit_clkb</span>(bit_clkb_2)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 由于亚稳态的存在，bit_clka发生变化时，  </span></span><br><span class="line"><span class="comment">// bit_clkb_1和bit_clkb_2采样到翻转的时刻可能不相同</span></span><br><span class="line"><span class="comment">// 导致本应同步的两个信号变得不同步</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<br>
+<br>
+<blockquote>
+<p>如果信号电平维持的时间不够长，可能会在新时钟域漏采样或者无法采样到信号的变化。<br>
+这个时候可以通过将原信号的维持时间加长确保在新时钟域能采样到（但是要确保这是确实想要实现的功能）：</p>
+</blockquote>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">reg</span> bit_clka;</span><br><span class="line"><span class="keyword">reg</span> bit_clkb;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">reg</span> bit_clka_ff;</span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clka) <span class="keyword">begin</span></span><br><span class="line">    bit_clka_ff &lt;= bit_clka;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">wire</span> bit_input;</span><br><span class="line"><span class="keyword">assign</span> bit_input = bit_clka_ff | bit_clka;</span><br><span class="line"></span><br><span class="line"><span class="keyword">reg</span> bit_input_final;</span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clka) <span class="keyword">begin</span></span><br><span class="line">    bit_input_final &lt;= bit_input;  <span class="comment">// 原信号经过组合逻辑处理后，必须先再缓冲一次</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">bit_cdc cdc(</span><br><span class="line">    <span class="variable">.reset_n</span>(reset_n),</span><br><span class="line">    <span class="variable">.bit_clka</span>(bit_input_final),</span><br><span class="line"></span><br><span class="line">    <span class="variable">.clkb</span>(clkb),</span><br><span class="line">    <span class="variable">.bit_clkb</span>(bit_clkb)</span><br><span class="line">);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<br>
+<br>
+<h2 id="脉冲信号（单周期信号）CDC">脉冲信号（单周期信号）CDC</h2>
+<p>在跨时钟域的语义下，<br>
+<strong>脉冲信号是指在原时钟域只维持单时钟周期特定电平，在新时钟域也（期望）只维持单时钟周期特定电平的信号。</strong></p>
+<p>这可分为两种情况：</p>
+<blockquote>
+<ul>
+<li>慢时钟域 -&gt; 快时钟域<br>
+此时需要在快时钟域通过两级缓冲器实现同步，再使用边沿检测电路得到脉冲信号</li>
+</ul>
+</blockquote>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">module</span> pulse_slow_to_fast_cdc(</span><br><span class="line">    <span class="keyword">input</span> reset_n,</span><br><span class="line"></span><br><span class="line">    <span class="keyword">input</span> pulse_clkslow,</span><br><span class="line"></span><br><span class="line">    <span class="keyword">input</span>  clkfast,</span><br><span class="line">    <span class="keyword">output</span> pulse_clkfast</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">reg</span> sync_ff1;  <span class="comment">//打一拍</span></span><br><span class="line"><span class="keyword">reg</span> sync_ff2;  <span class="comment">//打两拍</span></span><br><span class="line"><span class="keyword">reg</span> sync_ff3;  <span class="comment">//边沿检测电路</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clkfast) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(!reset_n) <span class="keyword">begin</span></span><br><span class="line">        sync_ff1  &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">        sync_ff2  &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(pulse_clka == <span class="number">1&#x27;b1</span>) <span class="keyword">begin</span>  <span class="comment">// 高电平脉冲</span></span><br><span class="line">        sync_ff1 &lt;= pulse_clkslow;</span><br><span class="line">        sync_ff2 &lt;= sync_ff1;</span><br><span class="line">        sync_ff3 &lt;= sync_ff2;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">        sync_ff1  &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">        sync_ff2  &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">        sync_ff3  &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">assign</span> pulse_clkfast = sync_ff2 &amp;&amp; !sync_ff3;</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<br>
+<br>
+<blockquote>
+<ul>
+<li>快时钟域 -&gt; 慢时钟域（或两时钟域频率相同）<br>
+把快时钟域的信号多稳定一段时间，等到慢时钟域采到了，再拉低，如此便能保证数据的跨时钟域传输。<br>
+这种情况下要求<strong>原脉冲信号的间隔足够长</strong></li>
+</ul>
+</blockquote>
+<p><img src="./pulse_fast_to_slow_cdc.svg" alt="pulse_fast_to_slow_cdc"></p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> pulse_fast_to_slow_cdc(</span><br><span class="line"></span><br><span class="line">    <span class="keyword">input</span> clk_fast,</span><br><span class="line">    <span class="keyword">input</span> clk_slow,</span><br><span class="line">    <span class="keyword">input</span> rst_n,</span><br><span class="line">    <span class="keyword">input</span> pulse_fast,</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">output</span> pulse_slow</span><br><span class="line"></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">reg</span> pulse_fast_ff;</span><br><span class="line"></span><br><span class="line"><span class="keyword">reg</span> pulse_slow_ff;  </span><br><span class="line"><span class="keyword">reg</span> pulse_slow_ff1;  </span><br><span class="line"><span class="keyword">reg</span> pulse_slow_ff2;  </span><br><span class="line"></span><br><span class="line"><span class="keyword">reg</span> fast_sync1;</span><br><span class="line"><span class="keyword">reg</span> fast_sync2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clk_fast) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(!rst_n)    pulse_fast_ff  &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(pulse_fast == <span class="number">1&#x27;b1</span>)           </span><br><span class="line">        pulse_fast_ff &lt;= pulse_fast;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(fast_sync_2 == <span class="number">1&#x27;b1</span>)  </span><br><span class="line">        pulse_fast_ff &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clk_fast) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(!rst_n)</span><br><span class="line">        fast_sync1  &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">        fast_sync2  &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">        fast_sync1  &lt;= pulse_slow_ff1;</span><br><span class="line">        fast_sync2  &lt;= fast_sync1;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clk_slow) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(!rst_n) <span class="keyword">begin</span></span><br><span class="line">        pulse_slow_ff  &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">        pulse_slow_ff1 &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">        pulse_slow_ff2  &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span>  <span class="keyword">begin</span></span><br><span class="line">        pulse_slow_ff  &lt;= pulse_fast_ff;</span><br><span class="line">        pulse_slow_ff1 &lt;= pulse_slow_ff;</span><br><span class="line">        pulse_slow_ff2 &lt;= pulse_slow_ff1;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">assign</span> pulse_slow = pulse_slow_ff1 &amp;&amp; (!pulse_slow_ff2);</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<br>
+<hr>
+<h2 id="CDC的封装模块">CDC的封装模块</h2>
+<p>各家FPGA厂商会提供一些封装好的模块，可以直接应用于CDC。<br>
+如Xilinx，其在vivado 2020及以后版本中提供了一些<code>xpm(Xilinx Parameterized Macros)</code>，<br>
+在开发时可直接调用这些模块。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号类型</th>
+<th style="text-align:center">推荐 XPM 模块</th>
+<th style="text-align:center">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">单 bit 稳态信号（如 enable）</td>
+<td style="text-align:center"><code>xpm_cdc_single</code></td>
+<td style="text-align:center">简单双打拍同步</td>
+</tr>
+<tr>
+<td style="text-align:center">多 bit 独立控制信号</td>
+<td style="text-align:center"><code>xpm_cdc_array_single</code></td>
+<td style="text-align:center">每位独立同步</td>
+</tr>
+<tr>
+<td style="text-align:center">单拍脉冲信号</td>
+<td style="text-align:center"><code>xpm_cdc_pulse</code></td>
+<td style="text-align:center">防丢脉冲</td>
+</tr>
+<tr>
+<td style="text-align:center">req/ack 类型握手</td>
+<td style="text-align:center"><code>xpm_cdc_handshake</code></td>
+<td style="text-align:center">双向控制安全同步</td>
+</tr>
+<tr>
+<td style="text-align:center">FIFO 指针</td>
+<td style="text-align:center"><code>xpm_cdc_gray</code></td>
+<td style="text-align:center">用于异步 FIFO 内部</td>
+</tr>
+</tbody>
+</table>
+<p>如下使用即可：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">xpm_cdc_single #(</span><br><span class="line">  <span class="variable">.DEST_SYNC_FF</span>(<span class="number">2</span>),        <span class="comment">// 目标域同步寄存器个数（通常为2）</span></span><br><span class="line">  <span class="variable">.INIT_SYNC_FF</span>(<span class="number">0</span>),        <span class="comment">// 不使用初始化同步</span></span><br><span class="line">  <span class="variable">.SIM_ASSERT_CHK</span>(<span class="number">1</span>),      <span class="comment">// 仿真时启用亚稳态检查</span></span><br><span class="line">  <span class="variable">.SRC_INPUT_REG</span>(<span class="number">0</span>)        <span class="comment">// 源时钟域不打拍</span></span><br><span class="line">) xpm_cdc_single_inst (</span><br><span class="line">  <span class="variable">.src_clk</span>  (src_clk),</span><br><span class="line">  <span class="variable">.src_in</span>   (flag_a),      <span class="comment">// 源时钟域信号</span></span><br><span class="line">  <span class="variable">.dest_clk</span> (dest_clk),</span><br><span class="line">  <span class="variable">.dest_out</span> (flag_b_sync)  <span class="comment">// 目标时钟域同步后的信号</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">xpm_cdc_pulse #(</span><br><span class="line">  <span class="variable">.DEST_SYNC_FF</span>(<span class="number">3</span>),</span><br><span class="line">  <span class="variable">.REG_OUTPUT</span>(<span class="number">1</span>)</span><br><span class="line">) xpm_cdc_pulse_inst (</span><br><span class="line">  <span class="variable">.src_clk</span>  (src_clk),</span><br><span class="line">  <span class="variable">.src_pulse</span>(src_pulse),</span><br><span class="line">  <span class="variable">.dest_clk</span> (dest_clk),</span><br><span class="line">  <span class="variable">.dest_pulse</span>(dest_pulse)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<br>
+<hr>
+<hr>
+<br>
+<h1>多比特信号CDC</h1>
+<p>对于多比特的跨时钟信号 或 <kbd>彼此关联的多个单比特信号</kbd>，不能直接使用两级缓冲器，<br>
+否则各比特信号之间的关联性由于亚稳态可能会丢失。</p>
+<p>多比特信号CDC可使用FIFO来实现。<br>
+而且接收端必须在FIFO溢出之前处理完数据（这要求接收端的处理能力大于发送端，或者说接收端的时钟频率肯定要大于发送端），<br>
+或者发送端在FIFO填满后不再发送（这要求CDC机制应该提供FIFO已满信号给发送端检测）。</p>
+<blockquote>
+<p>FIFO内部也是通过地址指针来实现不同时钟域的“先进先出”的功能。<br>
+而对地址访问本质上也是一种跨时钟域的操作，因此也需要考虑CDC问题。<br>
+网上的方案称这是使用<kbd>格雷码</kbd>来实现CDC。<br>
+对于直接使用FIFO IP来说，也不需要考虑底层是怎么实现的。</p>
+</blockquote>
+<p>现代FPGA基本都提供跨时钟域FIFO IP。<br>
+以Xilinx FPGA为例，其FIFO Generator（见文档PG-057）提供此项功能。<br>
+以下便介绍该IP。</p>
+<h2 id="FIFO-Generator（Xilinx-FPGA）">FIFO Generator（Xilinx FPGA）</h2>
+<p>基于pg-057，以v13.2版本进行说明。</p>
+<blockquote>
+<p>可参考此<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42837669/article/details/121734888">文章</a></p>
+</blockquote>
+<p>主要功能和优势：</p>
+<ul>
+<li>FIFO深度高达2^22字</li>
+<li>FIFO数据宽度从1到1024位（对于本机FIFO配置），最大4096位（对于AXI FIFO配置）</li>
+<li>非对称纵横比（读写端口比率范围为1：8至8：1）</li>
+<li>支持独立或通用时钟域</li>
+<li>可选的存储器类型（块RAM，分布式RAM，移位寄存器或内置FIFO）</li>
+<li>本机或AXI接口（AXI4，AXI4-Lite或AXI4-Stream）</li>
+<li>同步或异步重置选项</li>
+<li>支持分组模式</li>
+<li>支持某些配置的纠错（ECC）和注入功能</li>
+<li>支持首字直通（FWFT）</li>
+<li>支持用于Block RAM和基于内置FIFO原语的实现的Embedded Register选项</li>
+<li>支持 空/满、几乎空/满、可编程的空/满信号</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="YILON">YILON</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/10/10/FPGA[4]_%E8%B7%A8%E6%97%B6%E9%92%9F%E5%9F%9FCDC/">http://example.com/2025/10/10/FPGA[4]_%E8%B7%A8%E6%97%B6%E9%92%9F%E5%9F%9FCDC/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">YILON</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/FPGA/">FPGA</a><a class="post-meta__tags" href="/tags/verilog/">verilog</a></div><div class="post-share"><div class="social-share" data-image="/private_img/cover.svg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/09/29/FPGA%5B2%5D_Xilinx%E5%99%A8%E4%BB%B6%E4%BB%8B%E7%BB%8D/" title="FPGA[2]_Xilinx器件介绍"><img class="cover" src="/private_img/cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">FPGA[2]_Xilinx器件介绍</div></div><div class="info-2"><div class="info-item-1">Xilinx (AMD) FPGA 产品系列介绍  1. 成本优化型产品组合 该产品组合专注于为大批量、成本敏感型应用提供最佳的功耗和性能表现。 1.1 Spartan®-7 系列 Spartan-7是Xilinx的入门级FPGA，基于28nm工艺，以极高的性价比和低功耗著称，是成本敏感型应用的理想选择。   核心资源与特色功能:  逻辑资源: 提供约 6,000 到 102,000 个逻辑单元 (LC)，相当于约 4K 到 64K LUTs。 Block RAM: 高达 4.8 Mb。 DSP Slices: 高达 240 个，可用于基础的信号处理和计算加速。 I/O 数量: 高达 500 个，提供丰富的连接性。 特色功能: 部分型号集成了片上ADC，可用于模拟信号采集，进一步降低系统成本；采用小尺寸封装，适合空间受限的设计。    目标应用: 消费电子（如显示接口、传感器融合）、汽车电子（如车载信息娱乐、车身控制）、工业控制（如简单的马达控制、I/O扩展）、任何需要替代ASIC的低成本场景。   1.2 Artix®-7...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/09/10/FPGA%5B3%5D_%E5%BC%80%E5%8F%91%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%B8%8E%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" title="FPGA[3]_开发工作流与注意事项"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-10</div><div class="info-item-2">FPGA[3]_开发工作流与注意事项</div></div><div class="info-2"><div class="info-item-1">FPGA工作流 1234567891011121314151617181920212223242526272829303132333435timeline    title FPGA详细开发工作流    section 设计 (Design)        RTL编写        : 选择与生成时钟        : 生成并调用IP核        : 使用HDL语言描述逻辑        功能仿真         : 编写Testbench        : 使用ModelSim/VCS等工具&lt;br&gt;验证逻辑正确性    section 综合 (Synthesis)        转译与优化&lt;br&gt;工具将RTL转换为&lt;br&gt;门级网表netlist        映射&lt;br&gt;将门级网表映射到&lt;br&gt;目标FPGA的原语    section 约束 (Constraints)        时序约束         : 创建时钟定义        : 定义输入/输出延迟        :...</div></div></div></a><a class="pagination-related" href="/2023/11/25/verilog_%5B1%5D%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="verilog_[1]基本概念"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-25</div><div class="info-item-2">verilog_[1]基本概念</div></div><div class="info-2"><div class="info-item-1">HDL的设计流程：Top-Dowm   Verilog HDL基本概念 可以将电路设计抽象为5个层次：  系统级（System-level）： 用Verilog提供的高级结构能够实现所设计模块外部性能的模型； 算法级（algorithm-level）： 用Verilog提供的高级结构能实现算法的模型； 寄存器传输级（RTL）： 描述数据在寄存器之间的流动和如何处理、控制这些数据流动的模型； 门级（gate-level）： 描述逻辑门以及逻辑门之间连接的模型； 开关级（switch-level）： 描述器件中三极管和存储节点以及它们之间连接的模型。  模块的基本概念 一个二选一多路器： 123456789//例1module muxtwo(out,a,b,sl);      input a,b,sl;                output out;                 reg out;                    always @(sl or a or b)          if(! sl) out = a;        else     out...</div></div></div></a><a class="pagination-related" href="/2023/11/25/verilog_%5B2%5D%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" title="verilog_[2]数据类型与基本语法"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-25</div><div class="info-item-2">verilog_[2]数据类型与基本语法</div></div><div class="info-2"><div class="info-item-1">模块的结构 模块（block）由由两部分组成， 一部分描述接口， 一部分描述逻辑功能。 端口 12345678910111213141516171819//定义模块时要列出所有的输入输出接口module block_1(port_1,port_2,port_3,port_4,port_5,port_6);   //输入输出没有顺序要求    //声明输入端口    input port_1;       //不声明端口位宽时默认为1bit    input[2:0] port_2;  //声明端口位宽为3        //声明输出端口    output port_3;    output[2:0] port_4    //声明输入输出口    inout[1:0] port_5;    // 未指定时默认为wire，可显式指定其信号类型    input reg [15:0]  port_6;    //逻辑部分endmodule 也可以直接在模块声明中直接指明接口类型： 1234567891011121314module block_1(    input        ...</div></div></div></a><a class="pagination-related" href="/2023/11/26/verilog_%E5%90%8C%E6%AD%A5%E7%8A%B6%E6%80%81%E6%9C%BA/" title="verilog_同步状态机"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-26</div><div class="info-item-2">verilog_同步状态机</div></div><div class="info-2"><div class="info-item-1">概述 数字逻辑本质上可分为组合逻辑和时序逻辑两大类。 组合逻辑可以用来完成简单的逻辑功能，比如多路器、与或非逻辑、加法乘法器等； 时序逻辑则可以用来产生于运算过程有关的对各控制信号序列。 在复杂运算逻辑系统中， 往往用同步状态机来产生于时钟节拍密切相关的多个控制信号序列， 用它来控制多路器或数据通道的开启/关闭， 来使有限的组合逻辑运算器资源得到充分的运行。 用可综合的Verilog...</div></div></div></a><a class="pagination-related" href="/2024/12/26/FPGA%5B1%5D_%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84/" title="FPGA[1]_基本结构"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-26</div><div class="info-item-2">FPGA[1]_基本结构</div></div><div class="info-2"><div class="info-item-1">FPGA的基本结构 参考链接 参考了书籍《principles-and-structures-of-fpgas》  由上图可见，FPGA的各结构分为：   逻辑单元 基本组成逻辑结构BLE：  BLE组成为：    查找表LUT  大多数FPGA的LUT本质上都是RAM，其中存储着基于输入的输出真值表， 一个k输入的LUT可以存储2^k个可能的输出值，从而实现任意的k输入逻辑函数。    触发器FF   多路复用器MUX     在Xilinx的FPGA中，其与BLE功能类似的结构称为Slice。 有不同功能的Slice。 多个Slice和进位链、路由资源等构成可编辑逻辑块CLB， 有点类似于上面FPGA结构框图的logic Tile。     互联资源 用于实现各模块的互联。  开关单元(SB) 连接单元(CB) 布线通道    IO 基本结构 IOB...</div></div></div></a><a class="pagination-related" href="/2025/09/29/FPGA%5B2%5D_Xilinx%E5%99%A8%E4%BB%B6%E4%BB%8B%E7%BB%8D/" title="FPGA[2]_Xilinx器件介绍"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-29</div><div class="info-item-2">FPGA[2]_Xilinx器件介绍</div></div><div class="info-2"><div class="info-item-1">Xilinx (AMD) FPGA 产品系列介绍  1. 成本优化型产品组合 该产品组合专注于为大批量、成本敏感型应用提供最佳的功耗和性能表现。 1.1 Spartan®-7 系列 Spartan-7是Xilinx的入门级FPGA，基于28nm工艺，以极高的性价比和低功耗著称，是成本敏感型应用的理想选择。   核心资源与特色功能:  逻辑资源: 提供约 6,000 到 102,000 个逻辑单元 (LC)，相当于约 4K 到 64K LUTs。 Block RAM: 高达 4.8 Mb。 DSP Slices: 高达 240 个，可用于基础的信号处理和计算加速。 I/O 数量: 高达 500 个，提供丰富的连接性。 特色功能: 部分型号集成了片上ADC，可用于模拟信号采集，进一步降低系统成本；采用小尺寸封装，适合空间受限的设计。    目标应用: 消费电子（如显示接口、传感器融合）、汽车电子（如车载信息娱乐、车身控制）、工业控制（如简单的马达控制、I/O扩展）、任何需要替代ASIC的低成本场景。   1.2 Artix®-7...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/private_img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YILON</div><div class="author-info-description">YILON的技术小窝</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">90</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">93</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YILON"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">单比特信号的CDC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%84%89%E5%86%B2%E4%BF%A1%E5%8F%B7%EF%BC%88%E5%8D%95%E5%91%A8%E6%9C%9F%E4%BF%A1%E5%8F%B7%EF%BC%89CDC"><span class="toc-number">2.1.</span> <span class="toc-text">脉冲信号（单周期信号）CDC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CDC%E7%9A%84%E5%B0%81%E8%A3%85%E6%A8%A1%E5%9D%97"><span class="toc-number">2.2.</span> <span class="toc-text">CDC的封装模块</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">多比特信号CDC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#FIFO-Generator%EF%BC%88Xilinx-FPGA%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">FIFO Generator（Xilinx FPGA）</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/10/10/FPGA%5B4%5D_%E8%B7%A8%E6%97%B6%E9%92%9F%E5%9F%9FCDC/" title="FPGA[4]_跨时钟域CDC"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FPGA[4]_跨时钟域CDC"/></a><div class="content"><a class="title" href="/2025/10/10/FPGA%5B4%5D_%E8%B7%A8%E6%97%B6%E9%92%9F%E5%9F%9FCDC/" title="FPGA[4]_跨时钟域CDC">FPGA[4]_跨时钟域CDC</a><time datetime="2025-10-10T03:00:11.000Z" title="发表于 2025-10-10 11:00:11">2025-10-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/29/FPGA%5B2%5D_Xilinx%E5%99%A8%E4%BB%B6%E4%BB%8B%E7%BB%8D/" title="FPGA[2]_Xilinx器件介绍"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FPGA[2]_Xilinx器件介绍"/></a><div class="content"><a class="title" href="/2025/09/29/FPGA%5B2%5D_Xilinx%E5%99%A8%E4%BB%B6%E4%BB%8B%E7%BB%8D/" title="FPGA[2]_Xilinx器件介绍">FPGA[2]_Xilinx器件介绍</a><time datetime="2025-09-29T03:50:15.000Z" title="发表于 2025-09-29 11:50:15">2025-09-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/10/FPGA%5B3%5D_%E5%BC%80%E5%8F%91%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%B8%8E%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" title="FPGA[3]_开发工作流与注意事项"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FPGA[3]_开发工作流与注意事项"/></a><div class="content"><a class="title" href="/2025/09/10/FPGA%5B3%5D_%E5%BC%80%E5%8F%91%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%B8%8E%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" title="FPGA[3]_开发工作流与注意事项">FPGA[3]_开发工作流与注意事项</a><time datetime="2025-09-10T02:00:11.000Z" title="发表于 2025-09-10 10:00:11">2025-09-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/private_img/Top.svg);"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2025 By YILON</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
