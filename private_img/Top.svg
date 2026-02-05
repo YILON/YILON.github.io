@@ -1,1 +1,8 @@
-<svg width="1920" height="1080" xmlns="http://www.w3.org/2000/svg"><path fill="#0b3644" d="M-1-1h1922v1082H-1z"/><g/></svg>
+<svg width="1920" height="1080" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <title>Layer 1</title>
+  <path id="svg_1" d="m-1,-1l1922,0l0,1082l-1922,0l0,-1082z" fill="#F2EFE4"/>
+  <g id="svg_2"/>
+ </g>
+
+</svg>
