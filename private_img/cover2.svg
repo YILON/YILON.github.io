@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480">
+  <!-- 石绿灰底 -->
+  <rect width="960" height="480" fill="#dfe3dc"/>
+
+  <!-- 被切断的体块 -->
+  <rect x="180" y="120" width="360" height="200" fill="#c3cbc7"/>
+  <rect x="460" y="160" width="300" height="160" fill="#c8d0d4"/>
+
+  <!-- 切断线 -->
+  <rect x="460" y="120" width="40" height="240" fill="#9aa3a6"/>
+
+  <!-- 暗示性基线 -->
+  <line x1="100" y1="320" x2="540" y2="320"
+        stroke="#50585b" stroke-width="1.4"/>
+</svg>
