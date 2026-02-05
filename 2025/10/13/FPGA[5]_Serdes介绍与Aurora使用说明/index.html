@@ -1,0 +1,643 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>FPGA[5]_Serdes介绍与Aurora使用说明 | YILON</title><meta name="author" content="YILON"><meta name="copyright" content="YILON"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="SerDes  简单来说，该通信协议将设备内部的并行数据转为串行发送出去，接收端再将数据转回并行。  SerDes（Serializer &#x2F; Deserializer）是把并行数据转换为高速串行数据（发送端的 Serializer）， 以及把高速串行数据恢复成并行数据（接收端的 Deserializer）的电路模块或 IP。 它的目标是以尽可能少的物理通道（差分对或光纤通道）传输尽量高的数据速率，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FPGA[5]_Serdes介绍与Aurora使用说明">
+<meta property="og:url" content="http://example.com/2025/10/13/FPGA[5]_Serdes%E4%BB%8B%E7%BB%8D%E4%B8%8EAurora%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/index.html">
+<meta property="og:site_name" content="YILON">
+<meta property="og:description" content="SerDes  简单来说，该通信协议将设备内部的并行数据转为串行发送出去，接收端再将数据转回并行。  SerDes（Serializer &#x2F; Deserializer）是把并行数据转换为高速串行数据（发送端的 Serializer）， 以及把高速串行数据恢复成并行数据（接收端的 Deserializer）的电路模块或 IP。 它的目标是以尽可能少的物理通道（差分对或光纤通道）传输尽量高的数据速率，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/private_img/cover.svg">
+<meta property="article:published_time" content="2025-10-13T01:00:11.000Z">
+<meta property="article:modified_time" content="2026-02-05T02:50:04.583Z">
+<meta property="article:author" content="YILON">
+<meta property="article:tag" content="FPGA">
+<meta property="article:tag" content="verilog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/private_img/cover.svg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2025/10/13/FPGA[5]_Serdes%E4%BB%8B%E7%BB%8D%E4%B8%8EAurora%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'FPGA[5]_Serdes介绍与Aurora使用说明',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-color: #4582A0;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/private_img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">94</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">99</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/private_img/cover.svg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">YILON</span></a><a class="nav-page-title" href="/"><span class="site-name">FPGA[5]_Serdes介绍与Aurora使用说明</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">FPGA[5]_Serdes介绍与Aurora使用说明</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-10-13T01:00:11.000Z" title="发表于 2025-10-13 09:00:11">2025-10-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-05T02:50:04.583Z" title="更新于 2026-02-05 10:50:04">2026-02-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/FPGA/">FPGA</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/FPGA/verilog/">verilog</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>SerDes</h1>
+<blockquote>
+<p>简单来说，该通信协议将设备内部的并行数据转为串行发送出去，接收端再将数据转回并行。</p>
+</blockquote>
+<p>SerDes（Serializer / Deserializer）是把并行数据转换为高速串行数据（发送端的 Serializer），<br>
+以及把高速串行数据恢复成并行数据（接收端的 Deserializer）的电路模块或 IP。<br>
+它的目标是以尽可能少的物理通道（差分对或光纤通道）传输尽量高的数据速率，同时保持可靠性（低误码率）和可控延迟。</p>
+<p>Serdes具有以下优点：</p>
+<ol>
+<li>减少布线冲突（非独立时钟嵌入在数据流中，解决了限制数据传输速率的Signal时钟的Jilter问 题）；带宽高 ；</li>
+<li>引脚数目少 ；</li>
+<li>抗噪声、抗干扰能力强（差分传输）；</li>
+<li>降低开关噪声；</li>
+<li>扩展能力强；</li>
+<li>更低的功耗和封装成本；</li>
+</ol>
+<p>根据SerDes的结构的不同可以将其分为四类：</p>
+<ul>
+<li><strong>并行时钟SerDes</strong><br>
+并行时钟 SerDes 的工作方式是将并行宽总线串行化为多个差分信号对，与此同时，还会传送与数据并联的时钟。在一些大型数据中心的服务器背板连接场景中，众多处理器、存储单元之间的数据交互量极大，并行时钟 SerDes 就能派上用场。通过电缆或背板，高效地扩展宽总线，实现高速数据传输。而且这种 SerDes 成本相对较低，对于那些需要大规模部署、对成本较为敏感，同时又有较高数据传输需求的应用场景来说，是一种性价比很高的选择。</li>
+</ul>
+<br>
+<ul>
+<li><strong>8B/10B编码SerDes</strong><br>
+8B/10B 编码 SerDes 是最为常见的结构。它会把每个数据字节映射到 10bit 代码，随后将其串行化为单一信号对。这里的 10 位代码一方面为接收器时钟恢复提供了足够的转换，让接收器能精准地从数据流中抓取时钟信息；另一方面，还保证了直流平衡，即发送相等数量的‘1’和‘0’，使得信号传输更加稳定、可靠。在长距离的光纤通信网络中，信号经过光纤传输时难免会有损耗、失真，8B/10B 编码 SerDes 就能凭借其特性，在这样有损耗的互连和光纤传输中以较少的信号失真高速运行。</li>
+</ul>
+<br>
+<ul>
+<li><strong>嵌入式时钟SerDes</strong><br>
+将数据总线和时钟串化为一个串行信号对。两个时钟位，一高一低，在每个时钟循环中内嵌串行数据流，对每个串行化字的开始和结束成帧，并且在串行流中建立定期的上升边沿。<br>
+由于有效负载夹在嵌入式时钟位之间，因此数据有效负载字宽度并不限定于字节的倍数；</li>
+</ul>
+<br>
+<ul>
+<li><strong>位交错SerDes</strong><br>
+能够将多个输入串行流中的位汇聚为更快的串行信号对。在高速的电信传输网络里，比如 4G、5G 基站之间的数据传输链路，需要处理大量不同来源的低速串行数据流，位交错 SerDes 可以把这些低速流整合起来，转化为高速串行信号，大大提升传输效率，</li>
+</ul>
+<p>SerDes支持非常多的的主流工业标准，比如Serial RapidIO ，FiberChannel（FC），PCI-Express （PCIE），Advanced Switching Interface，Serial ATA（SATA），1-Gb Ethernet，10-Gb Ethernet（XAUI），Infiniband 1X，4X，12X等。</p>
+<h2 id="基本结构与工作原理">基本结构与工作原理</h2>
+<p><img src="./SerDes%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84.png" alt="SerDes基本结构"></p>
+<ul>
+<li>Serializer（串行器）
+<ul>
+<li>接受并行数据,按位/按符号序列化成高速串行流。</li>
+<li>可选：并行数据缓冲、并行位反序（bit ordering）、并加上编码（例如 8b/10b、64b/66b、scrambler）。</li>
+<li>提供发射端前置均衡（pre-emphasis、de-emphasis、FFE 预加重等）。</li>
+</ul>
+</li>
+</ul>
+<br>
+<ul>
+<li>物理收发电路（PHY）
+<ul>
+<li>发射器（TX）：电流驱动或电压驱动、差分输出、前置均衡、驱动幅度控制（VOD）。</li>
+<li>接收器（RX）：低噪声放大器（LNA/CTLE）、时钟数据恢复（CDR）、采样 ADC（PAM4）或比较器、后置均衡（FFE/DFE）、PLL/VCXO。</li>
+</ul>
+</li>
+</ul>
+<br>
+<ul>
+<li>Deserializer（解串器）
+<ul>
+<li>将接收到的高速串行位流按时钟恢复并恢复成并行字（lane-to-parallel），提供锁相时钟和并行输出缓冲（elastic buffer）。</li>
+</ul>
+</li>
+</ul>
+<br>
+<ol>
+<li>并行数据输入（主机侧） → Serializer：将并行字按比特顺序串出。</li>
+<li>编码 / 加扰（可选）→ 降低直流分量、控制频谱、便于同步（例如 8b/10b）。</li>
+<li>发射端均衡 / 驱动：对高频损耗的补偿（预加重）并差分驱动物理介质（铜缆或光电模块）。</li>
+<li>信道传输：介质产生幅度衰减、色散、串扰、噪声。</li>
+<li>接收端放大与 CTLE：恢复信号并对高频做主动增益补偿。</li>
+<li>采样与 CDR（时钟数据恢复）：锁相采样点（采样位中心）。</li>
+<li>后置均衡（FFE/DFE）与判决：抵消 ISI（码间串扰）并做决策。</li>
+<li>解码 / 反加扰 → Deserializer：并行输出并上交给上层（MAC/逻辑）。</li>
+<li>链路训练 / 回退：若链路质量不佳，可协商速率、均衡系数或启用 前向纠错FEC。</li>
+</ol>
+<h1>GT协议</h1>
+<p>xilinx-7 FPGA系列提供了GT收发器（Gigabyte Transceiver）用以实现SerDes类通信。</p>
+<p>7系列中，按支持的最高线速排序，<kbd>GTP &lt; GTX &lt; GTH &lt; GTZ</kbd>。<br>
+GTP被用于A7系列，GTZ被用于少数V7系列。<br>
+从K7到V7，最常见的是GTX和GTH，GTH的最高线速比GTX稍微高一点点。</p>
+<p>GTX和GTH的文档为<code>UG476</code>。结构上，GTX和GTH的基本结构大同小异。</p>
+<h2 id="基本构成">基本构成</h2>
+<p><img src="./GTX%E5%9F%BA%E6%9C%AC%E6%9E%84%E6%88%90.png" alt="GTX基本构成"></p>
+<p>模块说明：</p>
+<ul>
+<li>PCS（物理编码层Physical Coding Sublayer）：
+<ul>
+<li>
+<p>编码/解码：<br>
+在发送端，将并行接口的数据编码为能保证线路上的直流平衡（0和1的数量大致相等）和提供足够的跳变边沿的格式（如8B/10B编码）<br>
+( 对于8B/10B编码，由于传输过程中每8bit加入了2bit额外数据，因此传输效率不高于80%)</p>
+ <br>
+</li>
+<li>
+<p>通道对齐：<br>
+通常用<code>Lane</code>指代GT通信中的串行通道。GT收发器支持使用多个Lane发送同一数据，这就需要在发送时进行数据通道分配，在接收时将数据重新对齐。<br>
+<br></p>
+</li>
+<li>
+<p>加扰/解绕：<br>
+在编码之前，对数据进行加扰操作，目的是打乱数据中可能出现的长串“0”或长串“1”，减少电磁干扰并降低信号频率的集中度。</p>
+</li>
+<li>
+<p>链路建立与管理：</p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>PCS是纯数字逻辑，FPGA中固化了相关逻辑电路，比手动实现更高效。</p>
+</blockquote>
+<br>
+<br>
+<ul>
+<li>PMA（物理介质层Physical Medium Attachment）：
+<ul>
+<li>串行化/解串行化：<br>
+发送端将并行数据转为串行数据，接收端将串行数据转回并行数据；<br>
+<br></li>
+<li>时钟产生与恢复：<br>
+在发送端，PMA需要根据参考时钟产生精确的高速串行时钟。<br>
+在接收端，从数据流本身（通过0到1和1到0的跳变）来提取和恢复出时钟信号，并用这个恢复的时钟来采样数据。这个技术称为 <code>CDR</code>。<br>
+<br></li>
+<li>驱动与均衡：<br>
+发送端： PMA的发射机负责将串行化的数字信号，转换成模拟信号，并驱动到物理通道上。为了补偿通道（如PCB走线）对高频信号的衰减，发射机通常包含预加重 或去加重 技术，预先增强高频分量。<br>
+接收端： 信号经过长距离传输后会发生畸变和码间干扰。PMA的接收机包含均衡器，用于补偿信道损耗，重塑信号波形，以便能正确地采样。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>PMA有一部分模拟电路，只能依赖于FPGA的物理实现。</p>
+</blockquote>
+<br>
+<br>
+<p>在xilinx FPGA中，使用同一个GT参考时钟（gtrefclk）的收发器被划分为一个<code>Quad</code>，Quad内的GT收发器还可以使用相邻Quad的GT参考时钟。</p>
+<p><img src="./Quad.png" alt="Quad"></p>
+<h1>Aurora</h1>
+<p>GT收发器相对比较底层，不容易使用。<br>
+xilinx提供了一种封装协议：Aurora。<br>
+其能自动配置GT收发器，大大简化了用户配置成本。</p>
+<blockquote>
+<p>Aurora 协议是一个用于在点对点串行链路间移动数据的可扩展轻量级链路层协议。<br>
+这为物理层提供透明接口，让专有协议或业界标准协议上层能方便地使用高速收发器。<br>
+Aurora协议在Xilinx的FPGA上有两种实现方式：8B/10B 与 64B/10B。<br>
+两个协议大部分相同，主要区别在编码方式上：</p>
+<ul>
+<li>Aurora 8B/10B：将8bit数据编码成10bit数码进行传输，尽量平衡数据中“0”和“1”的个数以实现DC平衡，显然这个编码方式的开销是20%，也就是效率为80%</li>
+<li>Aurora 64B/10B：将64bit数据编码成66bit块传输，66bit块的前两位表示同步头，主要由于接收端的数据对齐和接收数据位流的同步。同步头有“01”和“10”两种，“01“表示后面的64bit都是数据，“10”表示后面的64bit是数据信息。数据信息0和1不一定是平衡的，因此需要进行加扰，开销较小</li>
+</ul>
+<p>Aurora 8B/10B 常用于芯片（FPGA）与芯片（FPGA）之间通信。<br>
+它用于使用一个或多个收发器在设备之间传输数据。连接可以是全双工（双向数据）或单工。</p>
+</blockquote>
+<p>两者具备一定的差异，以下仅说明Aurora 8B/10B，基于官方文档<code>PG046</code>和<code>UP766</code>。</p>
+<p><img src="./Aurora%E5%9F%BA%E6%9C%AC%E6%A1%86%E5%9B%BE.png" alt="Aurora基本框图"></p>
+<p>结合上图，简单阐述下Aurora 8B/10B的工作流：</p>
+<blockquote>
+<p>Aurora支持全双工、只发送、只接收的配置。</p>
+</blockquote>
+<p>基本逻辑：</p>
+<pre><code class="highlight mermaid">
+flowchart LR
+    A[发送用户逻辑] -- 并行数据 --&gt; B[Aurora IP]
+    B --&gt; C[GT发送端]
+    C == 串行数据 ==&gt; D[GT接收端]
+    D --&gt; E[Aurora IP]
+    E --并行数据--&gt; F[接收用户逻辑]
+</code></pre>
+<br>
+<blockquote>
+<p>一个串行通道是一个<code>Lane</code>，可以将多个<code>Lane</code>配置为一个<code>Channel</code>，增加通信速率。</p>
+</blockquote>
+<br>
+<h2 id="构成">构成</h2>
+<p>以下阐述Aurora 8B/10B的各个部分。</p>
+<h3 id="时钟">时钟</h3>
+<p>Aurora 8B/10B可分为两部分：</p>
+<ul>
+<li>shared logic</li>
+<li>core</li>
+</ul>
+<p>在配置Aurora IP时，可以选择shared logic是否包含进模块内，<br>
+如果选择包含，那么只需要给生成的IP模块相应的时钟输入就行，<br>
+并且该模块还会输出相关信号提供给裸core的模块使用。</p>
+<p>如果选择不包含，即成为裸core的模块，<br>
+可以使用外部定义shared logic输出信号（在example design中可查看），<br>
+或如上所述包含shared logic的模块的输出信号，<br>
+作为裸模块的输入。</p>
+<p>shared logic本质上就是相关时钟的配置。</p>
+<p>以下介绍<strong>裸core的时钟相关的输入输出信号</strong>：</p>
+<p>可分为三部分：<br>
+<br></p>
+<ol>
+<li>
+<p>初始化时钟（init_clk_in）：</p>
+<p>用于初始化的时钟，在IP配置界面必须明确其频率，不然会无法正确初始化。<br>
+各个Aurora 模块的init_clk可以共用，也可以不关联，只要满足<strong>不大于user_clk</strong>即可。</p>
+</li>
+</ol>
+<br>
+<ol start="2">
+<li>gt参考时钟（gt_refclk1）：</li>
+</ol>
+<p><img src="./share_logic_gtrefclk.png" alt="share_logic_gtrefclk"></p>
+<p>将gt参考差分时钟输入到原语<code>IBUFDS_GTE4</code>（能将差分时钟转换为适用gt收发器的单端时钟），输出的便是输入到Aurora模块的gt时钟。</p>
+<br>
+<ol start="3">
+<li>用户时钟</li>
+</ol>
+<p>这一部分处理在example design中封装在clock_module中：</p>
+<p><img src="./share_logic_clock_module.png" alt="share_logic_clock_module"></p>
+<p>输出：</p>
+<ul>
+<li>tx_out_clk：<br>
+gt收发器将gtrefclk经过内部pll处理后得到tx_out_clk，供给shared logic。</li>
+</ul>
+<p>输入：</p>
+<ul>
+<li>user_clk与sync_clk：<br>
+shared logic中将tx_out_clk通过原语<code>BUFG_GT</code>（可将gt时钟连接到全局时钟网络）得到user_clk和sync_clk。<br>
+user_clk是给用户执行对Aurora模块相关操作时所使用的时钟。<br>
+sync_clk是在Aurora 内核中给GT收发器进行内部同步的时钟。<br>
+在example design中，sync_clk = user_clk。</li>
+</ul>
+<br>
+<ul>
+<li>bufg_gt_clr与PLL_NOT_LOCKED：<br>
+bufg_gt_clr来自gt收发器，<br>
+在shared logic中，只有当bufg_gt_clr = 0且user_clk正常时，PLL_NOT_LOCKED才会为0，通知aurora内核时钟正常。</li>
+</ul>
+<br>
+<br>
+<blockquote>
+<p>对于只需要一个<code>channel</code>的场景，<br>
+在IP配置页面直接使用<code>include Shared logic in core</code>即可，这样最简单；</p>
+</blockquote>
+<blockquote>
+<p>而对于需要使用多个<code>channel</code>的场景，（注意区分channel和lane）<br>
+特别是只有一对gtrefclk的情况，最好是选择<code>include Shared logic in example design</code>，<br>
+然后仿照example design搭建shared logic。<br>
+此时有两点要注意：</p>
+<ol>
+<li>gtrefclk只能在FPGA物理布局<code>同一列</code>（同一“X”）的Quad中共享，；</li>
+<li>此时每一个裸core的aurora模块都会输出tx_out_clk，可以只使用其中一个，即只生成一个user_clk，<br>
+再将该user_clk返回给各aurora模块，这样便能实现对各模块的用户操作同步。</li>
+</ol>
+</blockquote>
+<p>以下是简要示意图：<br>
+<img src="./shared_logic_clock.svg" alt="shared_logic_clock"></p>
+<hr>
+<hr>
+<h3 id="数据端口（in-userclk）">数据端口（in userclk）</h3>
+<p>Aurora 8B10B通信分为两种模式：</p>
+<ul>
+<li>帧（Frame）<br>
+数据帧之间有停止信号（tlast）。帧的长度是不限制的，为<code>Lane Width</code>的整数倍，<br>
+（对于aurora 8B10B，其为2 Bytes或4 Bytes）<br>
+每个user_clk发送一字（<code>Lane Width</code>）数据，<br>
+发送最后一字时，可通过指定tkeep来声明该字中哪些字节是有效的，哪些是无效的。</li>
+<li>流（Stream）<br>
+没有停止信号，可以一直传输。</li>
+</ul>
+<br>
+<h4 id="帧模式接口">帧模式接口</h4>
+<p><img src="./Frame_interface.png" alt="Frame_interface"></p>
+<p>对发送端，<br>
+每个user_clk上升沿，<br>
+若tready信号有效（代表Aurora内核允许用户写入数据），用户可写入<code>Lane Width</code>的数据并维持tvaild为高；<br>
+当写入最后一个数据时，用户将tlast置高，并根据需要设置tkeep,<br>
+在下一个时钟上升沿将tvaild、tlast拉低，表示结束本帧。tready也会置低。</p>
+<blockquote>
+<p>如果发送的数据是<code>Lane Width</code>的整数倍，那么不需要操作tkeep，保持为高即可。</p>
+</blockquote>
+<p><img src="./Frame_simple_Tx.png" alt="Frame_simple_Tx"></p>
+<br>
+<br>
+<p>在发送过程中如果tready不为高，代表上一clk的数据没有被aurora读取，应当保持原值，<br>
+直到重新检测到tready变高。</p>
+<blockquote>
+<p>在发送过程中tready随时可能置低，这是因为aurora需要通道每<code>10,000字节</code>发送一段时钟补偿（cc）序列（用户接收端会忽略），此时会中断数据传输。<br>
+运输暂停大概在三或六时钟周期。</p>
+</blockquote>
+<p>在发送过程中用户可以随时拉低tvaild表示暂停（因为没有tlast，这不代表帧的结束），直到重新拉高tvaild。<br>
+<img src="./Frame_Tx_with_pause.png" alt="Frame_Tx_with_pause"></p>
+<blockquote>
+<p>注意区分通信链路的各个环节，用户交互的始终是aurora提供的接口，而不是接收端。<br>
+实际上在线抓取信号可以看到，用户发送端的发送帧都写入完了(tvaild都置低了)，用户接收端tvaild都还没置高。</p>
+</blockquote>
+<br>
+<br>
+<p><img src="./Frame_Rx_with_pause.png" alt="Frame_Rx_with_pause"></p>
+<p>对接收端,<br>
+若tvaild信号有效，用户采样<code>Lane Width</code>宽度的数据；<br>
+当读取到tlast为高，表示这是最后一字，此时需要根据tkeep确定本字的有效字节数,<br>
+在下一个时钟上升沿tvaild、tlast都将拉低，表示结束本帧。</p>
+<p>在接收过程中tvaild也随时可能置低，此时代表本次采样到的数据无效，需要在下一时钟再次采样。</p>
+<br>
+<br>
+<h4 id="流模式接口">流模式接口</h4>
+<p><img src="./Stream_interface.png" alt="Stream_interface"></p>
+<p>相较于帧模式，去掉了tlast和tkeep，但是每个USER_CLK还是只能发一字（<code>Lane Width</code>）的数据，其余都是差不多的。</p>
+<br>
+<br>
+<hr>
+<h3 id="状态与控制接口">状态与控制接口</h3>
+<blockquote>
+<p>全双工、只发送、只接收的状态与控制接口不太一样，这里只介绍全双工的。</p>
+</blockquote>
+<p><img src="./status_control_interface.png" alt="status_control_interface"></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">POWER_DOWN</td>
+<td style="text-align:center">置高时表示关闭GT收发器，用以节省能耗。没有这个需求的直接置低就行</td>
+</tr>
+<tr>
+<td style="text-align:center">RXP/RXN</td>
+<td style="text-align:center">GT收发器的接收差分引脚</td>
+</tr>
+<tr>
+<td style="text-align:center">TXP/TXN</td>
+<td style="text-align:center">GT收发器的发送差分引脚</td>
+</tr>
+<tr>
+<td style="text-align:center">HARD_ERR</td>
+<td style="text-align:center">高电平有效，表示出现硬件（严重）错误（如buffer上/下溢）<br>出现后会自动触发Aurora core复位并尝试重新初始化</td>
+</tr>
+<tr>
+<td style="text-align:center">SOFT_ERR</td>
+<td style="text-align:center">高电平有效，表示出现软件错误（普通），只会置位一个clk <br>当短时间内出现大量此错误也会导致复位</td>
+</tr>
+<tr>
+<td style="text-align:center">FRAME_ERR</td>
+<td style="text-align:center">高电平有效，表示出现帧错误（普通）</td>
+</tr>
+<tr>
+<td style="text-align:center">LNAE_UP</td>
+<td style="text-align:center">lane初始化并与对方握手成功时该信号对应bit会置高，<br>只有当所有bit都置高时，Aurora 内核才能接收数据 <br> <strong>可以用来判断物理链路是否断开</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">CHANNEL_UP</td>
+<td style="text-align:center">当LANE_UP所有bit置高时，并且内核可以接收数据时，才会置高 <br> <strong>可以用来判断是否能开始通信</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">gt_reset</td>
+<td style="text-align:center">高电平有效，GT收发器的复位 <br> FPGA上电时必须置高 <br> 保持高电平至少6个init_clk <br> 当gt_reset被置高时，USER_clk会停止</td>
+</tr>
+<tr>
+<td style="text-align:center">reset</td>
+<td style="text-align:center">高电平有效，Aurora core的复位 <br> 该信号必须在USER_CLK稳定后才置低</td>
+</tr>
+</tbody>
+</table>
+<h4 id="复位信号的配置">复位信号的配置</h4>
+<ol>
+<li>对于全双工core在正常运行的情况下，置位<code>reset</code>信号，会在<code>3</code>个<code>user_clk</code>后拉低<code>channel_up</code>信号：</li>
+</ol>
+<p><img src="./Aurora_normal_reset.png" alt="Aurora_normal_reset"></p>
+<br>
+<ol start="2">
+<li>对于全双工core在正常运行的情况下，置位<code>gt_reset</code>信号至少<code>6</code>个<code>init_clk</code>，一段时间后<code>user_clk</code>会停止,<code>channel_up</code>信号也会拉低：</li>
+</ol>
+<p><img src="./Aurora_normal_gt_reset.png" alt="Aurora_normal_gt_reset"></p>
+<br>
+<ol start="3">
+<li>FPGA上电时，对于全双工core，<code>gt_reset</code>和<code>reset</code>信号都要置高。等待一段<code>init_clk</code>后，<code>gt_reset</code>先置低，而<code>reset</code>信号在<code>user_clk</code>的时钟域中置低（换言之，当<code>user_clk</code>稳定后才置低）</li>
+</ol>
+<p><img src="./Aurora_power_on_reset.png" alt="Aurora_power_on_reset"></p>
+<br>
+<ol start="4">
+<li>对于全双工core，要执行普通复位，必须先将<code>reset</code>信号置位至少<code>128</code>个<code>user_clk</code>，然后才置位<code>gt_reset</code>。<code>gt_reset</code>置位足够长的时间后，需要先置低，等到<code>user_clk</code>稳定后再置低<code>reset</code>信号。</li>
+</ol>
+<p><img src="./Aurora_normal_reset_sequence.png" alt="Aurora_normal_reset_sequence"></p>
+<br>
+<br>
+<p>对于复位的设计可参照example design的xxx_support_reset_logic模块,<br>
+以下是简化后的复位信号处理逻辑：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">module</span> aurora_reset_logic (</span><br><span class="line">    <span class="keyword">input</span>  <span class="keyword">wire</span> SYS_RST_N,       <span class="comment">// 用户复位输入,同步在init_clk上</span></span><br><span class="line">    <span class="keyword">input</span>  <span class="keyword">wire</span> USER_CLK,       </span><br><span class="line">    <span class="keyword">input</span>  <span class="keyword">wire</span> INIT_CLK,      </span><br><span class="line">    <span class="keyword">output</span> <span class="keyword">wire</span> AURORA_RESET_OUT,   </span><br><span class="line">    <span class="keyword">output</span> <span class="keyword">wire</span> GT_RESET_OUT    </span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*------------------gt复位---------------------*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">reg</span> aurora_gt_reset = <span class="number">1&#x27;d1</span>;     <span class="comment">// 初始化值为1，即上电后为高</span></span><br><span class="line"><span class="keyword">reg</span> [<span class="number">7</span>:<span class="number">0</span>] aurora_gt_reset_timer = <span class="number">8&#x27;d0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">reg</span> aurora_reset_flag;</span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> INIT_CLK) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span>(!SYS_RST_N) <span class="keyword">begin</span></span><br><span class="line">            aurora_gt_reset_timer &lt;= <span class="number">1&#x27;d0</span>;</span><br><span class="line">            aurora_reset_flag     &lt;= <span class="number">1&#x27;d1</span>;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(aurora_gt_reset_timer &lt; <span class="number">8&#x27;d150</span>) <span class="keyword">begin</span>  </span><br><span class="line">            aurora_gt_reset_timer &lt;= aurora_gt_reset_timer + <span class="number">1&#x27;d1</span>;</span><br><span class="line">            <span class="comment">// aurora_gt_reset保持原值,</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(aurora_gt_reset_timer &lt; <span class="number">8&#x27;d150</span> + <span class="number">8&#x27;d10</span>) <span class="keyword">begin</span>  </span><br><span class="line">            aurora_gt_reset_timer &lt;= aurora_gt_reset_timer + <span class="number">1&#x27;d1</span>;</span><br><span class="line">            aurora_gt_reset       &lt;= <span class="number">1&#x27;d1</span>;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">            aurora_gt_reset   &lt;= <span class="number">1&#x27;d0</span>;</span><br><span class="line">            aurora_reset_flag &lt;= <span class="number">1&#x27;d0</span>;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">assign</span> GT_RESET_OUT = aurora_gt_reset;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*----------将aurora_reset_flag信号同步到user_clk时钟域，避免亚稳态-----------------*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">wire</span> aurora_reset_flag_sync;</span><br><span class="line">xpm_cdc_array_single #(</span><br><span class="line">    <span class="variable">.DEST_SYNC_FF</span>(<span class="number">2</span>),  <span class="comment">// 2~10,用于在目标时钟域中同步信号的寄存器级数</span></span><br><span class="line">    <span class="variable">.INIT_SYNC_FF</span>(<span class="number">0</span>),   <span class="comment">// DECIMAL; 0=disable simulation init values, 1=enable simulation init values</span></span><br><span class="line">    <span class="variable">.SRC_INPUT_REG</span>(<span class="number">1</span>),      <span class="comment">// 是否使能对输入进行缓冲</span></span><br><span class="line">    <span class="variable">.WIDTH</span>(<span class="number">1</span>)            <span class="comment">// 输入信号宽度，注意信号各bit互不相关</span></span><br><span class="line">) aurora_reset_cdc_inst(</span><br><span class="line">    <span class="variable">.src_clk</span>(INIT_CLK),</span><br><span class="line">    <span class="variable">.src_in</span>(aurora_reset_flag),</span><br><span class="line">    <span class="variable">.dest_clk</span>(USER_CLK),</span><br><span class="line">    <span class="variable">.dest_out</span>(aurora_reset_flag_sync)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*-----------------------Aurora core复位-----------------------------*/</span></span><br><span class="line">(* ASYNC_REG = <span class="string">&quot;true&quot;</span> *)  <span class="keyword">reg</span> [<span class="number">7</span>:<span class="number">0</span>] aurora_reset_timer = <span class="number">8&#x27;d0</span>; </span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> USER_CLK <span class="keyword">or</span> <span class="keyword">posedge</span> aurora_reset_flag_sync) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(aurora_reset_flag_sync)                      aurora_reset_timer &lt;= <span class="number">8&#x27;d0</span>;  <span class="comment">// 异步复位</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>( aurora_reset_timer &lt;= <span class="number">8&#x27;d10</span> )      aurora_reset_timer &lt;= aurora_reset_timer + <span class="number">1&#x27;d1</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">assign</span> AURORA_RESET_OUT = (aurora_reset_timer &lt;= <span class="number">8&#x27;d10</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<br>
+<br>
+<hr>
+<h3 id="CRC">CRC</h3>
+<p>在帧模式中，<br>
+aurora提供对传输数据进行CRC校验的功能。<br>
+对Lane Width = 2 bytes，为CRC16；<br>
+对Lane Width = 4 bytes，为CRC32.</p>
+<p>CRC操作由内核完成，不需要用户操作。<br>
+在接收端，内核为CRC结果提供了两个信号：<br>
+<kbd>crc_vaild</kbd>与<kbd>crc_pass_fail_n</kbd></p>
+<p>当且仅当<kbd>crc_vaild</kbd>为高时，<br>
+<kbd>crc_pass_fail_n</kbd>的结果才是有意义的，为高时表示本次传输CRC校验成功。</p>
+<p>这两个信号都是<code>user_clk</code>时钟域下的。</p>
+<blockquote>
+<p>必须明确的是，实际测试下来，<code>crc_vaild</code>置高时并不代表接收已经完成，根据实际抓取的波形来看，至少需要延迟两拍才能确认接收已经完成。</p>
+</blockquote>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">reg</span> rx_crc_success;    </span><br><span class="line"><span class="keyword">reg</span> rx_crc_success_r;  </span><br><span class="line"></span><br><span class="line"><span class="comment">// CRC校验处理</span></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clk) <span class="keyword">begin</span>  <span class="comment">// crc_valid是同步在user_clk时钟域的</span></span><br><span class="line">    <span class="keyword">if</span>(rst) <span class="keyword">begin</span></span><br><span class="line">            rx_crc_success        &lt;= <span class="number">1&#x27;d0</span>;</span><br><span class="line">            rx_crc_success_r      &lt;= <span class="number">1&#x27;d0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">        <span class="comment">// pass_fail_n只有在crc_valid有效时才有意义 </span></span><br><span class="line">        <span class="comment">// 延迟一拍</span></span><br><span class="line">        <span class="keyword">if</span>(crc_valid &amp;&amp; crc_pass_fail_n)   rx_crc_success        &lt;= <span class="number">1&#x27;d1</span>;   </span><br><span class="line">        <span class="keyword">else</span>                               rx_crc_success        &lt;= <span class="number">1&#x27;d0</span>;<span class="comment">// 脉冲信号</span></span><br><span class="line"></span><br><span class="line">        rx_crc_success_r &lt;= rx_crc_success;  <span class="comment">// 延迟第二拍</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clk) <span class="keyword">begin</span>  </span><br><span class="line">    <span class="keyword">if</span>(rst) <span class="keyword">begin</span></span><br><span class="line">            rx_data          &lt;= &#x27;&#123;<span class="keyword">default</span>:<span class="number">0</span>&#125;;   <span class="comment">// 复位时初始化接收缓冲区</span></span><br><span class="line">            rx_update_pulse  &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(channel_up &amp;&amp; rx_crc_success_r) <span class="keyword">begin</span></span><br><span class="line">            rx_data          &lt;= rx_data_queue;   <span class="comment">// 只有当CRC校验成功才允许更新接收</span></span><br><span class="line">            rx_update_pulse  &lt;= <span class="number">1&#x27;b1</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">            rx_update_pulse  &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<br>
+<h3 id="加扰-解扰-Scrambler-Descrambler">加扰/解扰(Scrambler/Descrambler)</h3>
+<p>在发送端对数据进行加扰，打乱数据中可能出现的长串“0”或长串“1”，减少电磁干扰并降低信号频率的集中度。</p>
+<br>
+<h3 id="热插拔">热插拔</h3>
+<p>Aurora 8B/10B支持热插拔。当物理链路断开时，对应Lane_up信号也会置低，直到重新连上。</p>
+<br>
+<h3 id="时钟补偿">时钟补偿</h3>
+<p>时钟补偿功能允许在Aurora 8B/10B通道的每一侧使用的参考时钟频率高达±100 ppm的差异。</p>
+<hr>
+<br>
+<br>
+<h2 id="IP配置">IP配置</h2>
+<blockquote>
+<p>不同的版本、器件其IP配置有所不同，以实际为准。</p>
+</blockquote>
+<br>
+<p><img src="./aurora_ip_config1.png" alt="aurora_ip_config1"></p>
+<blockquote>
+<p>GT Refclk的频率选择不是随意的，具体关系为：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="normal">L</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">R</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">e</mi><mo>=</mo><mi mathvariant="normal">G</mi><mi mathvariant="normal">T</mi><mi mathvariant="normal">R</mi><mi mathvariant="normal">E</mi><mi mathvariant="normal">F</mi><mi mathvariant="normal">C</mi><mi mathvariant="normal">L</mi><mi mathvariant="normal">K</mi><mo>×</mo><mi mathvariant="normal">D</mi><mo>×</mo><mi mathvariant="normal">E</mi></mrow><annotation encoding="application/x-tex">\rm{Lane Rate = GTREFCLK \times D \times E} 
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord"><span class="mord mathrm">LaneRate</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathrm">GTREFCLK</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathrm">D</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathrm">E</span></span></span></span></span></span></span></p>
+<p><kbd>E</kbd>为编码效率，对于Aurora 8B10B，为8/10 = 0.8<br>
+<kbd>D</kbd>为内部PLL倍频因子，为整数。<br>
+因此如果Lane Rate可在一定范围内选择，而想要合适的user_clk,则需要根据以上关系选择合适的GTREFCLK。</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="YILON">YILON</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/10/13/FPGA[5]_Serdes%E4%BB%8B%E7%BB%8D%E4%B8%8EAurora%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/">http://example.com/2025/10/13/FPGA[5]_Serdes%E4%BB%8B%E7%BB%8D%E4%B8%8EAurora%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">YILON</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/FPGA/">FPGA</a><a class="post-meta__tags" href="/tags/verilog/">verilog</a></div><div class="post-share"><div class="social-share" data-image="/private_img/cover.svg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/10/10/FPGA%5B4%5D_%E8%B7%A8%E6%97%B6%E9%92%9F%E5%9F%9FCDC/" title="FPGA[4]_跨时钟域CDC"><img class="cover" src="/private_img/cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">FPGA[4]_跨时钟域CDC</div></div><div class="info-2"><div class="info-item-1">前言  可参考此文章  当信号跨时钟域时，通常采用缓冲避免亚稳态。 并在约束文件中set_false_path指示不需要同步的路径。 对于在vivado开发，可以在源码中使用(* ASYNC_REG = &quot;TRUE&quot; *)标记用于缓冲的寄存器， 使其能够接收异步信号，并优化寄存器的布局以减少亚稳态的发生概率。   在附加了ASYNCREG属性后，在综合的过程中将不会优化该寄存器及其周边逻辑， 同时也影响optimization，place&amp;routing以提高MTBF（mean time between failure）。 在布局时，将会确保同步链上的寄存器摆放尽可能接近一最大化MTBF， 直接相连的带有该属性的寄存器将会直接放进单个SLICE/CLB （如果寄存器同时带有ASYNC_REG和IOB属性，IOB将优先于ASYNC_REG，寄存器将会被存放至ILOGIC...</div></div></div></a><a class="pagination-related" href="/2025/10/24/Simulink_%E5%9F%BA%E4%BA%8Esimscape%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90HDL%E4%BB%A3%E7%A0%81/" title="Simulink_基于simscape模型生成HDL代码"><img class="cover" src="/private_img/cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Simulink_基于simscape模型生成HDL代码</div></div><div class="info-2"><div class="info-item-1">概述 硬件在环仿真HIL，或者俗称半实物仿真，指的是使用实际物理控制器，而被控对象则由相应HIL设备实时模拟， 对于控制器而言，和在物理实际运行别无二致。 要实现对被控对象的实时模拟， 基本原理便是基于控制理论，得到被控对象的离散状态方程， 转译为执行代码，在处理器中运行。 一般地，离散状态方程可如此描述： x(k+1)=Ax(k)+Bu(k)y(k)=Cx(k)+Du(k)\begin{align*} \mathbf{x}(k+1) &amp;= \mathbf{A}\mathbf{x}(k) + \mathbf{B}\mathbf{u}(k) \\ \mathbf{y}(k)     &amp;= \mathbf{C}\mathbf{x}(k) + \mathbf{D}\mathbf{u}(k) \end{align*}   x(k+1)y(k)​=Ax(k)+Bu(k)=Cx(k)+Du(k)​ 其中： x(k)∈Rn\mathbf{x}(k) \in \mathbb{R}^nx(k)∈Rn 是 kkk 时刻的状态向量 u(k)∈Rm\mathbf{u}(k) \in...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/09/10/FPGA%5B3%5D_%E5%BC%80%E5%8F%91%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%B8%8E%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" title="FPGA[3]_开发工作流与注意事项"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-10</div><div class="info-item-2">FPGA[3]_开发工作流与注意事项</div></div><div class="info-2"><div class="info-item-1">FPGA工作流  timeline     title FPGA详细开发工作流      section 设计 (Design)         RTL编写         : 选择与生成时钟         : 生成并调用IP核         : 使用HDL语言描述逻辑         功能仿真          : 编写Testbench         : 使用ModelSim/VCS等工具&lt;br&gt;验证逻辑正确性      section 综合 (Synthesis)         转译与优化&lt;br&gt;工具将RTL转换为&lt;br&gt;门级网表netlist         映射&lt;br&gt;将门级网表映射到&lt;br&gt;目标FPGA的原语      section 约束 (Constraints)         时序约束          : 创建时钟定义         : 定义输入/输出延迟         : 创建异步时钟组、false_path、         物理约束          :...</div></div></div></a><a class="pagination-related" href="/2025/10/10/FPGA%5B4%5D_%E8%B7%A8%E6%97%B6%E9%92%9F%E5%9F%9FCDC/" title="FPGA[4]_跨时钟域CDC"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-10</div><div class="info-item-2">FPGA[4]_跨时钟域CDC</div></div><div class="info-2"><div class="info-item-1">前言  可参考此文章  当信号跨时钟域时，通常采用缓冲避免亚稳态。 并在约束文件中set_false_path指示不需要同步的路径。 对于在vivado开发，可以在源码中使用(* ASYNC_REG = &quot;TRUE&quot; *)标记用于缓冲的寄存器， 使其能够接收异步信号，并优化寄存器的布局以减少亚稳态的发生概率。   在附加了ASYNCREG属性后，在综合的过程中将不会优化该寄存器及其周边逻辑， 同时也影响optimization，place&amp;routing以提高MTBF（mean time between failure）。 在布局时，将会确保同步链上的寄存器摆放尽可能接近一最大化MTBF， 直接相连的带有该属性的寄存器将会直接放进单个SLICE/CLB （如果寄存器同时带有ASYNC_REG和IOB属性，IOB将优先于ASYNC_REG，寄存器将会被存放至ILOGIC...</div></div></div></a><a class="pagination-related" href="/2023/11/25/verilog_%5B1%5D%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="verilog_[1]基本概念"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-25</div><div class="info-item-2">verilog_[1]基本概念</div></div><div class="info-2"><div class="info-item-1">HDL的设计流程：Top-Dowm   Verilog HDL基本概念 可以将电路设计抽象为5个层次：  系统级（System-level）： 用Verilog提供的高级结构能够实现所设计模块外部性能的模型； 算法级（algorithm-level）： 用Verilog提供的高级结构能实现算法的模型； 寄存器传输级（RTL）： 描述数据在寄存器之间的流动和如何处理、控制这些数据流动的模型； 门级（gate-level）： 描述逻辑门以及逻辑门之间连接的模型； 开关级（switch-level）： 描述器件中三极管和存储节点以及它们之间连接的模型。  模块的基本概念 一个二选一多路器： 123456789//例1module muxtwo(out,a,b,sl);      input a,b,sl;                output out;                 reg out;                    always @(sl or a or b)          if(! sl) out = a;        else     out...</div></div></div></a><a class="pagination-related" href="/2023/11/25/verilog_%5B2%5D%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" title="verilog_[2]数据类型与基本语法"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-25</div><div class="info-item-2">verilog_[2]数据类型与基本语法</div></div><div class="info-2"><div class="info-item-1">模块的结构 模块（block）由由两部分组成， 一部分描述接口， 一部分描述逻辑功能。 端口 12345678910111213141516171819//定义模块时要列出所有的输入输出接口module block_1(port_1,port_2,port_3,port_4,port_5,port_6);   //输入输出没有顺序要求    //声明输入端口    input port_1;       //不声明端口位宽时默认为1bit    input[2:0] port_2;  //声明端口位宽为3        //声明输出端口    output port_3;    output[2:0] port_4    //声明输入输出口    inout[1:0] port_5;    // 未指定时默认为wire，可显式指定其信号类型    input reg [15:0]  port_6;    //逻辑部分endmodule 也可以直接在模块声明中直接指明接口类型： 1234567891011121314module block_1(    input        ...</div></div></div></a><a class="pagination-related" href="/2023/11/26/verilog_%E5%90%8C%E6%AD%A5%E7%8A%B6%E6%80%81%E6%9C%BA/" title="verilog_同步状态机"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-26</div><div class="info-item-2">verilog_同步状态机</div></div><div class="info-2"><div class="info-item-1">概述 数字逻辑本质上可分为组合逻辑和时序逻辑两大类。 组合逻辑可以用来完成简单的逻辑功能，比如多路器、与或非逻辑、加法乘法器等； 时序逻辑则可以用来产生于运算过程有关的对各控制信号序列。 在复杂运算逻辑系统中， 往往用同步状态机来产生于时钟节拍密切相关的多个控制信号序列， 用它来控制多路器或数据通道的开启/关闭， 来使有限的组合逻辑运算器资源得到充分的运行。 用可综合的Verilog...</div></div></div></a><a class="pagination-related" href="/2024/12/26/FPGA%5B1%5D_%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84/" title="FPGA[1]_基本结构"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-26</div><div class="info-item-2">FPGA[1]_基本结构</div></div><div class="info-2"><div class="info-item-1">FPGA的基本结构 参考链接 参考了书籍《principles-and-structures-of-fpgas》  由上图可见，FPGA的各结构分为：   逻辑单元 基本组成逻辑结构BLE：  BLE组成为：    查找表LUT  大多数FPGA的LUT本质上都是RAM，其中存储着基于输入的输出真值表， 一个k输入的LUT可以存储2^k个可能的输出值，从而实现任意的k输入逻辑函数。    触发器FF   多路复用器MUX     在Xilinx的FPGA中，其与BLE功能类似的结构称为Slice。 有不同功能的Slice。 多个Slice和进位链、路由资源等构成可编辑逻辑块CLB， 有点类似于上面FPGA结构框图的logic Tile。     互联资源 用于实现各模块的互联。  开关单元(SB) 连接单元(CB) 布线通道    IO 基本结构 IOB...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/private_img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YILON</div><div class="author-info-description">YILON的技术小窝</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">94</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">99</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YILON"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">SerDes</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84%E4%B8%8E%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">基本结构与工作原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">GT协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%9E%84%E6%88%90"><span class="toc-number">2.1.</span> <span class="toc-text">基本构成</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">Aurora</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E6%88%90"><span class="toc-number">3.1.</span> <span class="toc-text">构成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%92%9F"><span class="toc-number">3.1.1.</span> <span class="toc-text">时钟</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%AB%AF%E5%8F%A3%EF%BC%88in-userclk%EF%BC%89"><span class="toc-number">3.1.2.</span> <span class="toc-text">数据端口（in userclk）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%A7%E6%A8%A1%E5%BC%8F%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.1.2.1.</span> <span class="toc-text">帧模式接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%81%E6%A8%A1%E5%BC%8F%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.1.2.2.</span> <span class="toc-text">流模式接口</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E4%B8%8E%E6%8E%A7%E5%88%B6%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.1.3.</span> <span class="toc-text">状态与控制接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%8D%E4%BD%8D%E4%BF%A1%E5%8F%B7%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">3.1.3.1.</span> <span class="toc-text">复位信号的配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CRC"><span class="toc-number">3.1.4.</span> <span class="toc-text">CRC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E6%89%B0-%E8%A7%A3%E6%89%B0-Scrambler-Descrambler"><span class="toc-number">3.1.5.</span> <span class="toc-text">加扰&#x2F;解扰(Scrambler&#x2F;Descrambler)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%83%AD%E6%8F%92%E6%8B%94"><span class="toc-number">3.1.6.</span> <span class="toc-text">热插拔</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%92%9F%E8%A1%A5%E5%81%BF"><span class="toc-number">3.1.7.</span> <span class="toc-text">时钟补偿</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP%E9%85%8D%E7%BD%AE"><span class="toc-number">3.2.</span> <span class="toc-text">IP配置</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/02/05/%E9%80%9A%E4%BF%A1%E5%85%89%E7%BA%A4/" title="通信光纤"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="通信光纤"/></a><div class="content"><a class="title" href="/2026/02/05/%E9%80%9A%E4%BF%A1%E5%85%89%E7%BA%A4/" title="通信光纤">通信光纤</a><time datetime="2026-02-05T01:00:11.000Z" title="发表于 2026-02-05 09:00:11">2026-02-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/24/Simulink_%E5%9F%BA%E4%BA%8Esimscape%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90HDL%E4%BB%A3%E7%A0%81/" title="Simulink_基于simscape模型生成HDL代码"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Simulink_基于simscape模型生成HDL代码"/></a><div class="content"><a class="title" href="/2025/10/24/Simulink_%E5%9F%BA%E4%BA%8Esimscape%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90HDL%E4%BB%A3%E7%A0%81/" title="Simulink_基于simscape模型生成HDL代码">Simulink_基于simscape模型生成HDL代码</a><time datetime="2025-10-24T07:15:10.000Z" title="发表于 2025-10-24 15:15:10">2025-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/13/FPGA%5B5%5D_Serdes%E4%BB%8B%E7%BB%8D%E4%B8%8EAurora%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" title="FPGA[5]_Serdes介绍与Aurora使用说明"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FPGA[5]_Serdes介绍与Aurora使用说明"/></a><div class="content"><a class="title" href="/2025/10/13/FPGA%5B5%5D_Serdes%E4%BB%8B%E7%BB%8D%E4%B8%8EAurora%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" title="FPGA[5]_Serdes介绍与Aurora使用说明">FPGA[5]_Serdes介绍与Aurora使用说明</a><time datetime="2025-10-13T01:00:11.000Z" title="发表于 2025-10-13 09:00:11">2025-10-13</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/private_img/Top.svg);"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2026 By YILON</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

@@ -1,0 +1,671 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>TI_DSP_TMSF28335_ePWM | YILON</title><meta name="author" content="YILON"><meta name="copyright" content="YILON"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="概述 ePWM模块有以下特点：  专用16位时基计数器，控制输出的周期和频率。 两个互补对称PWM输出(ePWMxA和ePWMxB)可以配置如下方式：  两个独立的单边沿操作的PWM输出。 两个独立的双边沿操作对称的PWM输出 一个独立的双边沿操作非对称的PWM输出。   软件实现PWM信号异步控制。 可编程的相位控制以支持超前或滞后其余的PWM模块。 逐周期硬件同步相位。 双边沿延时死区控制。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TI_DSP_TMSF28335_ePWM">
+<meta property="og:url" content="http://example.com/2024/01/06/TI_DSP_TMSF28335_ePWM/index.html">
+<meta property="og:site_name" content="YILON">
+<meta property="og:description" content="概述 ePWM模块有以下特点：  专用16位时基计数器，控制输出的周期和频率。 两个互补对称PWM输出(ePWMxA和ePWMxB)可以配置如下方式：  两个独立的单边沿操作的PWM输出。 两个独立的双边沿操作对称的PWM输出 一个独立的双边沿操作非对称的PWM输出。   软件实现PWM信号异步控制。 可编程的相位控制以支持超前或滞后其余的PWM模块。 逐周期硬件同步相位。 双边沿延时死区控制。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/private_img/cover.svg">
+<meta property="article:published_time" content="2024-01-06T01:01:25.000Z">
+<meta property="article:modified_time" content="2026-02-05T02:50:40.791Z">
+<meta property="article:author" content="YILON">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="DSP">
+<meta property="article:tag" content="TI_DSP_TMS320F28335">
+<meta property="article:tag" content="PWM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/private_img/cover.svg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/01/06/TI_DSP_TMSF28335_ePWM/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'TI_DSP_TMSF28335_ePWM',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-color: #4582A0;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/private_img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">94</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">99</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/private_img/cover.svg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">YILON</span></a><a class="nav-page-title" href="/"><span class="site-name">TI_DSP_TMSF28335_ePWM</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">TI_DSP_TMSF28335_ePWM</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-01-06T01:01:25.000Z" title="发表于 2024-01-06 09:01:25">2024-01-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-05T02:50:40.791Z" title="更新于 2026-02-05 10:50:40">2026-02-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/DSP/">DSP</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>概述</h1>
+<p>ePWM模块有以下特点：</p>
+<ul>
+<li>专用16位时基计数器，控制输出的周期和频率。</li>
+<li>两个互补对称PWM输出(ePWMxA和ePWMxB)可以配置如下方式：
+<ul>
+<li>两个独立的单边沿操作的PWM输出。</li>
+<li>两个独立的双边沿操作对称的PWM输出</li>
+<li>一个独立的双边沿操作非对称的PWM输出。</li>
+</ul>
+</li>
+<li>软件实现PWM信号异步控制。</li>
+<li>可编程的相位控制以支持超前或滞后其余的PWM模块。</li>
+<li>逐周期硬件同步相位。</li>
+<li>双边沿延时死区控制。</li>
+<li>可编程错误联防。</li>
+<li>产生错误时可以强制PWM输出高电平、低电平或者是高阻态</li>
+<li>所有的事件都可以触发CPU中断和ADC开始转换信号。</li>
+<li>高频PWM斩波，用于基于脉冲变压器的门极驱动</li>
+</ul>
+<hr>
+<p>F28335中每个ePWM模块都是一个独立的小模块。<br>
+每个ePWM模块由两路ePWM输出组成，分别为PWMxA和ePWMxB，<br>
+这对PWM输出可以配置成两路独立的单边沿PWM输出、<br>
+或者两路独立的但互相对称的双边沿PWM输出、<br>
+或者一对双边沿非对称的PWM输出。</p>
+<p>F28335共有6对这样ePWM模块。<br>
+因为每对PWM模块中的两个PWM输出均可以单独使用，<br>
+所以也可以认为有12路单路ePWM。</p>
+<p>除此之外还有6个APWM。<br>
+这6个APWM通过CAP模块扩展配置，可以独立使用。</p>
+<p>所以F28335最多可以有18路PWM输出。</p>
+<h1>ePWM的结构原理</h1>
+<p>每一组ePWM模块都包含以下7个模块：<br>
+<img src="./PWM%E7%BB%84%E6%88%90%E5%8D%95%E5%85%83.png" alt="PWM组成单元"></p>
+<p><img src="./PWM%E6%A8%A1%E5%9D%97%E7%9A%84%E7%BB%93%E6%9E%84%E5%8E%9F%E7%90%86.png" alt="PWM模块的结构原理"></p>
+<p>时钟信号经时基模块TB产生时基信号，可以设定  PWM  波形的周期，<br>
+通过计数比较模块CC，可以对  PWM  波形的脉宽进行配置。<br>
+再由动作模块  AQ  限定  PWM  输出状态（即脉冲波形的起落），经过死区模块DB，可以将同组内的互补输出PWM波形进行边沿延迟。<br>
+接着可选择是否进入PWM斩波模块进行第一个脉冲宽度设置和后级脉冲占空比调整，以适应基于脉冲变压器的门级驱动控制。<br>
+若  PWM  波形输出后，功率器件有错误响应，可以将错误信号引入错误联防模块从而强制复位PWM的输出。<br>
+也可以通过事件触发模块配置触发一些事件，如ADC转换开始。</p>
+<h1>时基模块TB</h1>
+<p><img src="./%E6%97%B6%E5%9F%BA%E6%A8%A1%E5%9D%97%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%8E%9F%E7%90%86.png" alt="时基模块的连接原理"></p>
+<p>每个ePWM模块都有一个自己的时基单元，用来决定该ePWM模块相关的事件时序。<br>
+通过同步输入信号可以将所有的ePWM工作在同一时基信号下，即所有的ePWM模块级联在一处于同步状态。<br>
+在需要时便可以看成为一个整体。</p>
+<h2 id="时基模块作用">时基模块作用</h2>
+<ul>
+<li>确定ePWM时基模块的频率或者周期，进一步确定事件发生的频率。<br>
+通过配置PWM时基计数器<kbd>TBCTR</kbd>来标定与系统时钟<kbd>SYSCLKOUT</kbd>有关的时基时钟的频率或周期。</li>
+<li>管理ePWM模块之间的同步性。</li>
+<li>维护ePWM与其他ePWM模块之间的相位关系。</li>
+<li>设置时基计数器的计数模式。<br>
+可以工作在递增计数、递减计数、增减计数模式(先递增后递减计数)。</li>
+<li>在对应情况产生以下对应事件信号：
+<ul>
+<li>TBCTR=TBPRD：时基计数器的值与周期寄存器的值相同时。</li>
+<li>TBCTR=0x0000：时基计数器的值为0时。</li>
+</ul>
+</li>
+<li>配置时基模块的时钟基准，对系统时钟<kbd>SYSCLKOUT</kbd>进行分频可以得到时基时钟。<br>
+通过合理分频系统时钟，计数的时候可以工作在相对较低的频率。</li>
+</ul>
+<h2 id="ePWM的周期和频率的计算">ePWM的周期和频率的计算</h2>
+<p>ePWM的频率是由时基周期寄存器值<kbd>TBPRD</kbd>和时基计数器的计数模式<kbd>TBCTRL</kbd>共同决定的。<br>
+时基计数器的计数模式有：</p>
+<ul>
+<li>递增计数模式</li>
+<li>递减计数模式</li>
+<li>增减计数(先递增后递减)模式。</li>
+</ul>
+<p>下边以周期寄存器设置为4(TBPRD=4)举例说明。</p>
+<h3 id="增减计数模式">增减计数模式</h3>
+<p><img src="./%E5%A2%9E%E5%87%8F%E8%AE%A1%E6%95%B0%E6%A8%A1%E5%BC%8F.png" alt="增减计数模式"></p>
+<p>时基模块的输出波形受时基同步信号与相应寄存器值的影响。<br>
+未启用相位同步时，（<kbd>TBCTL[PHSEN]=0</kbd>）<br>
+只受时基计数器的值<kbd>TBPRD</kbd>的影响：<br>
+<img src="./%E5%A2%9E%E5%87%8F%E8%AE%A1%E6%95%B0%E6%A8%A1%E5%BC%8F_TBCTL%5BPHSEN%5D=0.png" alt="增减计数模式_TBCTL[PHSEN]=0"><br>
+计数器会递增至设定的周期值<kbd>TBPRD</kbd>，再递减至0，循环往复。</p>
+<p>如果启用相位同步，（<kbd>TBCTL[PHSEN]=1</kbd>）<br>
+根据设置的相位情况（<kbd>TBCTL[PHSDIR]</kbd>的值）有两种情况：</p>
+<ul>
+<li>
+<p><kbd>TBCTL[PHSDIR]=0</kbd>时：<br>
+<img src="./%E5%A2%9E%E5%87%8F%E8%AE%A1%E6%95%B0%E6%A8%A1%E5%BC%8F_PHSDIR=0.png" alt="增减计数模式_PHSDIR=0"><br>
+同步信号<code>ePWMxSYNCI</code>到来时，计数器在时钟<code>TBCLK</code>的下一个边缘置为相位寄存器<kbd>TBPHS</kbd>的值，<br>
+此时此值代表的是递减区间的值，因此计数器会递减至0。</p>
+</li>
+<li>
+<p><kbd>TBCTL[PHSDIR]=1</kbd>时：<br>
+<img src="./%E5%A2%9E%E5%87%8F%E8%AE%A1%E6%95%B0%E6%A8%A1%E5%BC%8F_PHSDIR=1.png" alt="增减计数模式_PHSDIR=1"><br>
+同步信号<code>ePWMxSYNCI</code>到来时，计数器在时钟<code>TBCLK</code>的下一个边缘置为相位寄存器<kbd>TBPHS</kbd>的值，<br>
+此时此值代表的是递增区间的值，因此计数器会递增至设定的周期值<kbd>TBPRD</kbd>，再递减至0。</p>
+</li>
+</ul>
+<blockquote>
+<p>除了通过同步信号<code>ePWMxSYNCI</code>触发，<br>
+也可以通过将<kbd>TBCTL[SWFSYNC]</kbd>置1，<br>
+强制计数器在时钟<code>TBCLK</code>的下一个边缘置为相位寄存器<kbd>TBPHS</kbd>的值。<br>
+（要求启用相位同步<kbd>TBCTL[PHSEN]=1</kbd>）</p>
+</blockquote>
+<p>系统时钟使能寄存器的<kbd>TBCLKSYNC</kbd>位可以用来同步一个设备上所有使能的PWM模块。<br>
+当<kbd>TBCLKSYNC=0</kbd>时（默认），ePWM模块时基时钟静止；<br>
+当<kbd>TBCLKSYNC=1</kbd>时，所有ePWM模块在<code>TBCLK</code>的时钟上升沿到来时同时被启动，<br>
+此时为了更好地同步各ePWM模块的<code>TBCLK</code>，每个ePWM模块的预分频系统时钟的时基时钟（<kbd>TBCTL</kbd>的对应值）要设置为相同的值。</p>
+<p>设置ePWM时钟的步骤如下：</p>
+<blockquote>
+<ol>
+<li>使能各ePWM模块的时钟；</li>
+<li>设置<kbd>TBCLKSYNC  =  0</kbd>，停止所有已使能的ePWM模块的时基时钟；</li>
+<li>设置<kbd>TBCLKSYNC  =  1</kbd>，同步启动所有已使能的ePWM模块的时基时钟。</li>
+</ol>
+</blockquote>
+<h3 id="递增计数模式">递增计数模式</h3>
+<p><img src="./%E9%80%92%E5%A2%9E%E8%AE%A1%E6%95%B0%E6%A8%A1%E5%BC%8F.png" alt="递增计数模式"></p>
+<p>在此模式下，时基计数器从0开始向上计数，直到递增到周期寄存器的值后，时基计数器会自动复位到  0，重复以上动作。</p>
+<p>在此种模式下，随着同步信号的来临，时基模块的输出波形如下：<br>
+<img src="./%E9%80%92%E5%A2%9E%E8%AE%A1%E6%95%B0%E6%A8%A1%E5%BC%8F_PHSEN=1.png" alt="递增计数模式_PHSDIR=1"></p>
+<h3 id="递减计数模式">递减计数模式</h3>
+<p><img src="./%E9%80%92%E5%87%8F%E8%AE%A1%E6%95%B0%E6%A8%A1%E5%BC%8F.png" alt="递减计数模式"></p>
+<p>在此模式下，时基计数器首先加载周期寄存器的值，开始递减直到  0，重复以上动作。</p>
+<p>在此种模式下，随着同步信号的来临，时基模块的输出波形如下：<br>
+<img src="./%E9%80%92%E5%87%8F%E8%AE%A1%E6%95%B0%E6%A8%A1%E5%BC%8F_PHSEN=1.png" alt="递减计数模式_PHSDIR=1"></p>
+<h2 id="影子寄存器">影子寄存器</h2>
+<p>在时基模块中有个周期影子寄存器。<br>
+影子寄存器允许寄存器可以随硬件进行同步更新。<br>
+在ePWM模块中多处出现了影子寄存器，其意义都相仿。<br>
+影子寄存器是相对于活动寄存器而言的。</p>
+<ul>
+<li>Active  Register(活动寄存器)：<br>
+也就是被激活的寄存器，在工作的寄存器控制着硬件，可以响应由硬件引起的相关的事件。</li>
+<li>Shadow  Register(影子寄存器)：<br>
+相当于为活动寄存器提供了一个暂时的存放地址，不能直接影响硬件的控制，<br>
+当系统运行到一定时候时，影子寄存器的值会传给活动寄存器，<br>
+这样可以防止由于软件配置寄存器与硬件不同步时而出现系统崩溃或一些奇怪的故障。</li>
+</ul>
+<p>影子寄存器与活动寄存器的内存地址映射值是一致的，<br>
+写或者读哪一个寄存器，主要取决于<kbd>TBCTL[PRDLD]</kbd>位。<br>
+该位可以对TBPRD的影子存器进行使能或者禁止。</p>
+<h3 id="时基周期影子寄存器模式">时基周期影子寄存器模式</h3>
+<p>当<kbd>TBCTL[PRDLD]=0</kbd>时，<kbd>TBPRD</kbd>的影子存器是使能的，<br>
+读写<kbd>TBPRD</kbd>的映射地址的内容时，会读写影子寄存器。</p>
+<p>时基模块计数器值为0时，（<kbd>TBCTR=0x0000</kbd>），<br>
+影子寄存器的值传递给活动寄存器。<br>
+默认情况下，影子寄存器都是有效的。</p>
+<h3 id="时基周期立即加载模式">时基周期立即加载模式</h3>
+<p>当<kbd>TBCTL[PRDLD]=1</kbd>时，<br>
+读写<kbd>TBPRD</kbd>的映射地址的内容时都是直接到活动寄存器。</p>
+<h2 id="时基模块的关键信号和寄存器">时基模块的关键信号和寄存器</h2>
+<p><img src="./%E6%97%B6%E5%9F%BA%E6%A8%A1%E5%9D%97%E5%8E%9F%E7%90%86%E6%A1%86%E5%9B%BE.png" alt="时基模块原理框图"></p>
+<p>时基模块的关键信号：</p>
+<ul>
+<li>ePWMxSYNCI：时基同步信号输入。<br>
+输入脉冲用于时基计数器与之前的ePWM模块同步，每个ePWM模块可以通过软件配置为使用或者忽略此信号。<br>
+对于第一个ePWM模块，这个信号从外部引脚获得。<br>
+随后的模块的同步信号可以由其他ePWM模块传递过来。</li>
+<li>ePWMxSYNCO：时基同步信号输出。<br>
+输出脉冲用于随后的ePWM的时基计数器同步。<br>
+ePWM模块产生该信号来源于下列3个事件源中的一件：
+<ul>
+<li>ePWMxSYNCI(同步输入脉冲)</li>
+<li>TBCTR=TBPRD：时基计数器等于0</li>
+<li>CTR=CMPB：时基计数器等于比较寄存器</li>
+</ul>
+</li>
+<li>TBCTR=TBPRD：时基计数器等于指定周期值。<br>
+无论什么时候，当时基计数器的值与激活的周期寄存器(相对于影子寄存器而言)的值相等的时候，就会产生此信号。</li>
+<li>CTR=ZERO：时基计数器等于0。<br>
+无论什么时候当时基计数器的值为0的时候，都会产生此信号。</li>
+<li>CTR=CMPB：时基计数器等于比较寄存器。<br>
+时基计数器的值等于激活的比较寄存器B时，就会产生此信号。<br>
+该信号由比较计数模块产生，用于同步输出逻辑。</li>
+<li>CCTR_dir：时基计数器方向。<br>
+表明时基计数器的计数方向，当高电平时，计数器递增计数，低电平时则递减计数。</li>
+<li>CTR_max：时基计数器的值为最大值。<br>
+当时基计数器到最大值时会产生此信号。该信号用作状态指示。</li>
+<li>TBCLK：时基时钟信号。<br>
+这个信号来源于预分频的系统时钟信号，用于所有的ePWM模块。该信号确定了时基计数器增减的速率。</li>
+</ul>
+<p><img src="./%E6%97%B6%E5%9F%BA%E6%A8%A1%E5%9D%97%E7%9B%B8%E5%85%B3%E5%AF%84%E5%AD%98%E5%99%A8.png" alt="时基模块相关寄存器"></p>
+<p><img src="./%E6%97%B6%E5%9F%BA%E5%91%A8%E6%9C%9F%E5%AF%84%E5%AD%98%E5%99%A8TBPRD.png" alt="时基周期寄存器TBPRD"></p>
+<p><img src="./%E6%97%B6%E5%9F%BA%E7%9B%B8%E4%BD%8D%E5%AF%84%E5%AD%98%E5%99%A8TBPHS.png" alt="时基相位寄存器TBPHS"></p>
+<p><img src="./%E6%97%B6%E5%9F%BA%E8%AE%A1%E6%95%B0%E5%AF%84%E5%AD%98%E5%99%A8TBCTR.png" alt="时基计数寄存器TBCTR"></p>
+<p><img src="./%E6%97%B6%E5%9F%BA%E6%8E%A7%E5%88%B6%E5%AF%84%E5%AD%98%E5%99%A8TBCTL.png" alt="时基控制寄存器TBCTL"></p>
+<p><img src="./%E6%97%B6%E5%9F%BA%E7%8A%B6%E6%80%81%E5%AF%84%E5%AD%98%E5%99%A8TBSTS.png" alt="时基状态寄存器TBSTS"></p>
+<h1>比较计数模块CC</h1>
+<p><img src="./ePWM%E8%AE%A1%E6%95%B0%E6%AF%94%E8%BE%83%E6%A8%A1%E5%9D%97%E5%8E%9F%E7%90%86%E6%A1%86%E5%9B%BE.png" alt="ePWM计数比较模块原理框图"></p>
+<p>计数器比较模块是以时基计数器的值作为输入，<br>
+与比较寄存器CMPA和比较寄存器CMPB不断进行比较，<br>
+当时基计数器的值等于其中之一时，就会产生相应的事件。</p>
+<p>比较事件的产生，具体取决于编程时是采用寄存器A或者B：<br>
+-  CTR=CMPA:时基计数器的值与比较寄存器A的值相同。<br>
+-  CTR=CMPB:时基计数器的值与比较寄存器B的值相同</p>
+<p>比较模块结合动作模块AC恰当配置后可以控制PWM的占空比。</p>
+<blockquote>
+<p>采用影子存器来更新比较值可以有效防止在PWM周期内出现故障以及毛刺。</p>
+</blockquote>
+<h2 id="比较计数模块的关键信号与寄存器">比较计数模块的关键信号与寄存器</h2>
+<p><img src="./%E8%AE%A1%E6%95%B0%E5%99%A8%E6%AF%94%E8%BE%83%E6%A8%A1%E5%9D%97%E5%85%B3%E9%94%AE%E5%AF%84%E5%AD%98%E5%99%A8.png" alt="计数器比较模块关键寄存器"></p>
+<p><img src="./%E6%AF%94%E8%BE%83%E6%A8%A1%E5%9D%97%E7%BB%93%E6%9E%84%E6%A1%86%E5%9B%BE.png" alt="比较模块结构框图"></p>
+<p>对应信号与事件：</p>
+<ul>
+<li><code>CTR=CMPA</code>：时基计数器的值与CMPA的值相同<br>
+PWM可以根据AC动作。</li>
+<li><code>CTR=CMPB</code>：时基计数器的值与CMPB的值相同<br>
+PWM可以根据AC动作。</li>
+<li><code>CTR=PRD</code>：时基计数器的值与周期寄存器的值相同<br>
+PWM可以根据AC动作。<br>
+CMPA与CMPB可以根据相关影子寄存器的值进行更新。</li>
+<li><code>CTR=ZERO</code>：时基计数器的值递减到0<br>
+PWM可以根据AC动作。<br>
+CMPA与CMPB可以根据相关影子寄存器的值进行更新。</li>
+</ul>
+<h3 id="比较模块的影子寄存器">比较模块的影子寄存器</h3>
+<p>比较寄存器CMPA、CMPB各自都有一个影子寄存器。<br>
+CMPA影子寄存器通过清除<kbd>CMPCTL[SHDWAMODE]</kbd>位使能，<br>
+CMPB影子寄存器通过清零<kbd>CMPCTL[SHDWBMODE]</kbd>位使能。</p>
+<p>默认情况下，CMPA和CMPB影子寄存器是使能的。<br>
+若CMPA影子寄存器被使能的话，<br>
+那么在以下几种情况时，影子寄存器的值会传递到有效寄存器中。</p>
+<ul>
+<li>CTR=PRD:时基计数器值与周期寄存器值相同。</li>
+<li>CTR=ZERO:时基计数器值为0。</li>
+</ul>
+<blockquote>
+<p>立即加载模式：如果影子寄存器被禁止，就进立即加载模式，<br>
+一旦将值写入到CMP寄存器时，这个值直接送到有效寄存器中立即起作用。</p>
+</blockquote>
+<p><img src="./%E8%AE%A1%E6%95%B0%E6%AF%94%E8%BE%83%E5%AF%84%E5%AD%98%E5%99%A8CMPx.png" alt="计数比较寄存器CMPx"></p>
+<h1>动作模块AC</h1>
+<p>动作模块决定了相应事件发生时应该输出什么样的电平。<br>
+<img src="./%E5%8A%A8%E4%BD%9C%E6%A8%A1%E5%9D%97%E6%A1%86%E5%9B%BE.png" alt="动作模块在ePWM的位置"></p>
+<p>动作模块根据下列事件产生动作(置高、拉低、翻转);</p>
+<ul>
+<li>CTR=PRD：时基模块来的信号时基计数器的值等于周期寄存器的值。</li>
+<li>CTR=ZERO：时基模块来的信号，时基计数器的值等于0。</li>
+<li>CTR=CMPA：计数比较模块来的信号时基计数器的值等于比较寄存器A的值</li>
+<li>CTR=CMPB：计数比较模块来的信号时基计数器的值等于比较寄存器B的值</li>
+</ul>
+<h2 id="动作模块关键信号与寄存器">动作模块关键信号与寄存器</h2>
+<p><img src="./%E5%8A%A8%E4%BD%9C%E6%A8%A1%E5%9D%97%E7%9A%84%E5%85%B3%E9%94%AE%E5%AF%84%E5%AD%98%E5%99%A8.png" alt="动作模块的关键寄存器"></p>
+<p><img src="./%E5%8A%A8%E4%BD%9C%E6%A8%A1%E5%9D%97%E7%9A%84%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA.png" alt="动作模块的输入输出"></p>
+<p><img src="./%E5%8A%A8%E4%BD%9C%E6%A8%A1%E5%9D%97%E8%BE%93%E5%85%A5%E4%BA%8B%E4%BB%B6.png" alt="动作模块输入事件"></p>
+<p>上图中的软件强制是异步事件，由AQSFRC和AQCSF两个寄存器处理。<br>
+动作模块可以控制输出ePWMA和ePWMB的动作。</p>
+<p>输入动作模块的事件也可以被量化，<br>
+这样就可以控制在递增或递减计数模式时，输出独立的相位。</p>
+<p>ePWMA和ePWMB的动作包括：</p>
+<ul>
+<li>SET  HIGH：<br>
+使ePWMA  和ePWMB输出高电平处</li>
+<li>CLEAR  LOW：<br>
+使ePWMA和ePWMB输出低电平。</li>
+<li>TOOGLE：<br>
+当ePWMA或者ePWMB当前状态是低电平时，那么下一时刻就是高电平，<br>
+当ePWMA或者ePWMB当前状态时高电平时，那么下一时刻就是低电平。</li>
+<li>DONOTHING：<br>
+不对ePWM  输出做任何改变。但是还是可以产生相应的事件触发信号以及相关中断。</li>
+</ul>
+<h2 id="动作模块事件优先级">动作模块事件优先级</h2>
+<p>优先级1最高，7最低。<br>
+不同的计数模式对应事件优先级不同。</p>
+<p><img src="./%E9%80%92%E5%A2%9E%E6%A8%A1%E5%BC%8F%E4%B8%8B%E4%BA%8B%E4%BB%B6%E4%BC%98%E5%85%88%E7%BA%A7.png" alt="递增模式下事件优先级"><br>
+<img src="./%E9%80%92%E5%87%8F%E6%A8%A1%E5%BC%8F%E4%B8%8B%E4%BA%8B%E4%BB%B6%E4%BC%98%E5%85%88%E7%BA%A7.png" alt="递减模式下事件优先级"><br>
+<img src="./%E9%80%92%E5%A2%9E%E9%80%92%E5%87%8F%E6%A8%A1%E5%BC%8F%E4%B8%8B%E4%BA%8B%E4%BB%B6%E4%BC%98%E5%85%88%E7%BA%A7.png" alt="递增模式下事件优先级"></p>
+<h2 id="PWM波形实例">PWM波形实例</h2>
+<p>下面<br>
+<img src="./%E9%80%92%E5%A2%9E%E9%80%92%E5%87%8F%E6%A8%A1%E5%BC%8F%E6%B3%A2%E5%BD%A2%E5%AE%9E%E4%BE%8B.png" alt="递增递减模式波形实例"><br>
+可以发现，PWM波形是计数器的下降沿触发翻转，且：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>占空比</mtext><mo>=</mo><mn>1</mn><mo>−</mo><mfrac><mrow><mi mathvariant="normal">C</mi><mi mathvariant="normal">M</mi><mi mathvariant="normal">P</mi><mi mathvariant="normal">x</mi></mrow><mrow><mi mathvariant="normal">T</mi><mi mathvariant="normal">B</mi><mi mathvariant="normal">P</mi><mi mathvariant="normal">R</mi><mi mathvariant="normal">D</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{占空比}  =1  -  \mathrm{\frac{CMPx}{TBPRD}}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord cjk_fallback">占空比</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:2.0463em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">TBPRD</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">CMPx</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<blockquote>
+<p>PWM的周期为：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>T</mi><mrow><mi>P</mi><mi>W</mi><mi>M</mi></mrow></msub><mo>=</mo><mo stretchy="false">(</mo><mi>T</mi><mi>B</mi><mi>P</mi><mi>R</mi><mi>D</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>×</mo><msub><mi>T</mi><mrow><mi>T</mi><mi>B</mi><mi>C</mi><mi>L</mi><mi>K</mi></mrow></msub></mrow><annotation encoding="application/x-tex">T_{PWM}  =  (TBPRD  +  1)  \times  T_{TBCLK}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">P</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">W</span><span class="mord mathnormal mtight" style="margin-right:0.10903em;">M</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.00773em;">TBPR</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">TBC</span><span class="mord mathnormal mtight">L</span><span class="mord mathnormal mtight" style="margin-right:0.07153em;">K</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+</blockquote>
+<h1>死区模块DB</h1>
+<p>动作模块输出的波形进入死区模块进一步处理。</p>
+<p>很多时候要使桥臂上的两个管子的开通与关断的状态互补。<br>
+一般在<code>一个下降沿时间内</code>，管子能够有效关断，<br>
+因此同一桥臂上待开通的管子的上升沿只要滞后于另一管子的下降沿时间即可，<br>
+这个时间区域，很有可能两个管子都不在导通状态，这个时间区域称为死区。</p>
+<p>死区模块的功能：</p>
+<ul>
+<li>根据信号ePWMxA输入产生带死区的信号对(ePWMxA和ePWMxB)，就是输出一对互补  PWM输出边沿延时。</li>
+<li>信号对可以软件设定为：
+<ul>
+<li>ePWMA\B输出高有效(AH)</li>
+<li>ePWMA\B输出低有效(AL)</li>
+<li>ePWMA\B输出互补高有效(AHC)</li>
+<li>ePWMA\B输出互补低有效(ALC)。</li>
+</ul>
+</li>
+<li>加入可编程上升沿延时(RED)</li>
+<li>加入可编程下降沿延时(FED)。</li>
+<li>可以忽略延时。</li>
+</ul>
+<h2 id="死区模块的机制">死区模块的机制</h2>
+<p><img src="./%E6%AD%BB%E5%8C%BA%E6%A8%A1%E5%9D%97%E9%80%89%E6%8B%A9%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA.png" alt="死区模块选择输入输出"></p>
+<p>由上图可见，死区模块由选择模块和延时模块组成，<br>
+其延时模块又可分为上升沿延时模块<code>RED</code>和下降沿延时模块<code>FED</code>，<br>
+对应的寄存器<kbd>DBRED</kbd>和<kbd>DBFED</kbd>决定延时时间：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi mathvariant="normal">T</mi><mrow><mi mathvariant="normal">F</mi><mi mathvariant="normal">E</mi><mi mathvariant="normal">D</mi></mrow></msub><mo>=</mo><mi mathvariant="normal">D</mi><mi mathvariant="normal">B</mi><mi mathvariant="normal">F</mi><mi mathvariant="normal">E</mi><mi mathvariant="normal">D</mi><mo>×</mo><msub><mi mathvariant="normal">T</mi><mrow><mi mathvariant="normal">T</mi><mi mathvariant="normal">B</mi><mi mathvariant="normal">C</mi><mi mathvariant="normal">L</mi><mi mathvariant="normal">K</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\mathrm{T_{FED}  =  DBFED  \times  T_{TBCLK}}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord mathrm">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">FED</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathrm">DBFED</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathrm">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">TBCLK</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi mathvariant="normal">T</mi><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">E</mi><mi mathvariant="normal">D</mi></mrow></msub><mo>=</mo><mi mathvariant="normal">D</mi><mi mathvariant="normal">B</mi><mi mathvariant="normal">R</mi><mi mathvariant="normal">E</mi><mi mathvariant="normal">D</mi><mo>×</mo><msub><mi mathvariant="normal">T</mi><mrow><mi mathvariant="normal">T</mi><mi mathvariant="normal">B</mi><mi mathvariant="normal">C</mi><mi mathvariant="normal">L</mi><mi mathvariant="normal">K</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\mathrm{T_{RED}  =  DBRED  \times  T_{TBCLK}}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord mathrm">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">RED</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathrm">DBRED</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathrm">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">TBCLK</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>死区模块的输入源来自动作模块输出的ePWMA和ePWMB，<br>
+通过<kbd>DBCTL[IN_MODE]</kbd>选择这几种情况：</p>
+<ul>
+<li>ePWMxA是上升沿和下降沿延时的输入源，系统默认选择。</li>
+<li>ePWMxA是上升沿延时的输入源、ePWMxB是下降沿延时的输入源。</li>
+<li>ePWMxA是下降沿延时的输入源、ePWMxB是上升沿延时的输入源</li>
+<li>ePWMxB是上升沿和下降沿延时的输入源。</li>
+</ul>
+<p>死区的输出模式选择由<kbd>DBCTL[OUT_MODE]</kbd>选择，<br>
+死区的极性选择由<kbd>DBCTL[POLSEL]</kbd>选择。<br>
+这两种选择共构成7种死区选择模式：<br>
+<img src="./%E6%AD%BB%E5%8C%BA%E9%80%89%E6%8B%A9%E6%A8%A1%E5%BC%8F.png" alt="死区选择模式"><br>
+上图中，几种模式分别为：</p>
+<ul>
+<li>模式1：不经过双边沿延时模块，即禁止死区功能。</li>
+<li>模式2~模式5：典型死区应用。</li>
+<li>模式6：不经过上升沿延时模块</li>
+<li>模式7：不经过下降沿延时模块。</li>
+</ul>
+<p>对应的波形：<br>
+<img src="./%E6%AD%BB%E5%8C%BA%E5%90%84%E7%A7%8D%E6%A8%A1%E5%BC%8F%E5%AF%B9%E5%BA%94%E6%B3%A2%E5%BD%A2.png" alt="死区各种模式对应波形"></p>
+<h1>斩波模块PC</h1>
+<p><img src="./%E6%96%A9%E6%B3%A2%E6%A8%A1%E5%9D%97.png" alt="斩波模块"><br>
+该模块可以产生高频信号（载波）来调制经由死区模块输入的信号。</p>
+<h2 id="斩波模块的机制">斩波模块的机制</h2>
+<p><img src="./%E6%96%A9%E6%B3%A2%E6%A8%A1%E5%9D%97%E5%8E%9F%E7%90%86%E6%A1%86%E5%9B%BE.png" alt="斩波模块原理框图"></p>
+<h2 id="斩波模块输出波形">斩波模块输出波形</h2>
+<p><img src="./PWM%E6%96%A9%E6%B3%A2%E8%BE%93%E5%87%BA%E6%B3%A2%E5%BD%A2.png" alt="PWM斩波输出波形"></p>
+<p>斩波可以认为是一个降压电路，<br>
+从上向下，ePWMxA、ePWMxB分别为死区模块的输出波形，为斩波模块的输入波形，<br>
+中间PSCLK是斩波模块的时钟信号，<br>
+输入的ePWMxA相当于一个闸门，实际是和PSCLK作<code>与运算</code>，<br>
+得到ePWMxA斩波波形。</p>
+<p>经斩波后，<br>
+ePWMxA的占用能量和平均电压均可以通过占空比等设置进行调整，<br>
+对一些功率器件而言，可以降低开通期间的功耗。</p>
+<h3 id="单触发模块">单触发模块</h3>
+<p>单触发模块(one-shot)主要是提供较大能量的第一个脉冲，<br>
+迅速有效地开通功率开关，改变功率开关的状态，接下来的脉冲只要维持开关的状态就行，因为多数功率器件开通电流要比维持电流大得多。<br>
+该第一个脉冲的宽度可以由<kbd>CHPCTL[OSHTWTH]</kbd>位来确定。<br>
+该模块可以用<kbd>CHPCTL[CHPEN]</kbd>位进行使能。</p>
+<p>第一个脉冲的宽度为：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi mathvariant="normal">T</mi><mrow><mn>1</mn><mi mathvariant="normal">_</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">e</mi></mrow></msub><mo>=</mo><msub><mi mathvariant="normal">T</mi><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">y</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">k</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">t</mi></mrow></msub><mo>×</mo><mn>8</mn><mo>×</mo><mi mathvariant="normal">O</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">H</mi><mi mathvariant="normal">T</mi><mi mathvariant="normal">W</mi><mi mathvariant="normal">T</mi><mi mathvariant="normal">H</mi></mrow><annotation encoding="application/x-tex">\mathrm{T_{1\_pulse}=T_{sysclkout}\times  8  \times  OSHTWTH}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0503em;vertical-align:-0.367em;"></span><span class="mord"><span class="mord"><span class="mord mathrm">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">1_pulse</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.367em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathrm">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">sysclkout</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathrm">8</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathrm">OSHTWTH</span></span></span></span></span></span></p>
+<p><img src="./%E4%B8%80%E6%AC%A1%E8%84%89%E5%86%B2%E6%B3%A2%E5%BD%A2.png" alt="首次脉冲波形"></p>
+<p>实际上斩波模块的输入波形先跟<code>PSCLK</code>进行与运算，再和<code>OSHT</code>进行或运算，<br>
+从而实现单触发模块对首次脉冲宽度的控制。</p>
+<p>首次脉冲宽度的取值可根据功率器件的开通特性来设置，以保证功率器件可靠开通。</p>
+<h3 id="载波占空比的设置">载波占空比的设置</h3>
+<p>基于脉冲变压器的门极驱动电路的设计需要考虑磁极或变压器及相关电路的特点，比如变压器的饱和。<br>
+此时载波的占空比就需要根据需求进行设置。</p>
+<p>载波时钟来源于系统时钟<code>SYSCLKOUT</code>，<br>
+它的频率和占空比由<kbd>CHPCTL[CHPFREQ]</kbd>和<kbd>CHPCTL[CHPDUTY]</kbd>进行配置。</p>
+<p>占空比可设定7种，范围为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mn>8</mn></mfrac><mtext mathvariant="monospace">~</mtext><mfrac><mn>7</mn><mn>8</mn></mfrac></mrow><annotation encoding="application/x-tex">\frac{1}{8}  \verb|~|  \frac{7}{8}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">8</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord text"><span class="mord texttt">~</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">8</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">7</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>。</p>
+<h1>错误联防模块TZ</h1>
+<p><img src="./%E9%94%99%E8%AF%AF%E8%81%94%E9%98%B2%E6%A8%A1%E5%9D%97.png" alt="错误联防模块"><br>
+每个ePWM模块都与GPIO多路复用引脚中的6个引脚（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">T</mi><mi mathvariant="normal">Z</mi><mn>1</mn></mrow><mo stretchy="true">‾</mo></mover><mtext mathvariant="monospace">~</mtext><mover accent="true"><mrow><mi mathvariant="normal">T</mi><mi mathvariant="normal">Z</mi><mn>6</mn></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{TZ1}}\verb|~|\mathrm{\overline{TZ6}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">TZ1</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span><span class="mord text"><span class="mord texttt">~</span></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">TZ6</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>）连接。<br>
+这些信号脚用来响应外部错误或外部触发条件。<br>
+当错误发生时，ePWM模块可以通过编程来响应这些问题。</p>
+<ul>
+<li>针对错误信息，ePWMXA和ePWMXB可以被强制为如下几种状态：
+<ul>
+<li>高电平</li>
+<li>低电平</li>
+<li>高阻抗</li>
+<li>无动作</li>
+</ul>
+</li>
+<li>在短路或者过流条件时，支持一次错误联防触发。</li>
+<li>针对限流操作时，支持周期错误联防触发。</li>
+<li>每个错误联防输入引脚都可以配置为一次或者周期错误联防触发。</li>
+<li>任何一个错误联防引脚都可以产生中断。</li>
+<li>支持软件强制错误联防。</li>
+<li>如果不需要此模块，可以选择禁止。</li>
+</ul>
+<h2 id="错误联防模块的机制">错误联防模块的机制</h2>
+<p>引脚<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi mathvariant="normal">T</mi><mi mathvariant="normal">Z</mi><mn>1</mn></mrow><mo stretchy="true">‾</mo></mover><mtext mathvariant="monospace">~</mtext><mover accent="true"><mrow><mi mathvariant="normal">T</mi><mi mathvariant="normal">Z</mi><mn>6</mn></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\mathrm{\overline{TZ1}}\verb|~|\mathrm{\overline{TZ6}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">TZ1</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span><span class="mord text"><span class="mord texttt">~</span></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">TZ6</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>为低电平有效。</p>
+<p>当这些引脚中任意一个有效时，表明一个错误事件发生。<br>
+每个PWM模块都可以通过<kbd>TZSEL</kbd>单独配置为禁止或使能这些引脚。<br>
+这些引脚可以与系统时钟同步或不同步（异步触发），同样具有数字滤波功能，<br>
+一个系统时钟的低脉冲输入即可有效触发错误控制逻辑。<br>
+每个引脚可单独配置为：</p>
+<ul>
+<li>周期触发：<br>
+当周期错误联防事件发生时，<br>
+<kbd>TZCTL</kbd>寄存器中的动作立刻输出到ePWMXA和ePWMXB引脚上，<br>
+周期错误联防事件标志位<kbd>TZFLG[CBC]</kbd>被置位。<br>
+同时当<kbd>TZEINT</kbd>寄存器和PIE模块的中断使能时，<code>ePWMx_TZINT</code>中断就会产生。</li>
+<li>单次触发：<br>
+当单次错误联防事件发生时，<br>
+<kbd>TZCTL</kbd>寄存器中的动作立刻输出到ePWMXA和ePWMXB引脚上，<br>
+单次错误联防事件标志位<kbd>TZFLG[OST]</kbd>被置位。<br>
+同时当<kbd>TZEINT</kbd>寄存器和PIE模块的中断使能时，<code>ePWMx_TZINT</code>中断就会产生。</li>
+</ul>
+<blockquote>
+<p>二者区别在于，周期错误联防事件标志可以自动清零，而单词错误联防事件必须手动清零。</p>
+</blockquote>
+<h1>事件触发模块</h1>
+<p>事件触发模块接收来自时基模块和计数比较模块产生的相关事件的输入，<br>
+利用时基模块中的方向信息识别是递增还是递减计数模式以便产生相应的事件。</p>
+<p>可以通过配置相关预定标逻辑来使得每一个/两个/三个事件便发出触发信号；</p>
+<p>事件触发模块允许软件配置，强制产生中断事件或者ADC启动信号。</p>
+<p><img src="./%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E6%A8%A1%E5%9D%97%E6%A1%86%E5%9B%BE.png" alt="事件触发模块框图"></p>
+<h2 id="事件触发模块触发中断的机制">事件触发模块触发中断的机制</h2>
+<p>通过<kbd>ETSEL[INTSEL]</kbd>位设置能产生中断的事件：</p>
+<ul>
+<li><kbd>TBCTR=0x0000</kbd>：时间基准计数器等于零</li>
+<li><kbd>TBCTR=TBPRD</kbd>时间基准计数器等于周期值(TBCTR=)</li>
+<li>时间基准计数器在递增计数时等于比较寄存器<kbd>CMPA</kbd></li>
+<li>时间基准计数器在递减计数时等于比较寄存器<kbd>CMPB</kbd></li>
+<li>时间基准计数器在递增计数时等于比较寄存器<kbd>CMPA</kbd></li>
+<li>时间基准计数器在递减计数时等于比较寄存器<kbd>CMPB</kbd>。</li>
+</ul>
+<p><img src="./%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E6%A8%A1%E5%9D%97%E7%9A%84%E4%B8%AD%E6%96%AD%E4%BA%A7%E7%94%9F%E9%80%BB%E8%BE%91.png" alt="事件触发模块的中断产生逻辑"></p>
+<p>事件触发模块通过<kbd>ETPS[INTPRD]</kbd>位来确定请求中断产生的事件数：</p>
+<ul>
+<li>不产生中断；</li>
+<li>每个事件产生一次中断；</li>
+<li>每两个事件产生一次中断</li>
+<li>每三个事件产生一次中断</li>
+</ul>
+<p>存在一个2位计数器记录着事件的出现数量，<br>
+并将计数值存放在<kbd>ETPS[INTCNT]</kbd>位(0/1/2/3)。</p>
+<p>当<kbd>ETPS[INTCNT]=ERPS[INTPRD]</kbd>时：</p>
+<ul>
+<li>如果中断被使能，即<kbd>ETSEL[INTEN]=1</kbd>并且中断标志清零，<kbd>ETFLG[INT]=0</kbd>，<br>
+则产生中断脉冲且中断标志位置位，<kbd>ETPS[INT]=1</kbd>，<br>
+<kbd>ETPS[INTCNT]</kbd>清零，重新计数。</li>
+<li>如果中断被禁止，即<kbd>ETSEL[INTEN]=0</kbd>或中断标志置位，<kbd>ETFLG[INT]=1</kbd>，<br>
+则<kbd>ETPS[INTCNT]</kbd>停止计数。
+<ul>
+<li>如果中断被使能，但是中断标志已经复位，<br>
+则计数器将输出高电平直到<kbd>ETFLG[INT]</kbd>标志位清零。<br>
+即允许当接收一个中断时，另一个中断进行等待。</li>
+</ul>
+</li>
+</ul>
+<p><kbd>ETPS[INTPRD]</kbd>位写操作时，计数值<kbd>ETPS[INTCNT]</kbd>自动清零，并且计数器输出复位。<br>
+除了事件产生是计数器加一，通过置位<kbd>ETFRC[INT]</kbd>也可以使计数器加一。<br>
+当<kbd>ETPS[INTPRD]=0</kbd>时，计数器被禁止，置位<kbd>ETFRC[INT]</kbd>无效。</p>
+<h2 id="事件触发模块触发ADC采样的机制">事件触发模块触发ADC采样的机制</h2>
+<p><img src="./%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E6%A8%A1%E5%9D%97%E8%A7%A6%E5%8F%91ADC%E7%9A%84%E4%BF%A1%E5%8F%B7.png" alt="事件触发模块触发ADC的信号"><br>
+可以发现所有ePWM模块的ADC启动转换信号是一起做<code>或运算</code>之后连接到ADC单元，<br>
+因此只需一个有效的信号便可触发ADC转换。</p>
+<p><img src="./%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E6%A8%A1%E5%9D%97%E7%9A%84SOCA%E4%BA%A7%E7%94%9F%E7%94%B5%E8%B7%AF.png" alt="事件触发模块的SOCA产生电路"></p>
+<p>如图，ADC采样触发逻辑类似于中断触发逻辑，<br>
+所不同的是其输出信号SOCx是连续不停的脉冲。<br>
+<kbd>ETSEL[SOCxEN]</kbd>可用于停止对应SOCx脉冲的产生，<br>
+但输入事件仍继续被计数直到其值等于<kbd>ETPS[SOCxPRD]</kbd>。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="YILON">YILON</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/01/06/TI_DSP_TMSF28335_ePWM/">http://example.com/2024/01/06/TI_DSP_TMSF28335_ePWM/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">YILON</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><a class="post-meta__tags" href="/tags/DSP/">DSP</a><a class="post-meta__tags" href="/tags/TI-DSP-TMS320F28335/">TI_DSP_TMS320F28335</a><a class="post-meta__tags" href="/tags/PWM/">PWM</a></div><div class="post-share"><div class="social-share" data-image="/private_img/cover.svg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/01/01/TI_DSP_TMSF28335_GPIO/" title="TI_DSP_TMSF28335_GPIO"><img class="cover" src="/private_img/cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">TI_DSP_TMSF28335_GPIO</div></div><div class="info-2"><div class="info-item-1">概述 F28335有88个GPIO口。 F28335将这88个GPIO口分成了A、B、C、3大组， A组包括GPIO0~GPIO31， B组包括 GPIO32~GPIO63， C组包括GPIO64~GPIO87。 引脚工作在哪个模式下可以通过GPIOMux(复用开关)寄存器配置每个引脚的具体功能(通用数字量I/O或者外设专用功能)。 如果将这些引脚选择数字量 I/O模式，可以通过方向寄存器 GPxDIR 配置数字量 I/0 的方向，既作为输入引脚也可作为输出引脚； 还可以通过量化寄存器GPxQUAL对输入信号进行量化限制，从而可以消除数字量I/O引脚的噪声干扰。 此外，有下面4种方式对GPIO引脚进行读写操作:  可以通过GPxDAT寄存器独立读/写I/O信号； 利用GPxSET寄存器写1(写0无效)对I/O置位； 利用GPXCLEAR寄存器写1(写0无效)对I/O口清零； 利用GPXTOOGLE 寄存器置1后(写0无效)翻转I/O输出电平。   图中PU指的是PULL...</div></div></div></a><a class="pagination-related" href="/2024/01/25/TI_DSP_C2000%E7%B3%BB%E5%88%97%E5%BA%94%E5%BD%93%E6%B3%A8%E6%84%8F%E7%9A%84%E9%97%AE%E9%A2%98/" title="TI_DSP_C2000系列应当注意的问题"><img class="cover" src="/private_img/cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">TI_DSP_C2000系列应当注意的问题</div></div><div class="info-2"><div class="info-item-1">TMS320C28x的数据类型  如图，在TMS320C28x中， 1Byte=16bit\mathbf{1 Byte = 16bit} 1Byte=16bit 指针、int、unsigned int、char、unsigned char都是16bit的。  特别要注意的是，在COFF格式中double是32位的，long double是64位的。 而在EABI格式中double和long double是64位的。  COFF格式与EABI格式 TI在其嵌入式开发工具链中支持两种主要的目标文件格式和应用程序二进制接口（ABI）：  COFF（Common Object File Format） EABI（Embedded Application Binary Interface）  1. COFF (Common Object File Format) COFF是一种早期的目标文件格式，TI的编译器链曾广泛使用，特别是在TI的DSP（数字信号处理器）开发中。 COFF的特点  历史悠久：COFF起源于Unix系统，用于描述目标文件（object...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/01/01/TI_DSP_TMSF28335_GPIO/" title="TI_DSP_TMSF28335_GPIO"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-01</div><div class="info-item-2">TI_DSP_TMSF28335_GPIO</div></div><div class="info-2"><div class="info-item-1">概述 F28335有88个GPIO口。 F28335将这88个GPIO口分成了A、B、C、3大组， A组包括GPIO0~GPIO31， B组包括 GPIO32~GPIO63， C组包括GPIO64~GPIO87。 引脚工作在哪个模式下可以通过GPIOMux(复用开关)寄存器配置每个引脚的具体功能(通用数字量I/O或者外设专用功能)。 如果将这些引脚选择数字量 I/O模式，可以通过方向寄存器 GPxDIR 配置数字量 I/0 的方向，既作为输入引脚也可作为输出引脚； 还可以通过量化寄存器GPxQUAL对输入信号进行量化限制，从而可以消除数字量I/O引脚的噪声干扰。 此外，有下面4种方式对GPIO引脚进行读写操作:  可以通过GPxDAT寄存器独立读/写I/O信号； 利用GPxSET寄存器写1(写0无效)对I/O置位； 利用GPXCLEAR寄存器写1(写0无效)对I/O口清零； 利用GPXTOOGLE 寄存器置1后(写0无效)翻转I/O输出电平。   图中PU指的是PULL...</div></div></div></a><a class="pagination-related" href="/2024/01/01/TI_DSP_TMSF28335_%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F/" title="TI_DSP_TMSF28335_中断系统"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-01</div><div class="info-item-2">TI_DSP_TMSF28335_中断系统</div></div><div class="info-2"><div class="info-item-1">概述 F28335有16个中断线， 包括2个不可屏蔽中断（RESET与NMI）与14个可屏蔽中断INTx。 其中中断INT13、14又分配给留给实时操作系统的定时器1、2； 其余12个可屏蔽中断通过PIE管理。   外设中断  可以发现，F28335与F2812的中断结构是完全相同的，仅是一些中断源的分配有差异。  </div></div></div></a><a class="pagination-related" href="/2024/01/01/TI_DSP_TMSF28335_%E5%AD%98%E5%82%A8%E5%99%A8%E5%8F%8A%E5%85%B6%E5%9C%B0%E5%9D%80%E5%88%86%E9%85%8D/" title="TI_DSP_TMSF28335_存储器及其地址分配"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-01</div><div class="info-item-2">TI_DSP_TMSF28335_存储器及其地址分配</div></div><div class="info-2"><div class="info-item-1">概述   哈佛结构： 指令存储和数据存储分开的存储器结构，这样就可以同时读取指令和数据，大批量处理数据的时候效率显著提高。     改进的哈佛结构: 使用两个独立的存储器模块，分别存储指令和数据，每个存储模块都不允许指令和数据并存，以便实现并行处理; 具有一条独立的地址总线和一条独立的数据总线， 其中地址总线用于访问两个存储模块(程序存储模块和数据存储模块)， 数据总线则被用来完成程序存储模块或数据存储模块与CPU之间的数据传输； 指令的基本操作被分解为几个基本元操作，这些元操作可以流水执行，并且对程序进行分支预测，进行多级流水线操作，使得数据处理的效率大大提高。   F28335存储器配置及地址映射 F28335片上有256K×16位的FLASH，34×16位的SPAM，8K×16位的BOOT ROM，2K×16位的OPT...</div></div></div></a><a class="pagination-related" href="/2023/12/17/TI_DSP_TMSF28335_%E6%97%B6%E9%92%9F%E4%B8%8E%E7%9C%8B%E9%97%A8%E7%8B%97/" title="TI_DSP_TMSF28335_时钟与看门狗"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-17</div><div class="info-item-2">TI_DSP_TMSF28335_时钟与看门狗</div></div><div class="info-2"><div class="info-item-1">F28335时钟结构 F28335的时钟源有两种：  内部振荡器：(更常用) 需要在X1和X2两引脚外接一个30MHz的石英晶体  外部时钟源： 有两种方式：       内部时钟电路为：  以内部振荡器作为时钟源为例， 30MHz的时钟信号OSCCLK经过PLL分频后（由PLLCR确定分频系数） 若取分频系数为10，得到300MHz的VCOCLK， 再经过分频后,比如2分频，即得到150MHz的系统时钟CLKIN。 F28335外设时钟  如图，有两种不同的外设时钟： 低速时钟LOSPCP与高速时钟HISPCP 每个外设本身还有自己的预定标时钟设置寄存器， 可对输入的时钟进行进一步的分频/倍频。 一般为了降低功耗，不使用的外设时钟应将其禁止。 看门狗电路  喂狗方式： 给看门狗控制寄存器WDCR写0x55+0xAA。 访问WDCR的安全机制： 所有访问WDCR的写操作，相应校验位WDCHK必须是101， 否则看门狗会拒绝访问并发出复位信号。 前文在F2812的看门狗中有说， 除了正常运行模式，TI...</div></div></div></a><a class="pagination-related" href="/2023/12/16/TI_DSP_TMSF28335_%E6%A6%82%E8%BF%B0/" title="TI_DSP_TMSF28335_概述"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-16</div><div class="info-item-2">TI_DSP_TMSF28335_概述</div></div><div class="info-2"><div class="info-item-1">F28335命名规则  F28335与F2812对比  工程搭建 使用C2000 WARE套件中的例程进行基本工程搭建。 安装C2000 WARE套件后，在C:\ti\c2000\C2000Ware_x_xx_xx_xx\device_support\f2833x（默认安装路径）中能找到F2833x的官方例程。 新建一个文件夹作为基本工程文件夹， 在其中新建若干文件夹，形成如此结构：  Project...</div></div></div></a><a class="pagination-related" href="/2023/10/21/DSP%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="DSP基本概念"><img class="cover" src="/private_img/cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-21</div><div class="info-item-2">DSP基本概念</div></div><div class="info-2"><div class="info-item-1">流水线操作与系统架构 CPU的执行指令可分为四步：...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/private_img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YILON</div><div class="author-info-description">YILON的技术小窝</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">94</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">99</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YILON"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/YILON" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yilongdyx@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">ePWM的结构原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">时基模块TB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E5%9F%BA%E6%A8%A1%E5%9D%97%E4%BD%9C%E7%94%A8"><span class="toc-number">3.1.</span> <span class="toc-text">时基模块作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ePWM%E7%9A%84%E5%91%A8%E6%9C%9F%E5%92%8C%E9%A2%91%E7%8E%87%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="toc-number">3.2.</span> <span class="toc-text">ePWM的周期和频率的计算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A2%9E%E5%87%8F%E8%AE%A1%E6%95%B0%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.2.1.</span> <span class="toc-text">增减计数模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%92%E5%A2%9E%E8%AE%A1%E6%95%B0%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.2.2.</span> <span class="toc-text">递增计数模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%92%E5%87%8F%E8%AE%A1%E6%95%B0%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.2.3.</span> <span class="toc-text">递减计数模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%B1%E5%AD%90%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">3.3.</span> <span class="toc-text">影子寄存器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E5%9F%BA%E5%91%A8%E6%9C%9F%E5%BD%B1%E5%AD%90%E5%AF%84%E5%AD%98%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.3.1.</span> <span class="toc-text">时基周期影子寄存器模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E5%9F%BA%E5%91%A8%E6%9C%9F%E7%AB%8B%E5%8D%B3%E5%8A%A0%E8%BD%BD%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.3.2.</span> <span class="toc-text">时基周期立即加载模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E5%9F%BA%E6%A8%A1%E5%9D%97%E7%9A%84%E5%85%B3%E9%94%AE%E4%BF%A1%E5%8F%B7%E5%92%8C%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">3.4.</span> <span class="toc-text">时基模块的关键信号和寄存器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">比较计数模块CC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AF%94%E8%BE%83%E8%AE%A1%E6%95%B0%E6%A8%A1%E5%9D%97%E7%9A%84%E5%85%B3%E9%94%AE%E4%BF%A1%E5%8F%B7%E4%B8%8E%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">4.1.</span> <span class="toc-text">比较计数模块的关键信号与寄存器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AF%94%E8%BE%83%E6%A8%A1%E5%9D%97%E7%9A%84%E5%BD%B1%E5%AD%90%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">4.1.1.</span> <span class="toc-text">比较模块的影子寄存器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">动作模块AC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E4%BD%9C%E6%A8%A1%E5%9D%97%E5%85%B3%E9%94%AE%E4%BF%A1%E5%8F%B7%E4%B8%8E%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">5.1.</span> <span class="toc-text">动作模块关键信号与寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E4%BD%9C%E6%A8%A1%E5%9D%97%E4%BA%8B%E4%BB%B6%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">5.2.</span> <span class="toc-text">动作模块事件优先级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PWM%E6%B3%A2%E5%BD%A2%E5%AE%9E%E4%BE%8B"><span class="toc-number">5.3.</span> <span class="toc-text">PWM波形实例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">死区模块DB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%BB%E5%8C%BA%E6%A8%A1%E5%9D%97%E7%9A%84%E6%9C%BA%E5%88%B6"><span class="toc-number">6.1.</span> <span class="toc-text">死区模块的机制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">斩波模块PC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%A9%E6%B3%A2%E6%A8%A1%E5%9D%97%E7%9A%84%E6%9C%BA%E5%88%B6"><span class="toc-number">7.1.</span> <span class="toc-text">斩波模块的机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%A9%E6%B3%A2%E6%A8%A1%E5%9D%97%E8%BE%93%E5%87%BA%E6%B3%A2%E5%BD%A2"><span class="toc-number">7.2.</span> <span class="toc-text">斩波模块输出波形</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E8%A7%A6%E5%8F%91%E6%A8%A1%E5%9D%97"><span class="toc-number">7.2.1.</span> <span class="toc-text">单触发模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%BD%E6%B3%A2%E5%8D%A0%E7%A9%BA%E6%AF%94%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="toc-number">7.2.2.</span> <span class="toc-text">载波占空比的设置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">8.</span> <span class="toc-text">错误联防模块TZ</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E8%81%94%E9%98%B2%E6%A8%A1%E5%9D%97%E7%9A%84%E6%9C%BA%E5%88%B6"><span class="toc-number">8.1.</span> <span class="toc-text">错误联防模块的机制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">9.</span> <span class="toc-text">事件触发模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E6%A8%A1%E5%9D%97%E8%A7%A6%E5%8F%91%E4%B8%AD%E6%96%AD%E7%9A%84%E6%9C%BA%E5%88%B6"><span class="toc-number">9.1.</span> <span class="toc-text">事件触发模块触发中断的机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E6%A8%A1%E5%9D%97%E8%A7%A6%E5%8F%91ADC%E9%87%87%E6%A0%B7%E7%9A%84%E6%9C%BA%E5%88%B6"><span class="toc-number">9.2.</span> <span class="toc-text">事件触发模块触发ADC采样的机制</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/02/05/%E9%80%9A%E4%BF%A1%E5%85%89%E7%BA%A4/" title="通信光纤"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="通信光纤"/></a><div class="content"><a class="title" href="/2026/02/05/%E9%80%9A%E4%BF%A1%E5%85%89%E7%BA%A4/" title="通信光纤">通信光纤</a><time datetime="2026-02-05T01:00:11.000Z" title="发表于 2026-02-05 09:00:11">2026-02-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/24/Simulink_%E5%9F%BA%E4%BA%8Esimscape%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90HDL%E4%BB%A3%E7%A0%81/" title="Simulink_基于simscape模型生成HDL代码"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Simulink_基于simscape模型生成HDL代码"/></a><div class="content"><a class="title" href="/2025/10/24/Simulink_%E5%9F%BA%E4%BA%8Esimscape%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90HDL%E4%BB%A3%E7%A0%81/" title="Simulink_基于simscape模型生成HDL代码">Simulink_基于simscape模型生成HDL代码</a><time datetime="2025-10-24T07:15:10.000Z" title="发表于 2025-10-24 15:15:10">2025-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/13/FPGA%5B5%5D_Serdes%E4%BB%8B%E7%BB%8D%E4%B8%8EAurora%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" title="FPGA[5]_Serdes介绍与Aurora使用说明"><img src="/private_img/cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FPGA[5]_Serdes介绍与Aurora使用说明"/></a><div class="content"><a class="title" href="/2025/10/13/FPGA%5B5%5D_Serdes%E4%BB%8B%E7%BB%8D%E4%B8%8EAurora%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" title="FPGA[5]_Serdes介绍与Aurora使用说明">FPGA[5]_Serdes介绍与Aurora使用说明</a><time datetime="2025-10-13T01:00:11.000Z" title="发表于 2025-10-13 09:00:11">2025-10-13</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/private_img/Top.svg);"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2026 By YILON</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
